@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="ResidentMap">
+    <output-path>$PROJECT_DIR$/../../out/ResidentMap</output-path>
+    <root id="archive" name="ResidentMap.war">
+      <element id="artifact" artifact-name="ResidentMap:war exploded" />
+    </root>
+  </artifact>
+</component>

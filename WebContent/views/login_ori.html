@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>登陆页</title>
+	<script>
+
+		function loadExtentFile(filePath, fileType){
+			if(fileType == "js"){
+				var oJs = document.createElement('script');
+				oJs.setAttribute("type","text/javascript");
+				oJs.setAttribute("src", filePath);//文件的地址 ,可为绝对及相对路径
+				document.getElementsByTagName("head")[0].appendChild(oJs);//绑定
+			}else if(fileType == "css"){
+				var oCss = document.createElement("link");
+				oCss.setAttribute("rel", "stylesheet");
+				oCss.setAttribute("type", "text/css");
+				oCss.setAttribute("href", filePath);
+				document.getElementsByTagName("head")[0].appendChild(oCss);//绑定
+			}
+		}
+
+		if(window.location.pathname == "/AirVehicle/"){
+			loadExtentFile("plugins/order/myCss.css", "css");
+			loadExtentFile("bootstrap/css/bootstrap.css", "css");
+			loadExtentFile("dist/css/AdminLTE.min.css", "css");
+			loadExtentFile("plugins/order/blue.css", "css");
+			loadExtentFile("plugins/jQuery/jQuery-2.2.0.min.js", "js");
+			loadExtentFile("plugins/order/md5.js", "js");
+			loadExtentFile("plugins/order/icheck.min.js", "js");
+			loadExtentFile("js/index.js", "js");
+		}
+		else{
+			loadExtentFile("../plugins/order/myCss.css", "css");
+			loadExtentFile("../bootstrap/css/bootstrap.css", "css");
+			loadExtentFile("../dist/css/AdminLTE.min.css", "css");
+			loadExtentFile("../plugins/order/blue.css", "css");
+			loadExtentFile("../plugins/jQuery/jQuery-2.2.0.min.js", "js");
+			loadExtentFile("../plugins/order/md5.js", "js");
+			loadExtentFile("../plugins/order/icheck.min.js", "js");
+			loadExtentFile("../js/index.js", "js");
+		}
+
+
+		document.onkeydown=function(event){
+			var ess = event || window.event || arguments.callee.caller.arguments[0];
+			if(ess && ess.keyCode==13){ // enter 键
+				login();
+			}
+		};
+
+		$(function(){
+			$('input').iCheck({
+				checkboxClass: 'icheckbox_square-blue',
+				radioClass: 'iradio_square-blue',
+				increaseArea: '20%' // optional
+			});
+			var loginHeight = $(".login_box").height();
+			var screenHeight=$(window).height();
+			$("body").height(screenHeight);
+			$(".login_box").css("top",(screenHeight-loginHeight)/3);
+			$("#employeeId").focus();
+
+
+
+		});
+
+
+
+		function login() {
+			alert(1);
+
+			if($("#employeeId").val() ==""){
+				alert("用户名不得为空");
+				return;
+			}
+			if($("#password").val() ==""){
+				alert("密码不得为空");
+				return;
+			}
+			var user = {};
+			user.name = $("#employeeId").val();
+			user.password=hex_md5($("#password").val());
+
+
+			var ajax_url = "/AirVehicle/users/web/login";
+			var ajax_type = 'POST';
+			$.ajax({
+				type : ajax_type,
+				url : ajax_url,
+				data : JSON.stringify(user),//提交的对象，删除不用提交
+				contentType:'application/json',
+				success : function(data) {
+					debugger;
+					if (data.code == "10") {
+						//localManager.utils.set("id",data.content[0].id);
+						//localManager.utils.set("fullname",data.content[0].fullName);
+						//localManager.utils.set("employeeId",data.content[0].employeeId);
+						//localManager.utils.set("railwayBureau",data.content[0].railwayBureau);
+//							localManager.utils.set("fullname",data.content[0].railwaysBureau);
+						window.location.href = "/AirVehicle/views/index.html";
+					} else if (data.code == "99") {
+						alert(data.detail);
+					}
+				},
+
+				//调用出错执行的函数
+				error : function() {
+					alert("请求出错");
+				}
+			});
+
+
+
+
+
+
+		}
+
+	</script>
+</head>
+<body style="background: #f2f2f2;margin:0;">
+<div class="login_box">
+	<div class="register-box-body">
+	<div class="login_header">
+		<span class="circle"></span>
+		<span>无人机后台管理</span>
+	</div>
+
+	<div class="form-group has-feedback">
+		<input type="text" id="employeeId" name="employeeId" placeholder="用户名aaa" class="form-control"/>
+		<span class="glyphicon glyphicon-user form-control-feedback"></span>
+	</div>
+	<div class="form-group has-feedback">
+		<input type="password" id="password" name="password" placeholder="密码bbb" class="form-control"/>
+		<span class="glyphicon glyphicon-lock form-control-feedback"></span>
+	</div>
+	<div class="row">
+		<div class="col-xs-8">
+			<div class="checkbox icheck">
+				<label class="">
+					<div class="icheckbox_square-blue" aria-checked="false" aria-disabled="false" style="position: relative;">
+						<input type="checkbox" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;">
+						<ins class="iCheck-helper" style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
+					</div> 记住我aaa
+				</label>
+			</div>
+
+		</div>
+		<div class="col-xs-4">
+			<button type="button" class="btn btn-primary btn-block btn-flat" id="login" onclick="login()">登录</button>
+		</div>
+
+
+	</div>
+
+		</div>
+</div>
+
+</body>
+</html>

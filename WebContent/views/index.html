@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>主页</title>
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+	<link rel="stylesheet" href="../bootstrap/css/bootstrap.css" type="text/css">
+	<link rel="stylesheet" href="../dist/css/skins/_all-skins.min.css" type="text/css">
+
+	<link rel="stylesheet" href="../plugins/order/font-awesome.min.css" type="text/css">
+	<link rel="stylesheet" href="../plugins/order/ionicons.min.css" type="text/css">
+	<link rel="stylesheet" href="../plugins/datatables/dataTables.bootstrap.css" type="text/css">
+	<link rel="stylesheet" href="../dist/css/AdminLTE.min.css" type="text/css">
+	<link rel="stylesheet" href="../plugins/order/myCss.css " type="text/css">
+	<script src="../plugins/jQuery/jQuery-2.2.0.min.js"></script>
+	<!-- Bootstrap 3.3.6 -->
+	<script src="../bootstrap/js/bootstrap.min.js"></script>
+	<script src="../plugins/order/md5.js"></script>
+	<!-- FastClick -->
+	<script src="../plugins/fastclick/fastclick.js"></script>
+	<!-- AdminLTE App -->
+	<script src="../dist/js/app.min.js"></script>
+	<!-- AdminLTE for demo purposes -->
+	<script src="../plugins/datatables/jquery.dataTables.min.js"></script>
+	<script src="../plugins/datatables/dataTables.bootstrap.min.js"></script>
+	<script src="../dist/js/demo.js"></script>
+	<script src="../plugins/order/echarts.min.js"></script>
+	<script src="../plugins/order/myCss.js"></script>
+	<script src="../js/index.js"></script>
+
+
+	<script >
+		$(function(){
+			var id = localManager.utils.get("id");
+			var fullName = localManager.utils.get("fullname");
+			var employeeId = localManager.utils.get("employeeId");
+			var railwayBureau = localManager.utils.get("railwayBureau");
+			$(".navbar .land").text("您好,"+fullName);
+
+			$("#pid").val(id);
+			$("#pfullName").val(fullName);
+			$("#pemployeeId").val(employeeId);
+			$("#prailwayBureau").val(railwayBureau);
+
+			$(".writePessage").click(function(){
+				$(".modal_title").html("编辑账号信息");
+				$(".change").html("保存");
+				$("#writeModal").modal({
+					backdrop : 'static'
+				});
+			});
+			$("#submit_trainman").click(function() {
+
+				var trainMan = {};
+				trainMan.id = $("#pid").val();
+				trainMan.fullName = $("#pfullName").val();
+				trainMan.employeeId = $("#pemployeeId").val();
+				trainMan.railwayBureau = $("#prailwayBureau").val();
+				trainMan.password = $("#ppassword").val();
+				trainMan.again = $("#pagain").val();
+
+				if (trainMan.password == "") {
+					alert("密码不能为空！");
+					return;
+				}else if ((trainMan.password).length<6){
+					alert("密码长度要大于等于6位！");
+					return ;
+				}else if (!/^(([a-z]+[0-9]+)|([0-9]+[a-z]+))[a-z0-9]*$/i.test(trainMan.password)){
+					alert("密码必须由字母和数字构成！");
+					return ;
+				} else if (trainMan.password != trainMan.again) {
+					alert("两次密码输入不一致！");
+					return;
+				}
+				trainMan.password=hex_md5(trainMan.password);
+				trainMan.again=hex_md5(trainMan.again);
+				if (trainMan.password != "" && trainMan.password != trainMan.again) {
+					alert("两次密码输入不一致！");
+					return;
+				}
+				$.ajax({
+					type : 'PUT',
+					url : "/AirVehicle/trainman/update",
+					data : JSON.stringify(trainMan),//提交的对象，删除不用提交
+					contentType:'application/json',
+					success : function(data) {
+						if (data.code == "10") {
+							alert(data.detail);
+							$("#closeModalOne").click();
+						} else if (data.code == "99") {
+							alert(data.detail);
+						}
+					},
+					//调用出错执行的函数
+					error : function() {
+						alert("请求出错");
+					}
+				});
+			});
+
+		});
+
+
+
+	</script>
+
+
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="never_content" style="position: relative">
+	<header class="main-header">
+		<!-- Logo -->
+		<a href="#" class="logo" style="background: #1078cf;">
+			<!-- mini logo for sidebar mini 50x50 pixels -->
+			<span class="logo-mini"><b></b></span>
+			<!-- logo for regular state and mobile devices -->
+			<span class="logo-lg"><b></b>后台管理</span>
+		</a>
+		<!-- Header Navbar: style can be found in header.less -->
+		<nav class="navbar navbar-static-top" style="background:#1283e5;">
+			<!-- Sidebar toggle button-->
+
+
+			<a href="#" class="land"></a>
+
+			<a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</a>
+
+			<div class="navbar-custom-menu">
+				<ul class="nav navbar-nav">
+					<!-- Messages: style can be found in dropdown.less-->
+
+					<li class="dropdown messages-menu">
+						<a href="#" class="writePessage">编辑账号信息 &gt;</a>
+						
+					</li>
+					<li class="dropdown messages-menu">
+						<a href="login.jsp">登出 &gt;</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+	</header>
+
+	<aside class="main-sidebar">
+		<!-- sidebar: style can be found in sidebar.less -->
+		<section class="sidebar">
+			<!-- Sidebar user panel -->
+
+			<!-- /.search form -->
+			<!-- sidebar menu: : style can be found in sidebar.less -->
+			<ul class="sidebar-menu">
+				<li class="treeview " id="trainManInfo">
+					<a href="#"><i class="fa fa-user"></i><span>用户信息管理</span></a>
+					<ul class="treeview-menu">
+							<li class="active"><a id="" href="#"><i
+									class="fa fa-circle-o"></i>业主信息</a></li>
+							<li><a id="" href="#"><i
+									class="fa fa-circle-o"></i>飞行团队信息</a></li>
+						</ul>
+				</li>
+			</ul>
+		</section>
+		<!-- /.sidebar-->
+		<!-- <section class="sidebar_footer">
+			<span class="square"></span>
+			<span class="logo_text">Powered by<br/>西安</span>
+		</section> -->
+	</aside>
+	<div class="content-wrapper" style="min-height: 901px;">
+
+	</div>
+</div>
+<div class="modal fade" id="writeModal" tabindex="-1"
+	 role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h3 class="modal_title">编辑个人信息</h3>
+				<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×</button>
+				<h4 class="modal-title" id="myModalLabel"></h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal" action="" method="POST"
+					  id="trainManForm">
+					<div class="box-body">
+						<div>
+							<input id="pid" name="id" type="hidden">
+						</div>
+
+						<div class="form-group">
+							<label class="col-md-3 col-sm-3 control-label">姓名</label>
+							<div class="col-md-5  col-sm-5">
+								<input type="text" class="form-control" id="pfullName"
+									   name="fullName" placeholder="只能输入中文，且长度不得超过5位"
+									   onkeyup="value=value.replace(/s/g,'')" readonly>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="password" class="col-md-3 col-sm-3 control-label">编号</label>
+							<div class="col-md-5  col-sm-5">
+								<input type="text" class="form-control" id="pemployeeId"
+									   name="employeeId" placeholder="只能输入数字，且长度不得超过5位" readonly>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-3 col-sm-3 control-label" for="prailwayBureau">管辖铁路局</label>
+							<div class="col-md-5 col-sm-5">
+								<input class="form-control" id="prailwayBureau" name="prailwayBureau" readonly>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-3 col-sm-3 control-label">密码</label>
+							<div class="col-md-5  col-sm-5">
+								<input type="password" class="form-control" id="ppassword"
+									   name="password" placeholder="6位以上，需包含字母及数字">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-3 col-sm-3 control-label">确认密码</label>
+							<div class="col-md-5  col-sm-5">
+								<input type="password" class="form-control" id="pagain"
+									   name="again" placeholder="6位以上，需包含字母及数字">
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-success change"
+						id="submit_trainman">保存</button>
+				<button type="button" class="btn btn-default" id="closeModalOne"
+						onclick="" data-dismiss="modal">取消</button>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	$(".sidebar-menu").find("li").click(function () {
+		var title = $(this).text();
+		$("title").html(title);
+	})
+</script>
+</body>
+</html>

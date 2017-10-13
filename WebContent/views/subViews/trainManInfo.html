@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>乘务员管理</title>
+<script>
+	var opStatus = {};
+	$(function() {
+		initTable();
+		$("#add").click(function() {
+			opStatus = "ADD";
+			$("#employeeId").removeAttr("readonly	");
+			$(".modal_title").html("添加乘务员信息");
+			$(".change").html("添加");
+			$(".modal_remove").css("display", "none");
+			$(".modal_content_box").show();
+			$(".remove_box").hide();
+			$("#myModal").modal({
+				backdrop : 'static'
+			});
+		});
+
+		$(document).on("click", "#trainman_table tbody tr td:last-child", function() {
+			opStatus = "EDIT";
+			var row = $("#trainman_table").DataTable().row(
+					$(this).parents("tr")).data();
+			$("#id").val(row.id);
+			$("#fullName").val(row.fullName);
+			$("#employeeId").val(row.employeeId);
+			$("#employeeId").attr("readonly","true");
+			
+			$("#railwayBureau").val(row.railwayBureau);
+			$(".modal_title").html("编辑乘务员信息");
+			$(".change").html("更新");
+			$(".modal_remove").css("display", "block");
+			$(".modal_content_box").show();
+			$(".remove_box").hide();
+			$("#myModal").modal({
+				backdrop : 'static'
+			});
+		});
+		$(".modal_remove").click(function() {
+			$(".change").html("删除");
+			$(".remove_box .sure span").text($("#fullName").val());
+			$(".modal_content_box").hide();
+			$(".remove_box").show();
+		});
+	});
+
+	$("#submit_trainman").click(function() {
+		var trainMan = {};
+		trainMan.id = $("#id").val();
+		trainMan.fullName = $("#fullName").val();
+		trainMan.employeeId = $("#employeeId").val();
+		trainMan.railwayBureau = $("#railwayBureau").val();
+		trainMan.password = $("#password").val();
+		trainMan.again = $("#again").val();
+			if (trainMan.fullName == "") {
+				alert("姓名不能为空！");
+				return;
+			} 	
+			if (!/^[\u4e00-\u9fa5]+$/gi.test(document.getElementById("fullName").value)) {
+				alert("请输入中文姓名！");
+				return;
+			} 
+					
+			if (trainMan.employeeId == "" && isNaN(trainMan.employeeId)||trainMan.employeeId<=0||!(/^\d+$/.test(trainMan.employeeId))) {
+				 alert("编号格式错误！");
+				return;
+			} 
+			if (trainMan.password == "") {
+				alert("密码不能为空！");
+				return;
+			}else if ((trainMan.password).length<6){
+   				alert("密码长度要大于等于6位！");
+   				return ;
+  			}else if (!/^(([a-z]+[0-9]+)|([0-9]+[a-z]+))[a-z0-9]*$/i.test(trainMan.password)){
+   				alert("密码必须由字母和数字构成！");
+   				return ;
+  			} else if (trainMan.password != trainMan.again) {
+				alert("两次密码输入不一致！");
+				return;
+			}
+			trainMan.password=hex_md5(trainMan.password);
+			trainMan.again=hex_md5(trainMan.again);
+		var ajax_url;
+		var ajax_type;
+		if (opStatus == "ADD") {
+			ajax_url = "/AirVehicle/trainman/add";
+			ajax_type = 'POST';
+		} else if (opStatus == "EDIT"){
+			if (trainMan.password != "" && trainMan.password != trainMan.again) {
+				alert("两次密码输入不一致！");
+				return;
+			}
+			ajax_url = "/AirVehicle/trainman/update";
+			ajax_type = 'PUT';
+		}
+		$.ajax({
+			type : ajax_type,
+			url : ajax_url,
+			data : JSON.stringify(trainMan),//提交的对象，删除不用提交
+			contentType:'application/json',
+			success : function(data) {
+				if (data.code == "10") {
+					alert(data.detail);
+					if (opStatus == "ADD") {
+						$("#closeModal").click();
+					}else if (opStatus == "EDIT"){
+						$("#closeModal").click();
+					}
+				} else if (data.code == "99") {
+					alert(data.detail);				
+				}
+			},
+			//调用执行后调用的函数
+			complete : function() {
+					$("#id").val("");
+					$("#trainman_table").DataTable().ajax.reload(null, false);
+				//HideLoading();
+			},
+			//调用出错执行的函数
+			error : function() {
+				alert("请求出错");
+			}
+		});
+	});
+	
+	$("#delete_btn").click(function() {
+		$.ajax({
+			type : 'DELETE',
+			url : "/AirVehicle/trainman/delete/" + $("#id").val(),
+			contentType:'application/json',
+			success : function(data) {
+				if (data.code == "10") {
+					alert(data.detail);
+					$("#closeModalDelete").click();
+				} else if (data.code == "99") {
+					alert(data.detail);
+				}
+			},
+			//调用执行后调用的函数
+			complete : function() {
+				$("#trainman_table").DataTable().ajax.reload(null, false);
+			},
+			//调用出错执行的函数
+			error : function() {
+				alert("请求出错");
+			}
+		});
+	});
+	
+	
+	function initTable() {
+		$("#trainman_table").dataTable({
+			//serverSide : true,//分页，取数据等等的都放到服务端去
+			//processing : true,//载入数据的时候是否显示“载入中”
+			pageLength : 10,//首次加载的数据条数
+			ordering : false,//排序操作在服务端进行，所以可以关了
+			ajax : {//类似jquery的ajax参数，基本都可以用。
+				type : "get",//后台指定了方式，默认get，外加datatable默认构造的参数很长，有可能超过get的最大长度。
+				url : "/AirVehicle/trainman/get",
+				dataSrc : function(json) {
+					return json.content;
+				}
+			},
+			columns : [ {
+				data : "fullName"
+			}, {
+				data : "employeeId"
+			}, {
+				data : "railwayBureau"
+			}, {
+				data : "id"
+			}, {
+				data : function() {
+					return "<i class='fa fa-pencil'></i> <a href='#' class='product-title'> 编辑</a>";
+				}
+			} ],
+			language : {
+				lengthMenu : "_MENU_ 记录/页",//左上角的分页大小显示。
+				processing : "载入中",//处理页面数据的时候的显示
+				paginate : {//分页的样式文本内容。
+					previous : "上一页",
+					next : "下一页",
+					first : "第一页",
+					last : "最后一页"
+				},
+				search : "过滤:",
+				zeroRecords : "没有内容",//table tbody内容为空时，tbody的内容。
+				//下面三者构成了总体的左下角的内容。
+				info : "显示第 _START_ 至 _END_ 项记录，共 _TOTAL_ 项",//左下角的信息显示，大写的词为关键字。
+				infoEmpty : "显示第 0 至 0 项记录，共 0 项",//筛选为空时左下角的显示。
+				infoFiltered : "(由 _MAX_ 项记录过滤)"//筛选之后的左下角筛选提示(另一个是分页信息显示，在上面的info中已经设置，所以可以不显示)，
+			},
+			searching : false,
+			paging : false,
+			pagingType : "full_numbers"//分页样式的类型
+		});
+	}
+</script>
+</head>
+<body>
+	<div class="">
+		<div class="content-header">
+			<h1>乘务员管理 <span class="btn btn-primary" id="add">添加</span></h1>
+		</div>
+		<div class="content">
+			<div class="box">
+				<div class="box-body">
+					<table id="trainman_table"
+						class="table table-bordered table-striped display">
+						<thead>
+							<tr>
+								<th>姓名</th>
+								<th>编号</th>
+								<th>管辖铁路局</th>
+								<th class="hidden" data-visible="false">id</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+				</div>
+			</div>
+	</div>
+
+	<div class="modal fade" id="myModal" tabindex="-1"
+		 role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+
+				<div class="modal-header">
+					<h3 class="modal_title">添加乘务员信息</h3>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×</button>
+					<h4 class="modal-title" id="myModalLabel"></h4>
+				</div>
+				<div class="modal_content_box">
+					<div class="modal-body">
+						<form class="form-horizontal" action="" method="POST"
+							id="trainManForm">
+							<div class="box-body">
+								<div>
+									<input id="id" name="id" type="hidden">
+								</div>
+
+								<div class="form-group">
+									<label class="col-md-3 col-sm-3 control-label">姓名</label>
+									<div class="col-md-5  col-sm-5">
+										<input type="text" class="form-control" id="fullName"
+											name="name" placeholder="只能输入中文，且长度不得超过5位"
+											onkeyup="value=value.replace(/s/g,'')">
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="password" class="col-md-3 col-sm-3 control-label">编号</label>
+									<div class="col-md-5  col-sm-5">
+										<input type="text" class="form-control" id="employeeId"
+											name="password" placeholder="只能输入数字，且长度不得超过5位">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-3 col-sm-3 control-label" for="railwayBureau">管辖铁路局</label>
+									<div class="col-md-5 col-sm-5">
+										<select class="form-control" id="railwayBureau" name="role">
+											<option value="哈尔滨铁路局">哈尔滨铁路局</option>
+											<option value="沈阳铁路局">沈阳铁路局</option>
+											<option value="北京铁路局">北京铁路局</option>
+											<option value="太原铁路局">太原铁路局</option>
+											<option value="呼和浩特铁路局">呼和浩特铁路局</option>
+											<option value="郑州铁路局">郑州铁路局</option>
+											<option value="武汉铁路局">武汉铁路局</option>
+											<option value="西安铁路局">西安铁路局</option>
+											<option value="济南铁路局">济南铁路局</option>
+											<option value="上海铁路局">上海铁路局</option>
+											<option value="南昌铁路局">南昌铁路局</option>
+											<option value="广州铁路（集团）公司">广州铁路（集团）公司</option>
+											<option value="南宁铁路局">南宁铁路局</option>
+											<option value="成都铁路局">成都铁路局</option>
+											<option value="昆明铁路局">昆明铁路局</option>
+											<option value="兰州铁路局">兰州铁路局</option>
+											<option value="乌鲁木齐铁路局">乌鲁木齐铁路局</option>
+											<option value="青藏铁路公司">青藏铁路公司</option>
+										</select>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-3 col-sm-3 control-label">原始密码</label>
+									<div class="col-md-5  col-sm-5">
+										<input type="password" class="form-control" id="password"
+											name="password" placeholder="6位以上，需包含字母及数字">
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-md-3 col-sm-3 control-label">确认密码</label>
+									<div class="col-md-5  col-sm-5">
+										<input type="password" class="form-control" id="again"
+											name="password" placeholder="6位以上，需包含字母及数字">
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-success change"
+								id="submit_trainman">提交</button>
+							<button type="button" class="btn btn-default" id="closeModal"
+									onclick="" data-dismiss="modal">取消</button>
+					</div>
+					<div class="modal_remove"><i class="fa fa-trash"></i> 删除此乘务员信息</div>
+				</div>
+				<div class="remove_box">
+					<div class="sure">
+						确定要删除 “<span>李一男</span>” 的信息吗？
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-success change"
+								id="delete_btn">提交</button>
+						<button type="button" class="btn btn-default" id="closeModalDelete"
+								onclick="" data-dismiss="modal">取消</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>
