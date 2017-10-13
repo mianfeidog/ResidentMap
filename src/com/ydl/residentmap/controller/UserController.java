@@ -100,6 +100,7 @@ public class UserController {
 		String error_description = ""; 
 		User u = null;
 		try {
+			//test;
 			u = userService.login(user);
 			session.setAttribute("loginUser",u);
 			model.addAttribute("loginUser", u);
