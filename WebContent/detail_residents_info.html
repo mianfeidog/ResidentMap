@@ -1,0 +1,399 @@
+﻿<!--_meta 作为公共模版分离出去-->
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="renderer" content="webkit|ie-comp|ie-stand">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+	<meta http-equiv="Cache-Control" content="no-siteapp" />
+	<!--<link rel="Bookmark" href="favicon.ico" >-->
+	<!--<link rel="Shortcut Icon" href="favicon.ico" />-->
+	<!--[if lt IE 9]>
+	<script type="text/javascript" src="lib/html5.js"></script>
+	<script type="text/javascript" src="lib/respond.min.js"></script>
+	<![endif]-->
+	<link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
+	<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
+	<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+	<link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/black/skin.css" id="skin" />
+	<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
+	<link href="lib/webuploader/0.1.5/webuploader.css" rel="stylesheet" type="text/css" />
+	<style>
+		.file {
+			position: relative;
+			top:18px;
+			display: inline-block;
+			width:100%;
+			font-size: 12px;
+			background: #c2c2c2;
+			border: 1px solid #c2c2c2;
+			border-radius: 4px;
+			overflow: hidden;
+			color: #3f3f42;
+			text-decoration: none;
+			text-indent: 0;
+		}
+		.file input {
+			position: absolute;
+			height:20px;
+			right: 0;
+			top: 0;
+			opacity: 0;
+		}
+		.file:hover {
+			background: #AADFFD;
+			border-color: #78C3F3;
+			color: #004974;
+			text-decoration: none;
+		}
+	</style>
+	<!--[if IE 6]>
+	<script type="text/javascript" src="http://lib.h-ui.net/DD_belatedPNG_0.0.8a-min.js" ></script>
+	<script>DD_belatedPNG.fix('*');</script>
+	<![endif]-->
+	<!--/meta 作为公共模版分离出去-->
+	<title>新增居民</title>
+</head>
+<body>
+<!--_header 作为公共模版分离出去-->
+<header class="navbar-wrapper">
+	<div class="navbar navbar-fixed-top">
+		<div class="container-fluid cl"><span class="logo navbar-slogan f-l mr-10 hidden-xs">民情大数据地图</span> <a aria-hidden="false" class="nav-toggle Hui-iconfont visible-xs" href="javascript:;">&#xe667;</a>
+			<nav class="nav navbar-nav">
+				<ul class="cl">
+					<li class="dropDown dropDown_hover"><a href="javascript:;" class="dropDown_A"><i class="Hui-iconfont">&#xe600;</i> 新增居民<i class="Hui-iconfont">&#xe6d5;</i></a>
+						<ul class="dropDown-menu menu radius box-shadow">
+							<li><a href="javascript:;" ><i class="Hui-iconfont">&#xe616;</i> 资讯</a></li>
+							<li><a href="javascript:;" ><i class="Hui-iconfont">&#xe613;</i> 图片</a></li>
+							<li><a href="javascript:;" ><i class="Hui-iconfont">&#xe620;</i> 产品</a></li>
+							<li><a href="javascript:;" ><i class="Hui-iconfont">&#xe60d;</i> 用户</a></li>
+						</ul>
+					</li>
+				</ul>
+			</nav>
+			<nav id="Hui-userbar" class="nav navbar-nav navbar-userbar hidden-xs">
+				<ul class="cl">
+					<!--<li>超级管理员</li>-->
+					<li class="dropDown dropDown_hover"> <a href="#" class="dropDown_A">admin <i class="Hui-iconfont">&#xe6d5;</i></a>
+						<ul class="dropDown-menu menu radius box-shadow">
+							<li><a href="javascript:;">个人信息</a></li>
+							<li><a href="#">切换账户</a></li>
+							<li><a href="#">退出</a></li>
+						</ul>
+					</li>
+					<li id="Hui-msg"> <a href="#" title="消息"><span class="badge badge-danger">1</span><i class="Hui-iconfont" style="font-size:18px">&#xe68a;</i></a> </li>
+					<li id="Hui-skin" class="dropDown right dropDown_hover"> <a href="javascript:;" class="dropDown_A" title="换肤"><i class="Hui-iconfont" style="font-size:18px">&#xe62a;</i></a>
+						<ul class="dropDown-menu menu radius box-shadow">
+							<li><a href="javascript:;" data-val="default" title="默认（红色）">默认（红色）</a></li>
+							<li><a href="javascript:;" data-val="blue" title="蓝色">蓝色</a></li>
+							<li><a href="javascript:;" data-val="green" title="绿色">绿色</a></li>
+							<li><a href="javascript:;" data-val="black" title="黑色">黑色</a></li>
+							<li><a href="javascript:;" data-val="yellow" title="黄色">黄色</a></li>
+							<li><a href="javascript:;" data-val="orange" title="橙色">橙色</a></li>
+						</ul>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</header>
+<!--/_header 作为公共模版分离出去-->
+<!--_menu 作为公共模版分离出去-->
+<aside class="Hui-aside">
+	<div class="menu_dropdown bk_2">
+		<dl>
+			<dt><i class="Hui-iconfont">&#xe62d;</i>
+				<a href="residents_management.html" title="居民管理"> 居民管理</a>
+			</dt>
+			</dt>
+		</dl>
+
+		<dl id="menu-member">
+			<dt><i class="Hui-iconfont">&#xe60d;</i>
+				<a href="residents_type_management.html" title="居民管理"> 居民类型管理</a>
+			</dt>
+		</dl>
+		<dl>
+			<dt><i class="Hui-iconfont">&#xe616;</i>
+				<a href="org_relationship_management.html" title="管理">组织关系管理</a>
+			</dt>
+		</dl>
+		<dl id="menu-picture">
+			<dt><i class="Hui-iconfont">&#xe613;</i>
+				<a href="street_management.html" title="街道管理"> 街道管理</a>
+			</dt>
+		</dl>
+		<dl id="menu-product">
+			<dt><i class="Hui-iconfont">&#xe620;</i>
+				<a href="shequ_management.html" title="社区管理"> 社区管理</a>
+			</dt>
+		</dl>
+		<dl id="menu-comments">
+			<dt><i class="Hui-iconfont">&#xe622;</i>
+				<a href="xiaoqu_management.html" title="小区管理"> 小区管理</a>
+			</dt>
+		</dl>
+
+		<dl>
+			<dt><i class="Hui-iconfont">&#xe61a;</i>
+				<a href="account_management.html" title="管理"> 账号管理</a>
+				<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+		</dl>
+		<dl>
+			<dt><i class="Hui-iconfont">&#xe62e;</i>
+				<a href="users_management.html" title="管理"> 用户管理</a>
+			</dt>
+		</dl>
+		<dl>
+			<dt><i class="Hui-iconfont">&#xe62e;</i>
+				<a href="rule_management.html" title="管理"> 角色管理</a>
+			</dt>
+		</dl>
+		<dl>
+			<dt><i class="Hui-iconfont">&#xe62e;</i>
+				<a href="vip_management.html" title="管理">  重要人员管理</a>
+			</dt>
+		</dl>
+		<dl>
+			<dt><i class="Hui-iconfont">&#xe62e;</i>
+				<a href="manager_info.html" title="管理">  管理人员信息</a>
+			</dt>
+		</dl>
+		<dl>
+			<dt><i class="Hui-iconfont">&#xe62e;</i>
+				<a href="poor_management.html" title="管理">  贫困/低保人员管理</a>
+			</dt>
+		</dl>
+		<dl>
+			<dt><i class="Hui-iconfont">&#xe62e;</i>
+				<a href="partymember_info.html" title="管理">  党员信息管理</a>
+			</dt>
+		</dl>
+		<dl>
+			<dt><i class="Hui-iconfont">&#xe62e;</i>
+				<a href="party_org_info.html" title="管理">  党组织信息管理</a>
+			</dt>
+		</dl>
+		<dl>
+			<dt><i class="Hui-iconfont">&#xe62e;</i>
+				<a href="party_org_info.html" title="管理">  大党委成员信息管理</a>
+			</dt>
+		</dl>
+		<dl>
+			<dt  class="selected"><i class="Hui-iconfont">&#xe62e;</i>
+				<a href="party_org_info.html" title="管理"> 两代表一委员信息管理</a>
+			</dt>
+		</dl>
+
+	</div>
+</aside>
+<div class="dislpayArrow hidden-xs"><a class="pngfix" href="javascript:void(0);" onClick="displaynavbar(this)"></a></div>
+<!--/_menu 作为公共模版分离出去-->
+<section class="Hui-article-box">
+	<article class="cl pd-20">
+		<form action="" method="post" class="form form-horizontal" id="form-member-add">
+			<div class="row cl">
+				<label class="form-label col-xs-2 col-sm-2">类别：</label>
+				<div class="formControls col-xs-4 col-sm-2">
+				    <input type="text" class="input-text" value="" placeholder=""  disabled="disabled" id="selecttype">
+				</div>
+				<label class="form-label col-xs-2 col-sm-2">是否低保户：</label>
+				<div class="formControls col-xs-4 col-sm-2">
+					<input type="text" class="input-text" value="" placeholder="" id="selectedLowIncome"  disabled="disabled"   name="username">
+				</div>
+			</div>
+			<div class="row cl">
+				<label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>用户名：</label>
+				<div class="formControls col-xs-4 col-sm-2">
+					<input type="text" class="input-text" value="" placeholder="" id="username"  disabled="disabled"  name="username">
+				</div>
+				<label class="form-label col-xs-2 col-sm-2">是否残疾人：</label>
+				<div class="formControls col-xs-4 col-sm-2">
+					<input type="text" class="input-text" value="" placeholder="" id="selecteddeformity"  disabled="disabled"   name="username">
+				</div>
+			</div>
+
+			<div class="row cl">
+				<label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>出生年月：</label>
+				<div class="formControls col-xs-4 col-sm-2">
+					<input type="text" class="input-text" value="" placeholder="" id="birthday"  disabled="disabled"   name="username">
+				</div>
+				<label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>家庭年收入：</label>
+				<div class="formControls col-xs-4 col-sm-2">
+					<input type="text" class="input-text" value="" placeholder="" disabled="disabled" id="yearmoney">
+				</div>
+
+			</div>
+			<div class="row cl">
+				<label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>家庭人口：</label>
+				<div class="formControls col-xs-4 col-sm-2">
+					<input type="text" class="input-text" value="" placeholder=""   disabled="disabled"  id="familynumber" name="mobile">
+				</div>
+				<label class="form-label col-xs-2 col-sm-2">家庭住址：</label>
+				<div class="formControls col-xs-4 col-sm-2">
+					<input  type="text"   class="input-text"  disabled="disabled"  id="address"   placeholder="">
+				</div>
+			</div>
+			<div class="row cl">
+				<label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>联系电话：</label>
+				<div class="formControls col-xs-4 col-sm-2">
+					<input type="text" class="input-text" value=""  disabled="disabled"   placeholder="" id="mobile" name="mobile">
+				</div>
+				<label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>已享受惠民政策及标准：</label>
+				<div class="formControls col-xs-4 col-sm-2">
+					<input type="text" class="input-text" value=""  disabled="disabled"    placeholder="" id="receivePolicyStandard" name="username">
+				</div>
+			</div>
+			<div class="row cl" style="position:absolute;top:8%;left:75%;">
+				<div class="formControls col-xs-3 col-sm-6">
+					<div class="uploader-list-container">
+						<div class="queueList" id="picture">
+							<div id="dndArea" class="placeholder">
+								<div id="filePicker-2"></div>
+								<div class="file">
+									点击上传
+									<input type='file'  name='photos'  id="uploadpicture"/>
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<label class="form-label col-xs-2 col-sm-9" style="text-align: center">个人肖像</label>
+			</div>
+			<div class="row cl">
+				<div class="col-xs-8 col-sm-6 col-xs-offset-5 col-sm-offset-7">
+					<button  id="back" class="btn btn-secondary radius" type="button">&nbsp;&nbsp;返回&nbsp;&nbsp;</button>
+				</div>
+			</div>
+		</form>
+	</article>
+</section>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="assets/js/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/jquery.validate.js"></script>
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/validate-methods.js"></script>
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript" src="static/h-ui/js/H-ui.js"></script>
+<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.page.js"></script>
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript">
+
+    var modifyResidents={
+        init:function (){
+			var  id=modifyResidents.getParam("id");
+			var  name=modifyResidents.getParam("name");
+			this.render();
+			this.upLoadPicture();
+            this.bindEvent();
+        },
+		render:function(){
+			var  id=modifyResidents.getParam("id");
+			var ajax_url = "http://1cx7921111.51mypc.cn/residents/getbyid/" +id;
+			var ajax_type = 'GET';
+			$.ajax({
+				type: ajax_type,
+				url: ajax_url,
+				data: JSON.stringify(),
+				contentType: 'application/json',
+				success: function (data) {
+					console.log(data);
+					if (data.code == "0") {
+						var data = data.data;
+						console.log(data);
+						var html = '';
+						var type;
+						switch (data.type) {
+							case 1:
+								type = "孤独老人";
+								break;
+							case 2:
+								type = "失业人员";
+								break;
+							case 3:
+								type = "返贫家庭";
+								break;
+							case 4:
+								type = "低保户";
+								break;
+							case 5:
+								type = "留守儿童";
+								break;
+							default:
+								type = "贫困户";
+								break;
+						}
+						var lowIncome = data.lowIncome == true ? "是" : "否";
+						var deformity = data.deformity == true ? "是" : "否";
+						$("#selecttype").val(type);
+						$("#selectedLowIncome").val(lowIncome);
+						$("#username").val(decodeURI(data.name));
+						$("#selecteddeformity").val(deformity);
+						$("#birthday").val(data.birthdayStr);
+						$("#yearmoney").val(data.yearIncome);
+						$("#familynumber").val(data.familyCnt);
+						$("#address").val(data.address);
+						$("#mobile").val(data.telephone);
+						$("#receivePolicyStandard").val(data.receivePolicyStandard);
+						var img='<img src="'+data.photoStr+'" alt="上传的图片" style="width: 100%;height:100%;max-height:158px;max-width:130px;"/>'
+						$("#picture").html(img);
+					}
+				},
+				error: function () {
+					console.log("请求出错");
+				}
+			});
+		},
+        bindEvent:function(){
+			var  id=modifyResidents.getParam("id");
+			var  name=modifyResidents.getParam("name");
+           $("#back").on("click",function(){
+			   location.href="residents_management.html";
+            });
+        },
+		getParam:function(a){
+            var str=location.search.substr(1);
+            var strArr=str.split("&");
+            var name;
+            $.each(strArr,function(idx,ele){
+                if(ele.indexOf(a)!=(-1))
+                {
+                    var start= a.length+1;
+                    name=ele.substring(start);
+                }
+            });
+            return name;
+		},
+		upLoadPicture:function(){
+			var picture = document.getElementById("picture"); //获取显示图片的div元素
+			var input = document.getElementById("uploadpicture"); //获取选择图片的input元素
+			//这边是判断本浏览器是否支持这个API。
+			if(typeof FileReader==='undefined'){
+				picture.innerHTML = "抱歉，你的浏览器不支持 FileReader";
+				input.setAttribute('disabled','disabled');
+			}else{
+				input.addEventListener('change',readFile,false); //如果支持就监听改变事件，一旦改变了就运行readFile函数。
+			}
+			function readFile(){
+				var file = this.files[0]; //获取file对象
+				//判断file的类型是不是图片类型。
+				if(!/image\/\w+/.test(file.type)){
+					alert("文件必须为图片！");
+					return false;
+				}
+				var reader = new FileReader(); //声明一个FileReader实例
+				reader.readAsDataURL(file); //调用readAsDataURL方法来读取选中的图像文件
+				//最后在onload事件中，获取到成功读取的文件内容，并以插入一个img节点的方式显示选中的图片
+				reader.onload = function(e){
+					picture.innerHTML = '<img src="'+this.result+'" alt="上传的图片" style="width: 100%;height:100%;max-height:158px;max-width:130px;"/>'
+					pictureAddress=this.result;
+				}
+			}
+		}
+    };
+    modifyResidents.init();
+</script>
+</body>
+</html>

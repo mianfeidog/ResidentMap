@@ -1,0 +1,479 @@
+﻿<!--_meta 作为公共模版分离出去-->
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="renderer" content="webkit|ie-comp|ie-stand">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+	<meta http-equiv="Cache-Control" content="no-siteapp" />
+	<!--<link rel="Bookmark" href="favicon.ico" >-->
+	<!--<link rel="Shortcut Icon" href="favicon.ico" />-->
+	<!--[if lt IE 9]>
+	<script type="text/javascript" src="lib/html5.js"></script>
+	<script type="text/javascript" src="lib/respond.min.js"></script>
+	<![endif]-->
+	<link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
+	<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
+	<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+	<link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/black/skin.css" id="skin" />
+	<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
+	<link href="lib/webuploader/0.1.5/webuploader.css" rel="stylesheet" type="text/css" />
+	<style>
+		.file {
+			position: relative;
+			top:18px;
+			display: inline-block;
+			width:100%;
+			font-size: 12px;
+			background: #c2c2c2;
+			border: 1px solid #c2c2c2;
+			border-radius: 4px;
+			overflow: hidden;
+			color: #3f3f42;
+			text-decoration: none;
+			text-indent: 0;
+		}
+		.file input {
+			position: absolute;
+			height:20px;
+			right: 0;
+			top: 0;
+			opacity: 0;
+		}
+		.file:hover {
+			background: #AADFFD;
+			border-color: #78C3F3;
+			color: #004974;
+			text-decoration: none;
+		}
+	</style>
+	<!--[if IE 6]>
+	<script type="text/javascript" src="http://lib.h-ui.net/DD_belatedPNG_0.0.8a-min.js" ></script>
+	<script>DD_belatedPNG.fix('*');</script>
+	<![endif]-->
+	<!--/meta 作为公共模版分离出去-->
+	<title>新增党员信息</title>
+</head>
+<body>
+<!--_header 作为公共模版分离出去-->
+<header class="navbar-wrapper">
+	<div class="navbar navbar-fixed-top">
+		<div class="container-fluid cl"><span class="logo navbar-slogan f-l mr-10 hidden-xs">民情大数据地图</span> <a aria-hidden="false" class="nav-toggle Hui-iconfont visible-xs" href="javascript:;">&#xe667;</a>
+			<nav class="nav navbar-nav">
+
+			</nav>
+			<nav id="Hui-userbar" class="nav navbar-nav navbar-userbar hidden-xs">
+				<ul class="cl">
+					<!--<li>超级管理员</li>-->
+					<li class="dropDown dropDown_hover"> <a href="#" class="dropDown_A">admin <i class="Hui-iconfont">&#xe6d5;</i></a>
+						<ul class="dropDown-menu menu radius box-shadow">
+							<li><a href="javascript:;">个人信息</a></li>
+							<li><a href="#">切换账户</a></li>
+							<li><a href="#">退出</a></li>
+						</ul>
+					</li>
+					<li id="Hui-msg"> <a href="#" title="消息"><span class="badge badge-danger">1</span><i class="Hui-iconfont" style="font-size:18px">&#xe68a;</i></a> </li>
+					<li id="Hui-skin" class="dropDown right dropDown_hover"> <a href="javascript:;" class="dropDown_A" title="换肤"><i class="Hui-iconfont" style="font-size:18px">&#xe62a;</i></a>
+						<ul class="dropDown-menu menu radius box-shadow">
+							<li><a href="javascript:;" data-val="default" title="默认（红色）">默认（红色）</a></li>
+							<li><a href="javascript:;" data-val="blue" title="蓝色">蓝色</a></li>
+							<li><a href="javascript:;" data-val="green" title="绿色">绿色</a></li>
+							<li><a href="javascript:;" data-val="black" title="黑色">黑色</a></li>
+							<li><a href="javascript:;" data-val="yellow" title="黄色">黄色</a></li>
+							<li><a href="javascript:;" data-val="orange" title="橙色">橙色</a></li>
+						</ul>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</header>
+<!--/_header 作为公共模版分离出去-->
+<!--_menu 作为公共模版分离出去-->
+<aside class="Hui-aside">
+	<div class="menu_dropdown bk_2">
+
+		<dl>
+			<dt>
+				<i class="Hui-iconfont">&#xe62b;</i>组织关系管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i>
+			</dt>
+			<dd style="display: block;">
+				<ul>
+					<li><a href="party_commitee_info.html" title="管理">  大党委成员信息管理</a></li>
+					<li class="current"><a href="partymember_info.html" title="管理">  党员信息管理</a></li>
+				</ul>
+			</dd>
+		</dl>
+
+
+		<dl>
+			<dt><i class="Hui-iconfont">&#xe60d;</i>
+				<a href="street_management.html" title="街道管理"> 街道管理</a>
+			</dt>
+		</dl>
+
+		<dl>
+			<dt><i class="Hui-iconfont">&#xe705;</i>
+				<a href="shequ_management.html" title="管理"> 社区管理</a>
+			</dt>
+		</dl>
+
+
+		<dl>
+			<dt><i class="Hui-iconfont">&#xe613;</i>
+				<a href="xiaoqu_management.html" title="小区管理"> 小区管理</a>
+			</dt>
+		</dl>
+
+
+		<dl>
+			<dt>
+				<i class="Hui-iconfont">&#xe611;</i>居民管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i>
+			</dt>
+			<dd>
+				<ul>
+					<li><a href="poor_management.html" title="管理">  帮扶人员信息管理</a></li>
+					<li><a href="vip_management.html" title="管理">   重点人员信息管理</a></li>
+				</ul>
+			</dd>
+		</dl>
+
+
+		<dl>
+			<dt>
+				<i class="Hui-iconfont">&#xe70c;</i>基础数据<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i>
+			</dt>
+			<dd>
+				<ul>
+					<li><a href="residents_type_management.html" title="管理">  居民类型管理</a></li>
+				</ul>
+			</dd>
+		</dl>
+
+
+		<dl>
+			<dt>
+				<i class="Hui-iconfont">&#xe722;</i>账号管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i>
+			</dt>
+			<dd>
+				<ul>
+					<li><a href="user_management.html" title="管理"> 用户管理</a></li>
+				</ul>
+			</dd>
+		</dl>
+
+	</div>
+</aside>
+<div class="dislpayArrow hidden-xs"><a class="pngfix" href="javascript:void(0);" onClick="displaynavbar(this)"></a></div>
+<!--/_menu 作为公共模版分离出去-->
+<section class="Hui-article-box">
+	<nav class="breadcrumb">
+		<a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
+	<article class="cl pd-20">
+		<form action="" method="post" class="form form-horizontal" id="form-member-add">
+
+			<div class="row cl">
+				<label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>用户名：</label>
+				<div class="formControls col-xs-4 col-sm-2">
+					<input type="text" class="input-text" value="" placeholder="" id="username" name="username">
+				</div>
+				<label class="form-label col-xs-2 col-sm-2">性别：</label>
+				<div class="formControls col-xs-4 col-sm-2">
+					<span class="select-box">
+					<select class="select" size="1" name="city" id="gender">
+						<option value=""     selected>请选择</option>
+						<option value="1">男</option>
+						<option value="2">女</option>
+					</select>
+					</span>
+				</div>
+			</div>
+			<div class="row cl">
+				<label class="form-label col-xs-2 col-sm-2">民族：</label>
+				<div class="formControls col-xs-4 col-sm-2">
+					<span class="select-box">
+				<select class="select" size="1" name="city" id="nation">
+					<option value="0"   selected>请选择民族</option>
+
+				</select>
+				</span>
+				</div>
+
+				<label class="form-label col-xs-2 col-sm-2">是否困难党员：</label>
+				<div class="formControls col-xs-4 col-sm-2">
+					<span class="select-box">
+					<select class="select" size="1" name="city" id="party">
+						<option value=""   selected>请选择</option>
+						<option value="1">是</option>
+						<option value="2">否</option>
+					</select>
+					</span>
+				</div>
+
+			</div>
+			<div class="row cl">
+				<label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>出生年月：</label>
+				<div class="formControls col-xs-4 col-sm-2">
+					<input type="text" class="input-text" value="" placeholder="" id="birthday" name="username">
+				</div>
+				<label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>家庭住址：</label>
+				<div class="formControls col-xs-4 col-sm-2">
+					<input type="text" class="input-text" value="" placeholder="" id="address">
+				</div>
+
+			</div>
+
+			<div class="row cl">
+				<label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>联系电话：</label>
+				<div class="formControls col-xs-4 col-sm-2">
+					<input type="text" class="input-text" value="" placeholder="" id="phone" name="mobile">
+				</div>
+				<label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>入党时间：</label>
+				<div class="formControls col-xs-4 col-sm-2">
+					<input type="text" class="input-text" value="" placeholder="" id="joindate" name="username">
+				</div>
+			</div>
+			<div class="row cl">
+				<label class="form-label col-xs-2 col-sm-2">文化程度：</label>
+				<div class="formControls col-xs-4 col-sm-2">
+					<span class="select-box">
+					<select class="select" size="1" name="city" id="culturelevel">
+						<option value=""   selected>请选择</option>
+
+					</select>
+					</span>
+				</div>
+				<label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>身份证号：</label>
+				<div class="formControls col-xs-4 col-sm-2">
+					<input type="text" class="input-text" value="" placeholder="" id="idcard" name="username">
+				</div>
+			</div>
+			<div class="row cl">
+
+
+
+				<label class="form-label col-xs-2 col-sm-2">所属社区：</label>
+				<div class="formControls col-xs-4 col-sm-2">
+					<span class="select-box">
+					<select class="select" size="1" name="city" id="ownshequ">
+						<option value=""   selected>请选择</option>
+
+					</select>
+					</span>
+				</div>
+				<label class="form-label col-xs-2 col-sm-2">认领岗位：</label>
+				<div class="formControls col-xs-4 col-sm-2">
+					<span class="select-box">
+					<select class="select" size="1" name="city" id="claimpost">
+						<option value=""   selected>请选择</option>
+
+					</select>
+					</span>
+				</div>
+
+			</div>
+
+			<div class="row cl">
+				<div class="col-xs-8 col-sm-6 col-xs-offset-5 col-sm-offset-6">
+					<button  id="ok" class="btn btn-danger radius" type="button">&nbsp;确定&nbsp;</button>&nbsp;&nbsp;&nbsp;&nbsp;
+					<button  id="cancle" class="btn btn-secondary radius" type="button">&nbsp;取消&nbsp;</button>
+				</div>
+			</div>
+		</form>
+	</article>
+</section>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="assets/js/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/jquery.validate.js"></script>
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/validate-methods.js"></script>
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/messages_zh.js"></script>
+<script type="text/javascript" src="static/h-ui/js/H-ui.js"></script>
+<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.page.js"></script>
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript">
+	var  gender,nation,culturelevel,party,claimpost,communityid;
+	//类型
+	$("#gender").change(function(){
+		gender=Number($("#gender").find("option:selected").val());
+	});
+	//民族
+	$("#nation").change(function(){
+	   nation=Number($("#nation").find("option:selected").val());
+	});
+	//文化水平
+	$("#culturelevel").change(function(){
+        culturelevel=Number($("#culturelevel").find("option:selected").val());
+	});
+
+    $("#claimpost").change(function(){
+        claimpost=Number($("#claimpost").find("option:selected").val());
+    });
+	$("#ownshequ").change(function(){
+		communityid=Number($("#ownshequ").find("option:selected").val());
+	});
+
+    $("#party").change(function(){
+     var  partynum=Number($("#party").find("option:selected").val());
+		if(partynum==1){
+		    party=true;
+		}
+		else if(partynum==2){
+            party=false;
+		}
+    });
+
+    var modifymanager={
+        init:function (){
+            this.bindEvent();
+			this.rendershequ();
+			renderNation();
+			renderCultureLevel();
+			renderJob();
+
+        },
+		render:function(){
+            var ajax_url=apiUrl+"party_members/add";
+            var ajax_type = 'post';
+
+            var name=$("#username").val().toString();
+            var birthday=Number($("#birthday").val());
+            var reg = /^[1-9]\d{3}(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/;
+            var regExp = new RegExp(reg);
+            if(!regExp.test(birthday)){
+                layer.msg('请正确填写生日! 例如:19921204',{icon:2,time:2000});
+                return;
+            }
+            var mobile=$("#phone").val();
+			var rep=/^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/;
+			var mobileresult=rep.test(mobile);
+			if(mobileresult==false){
+				layer.msg('请正确填写电话!',{icon:2,time:2000});
+				return;
+			}
+            var address=$("#address").val();
+
+            var joindate=Number($("#joindate").val());
+            var reg = /^[1-9]\d{3}(0[1-9]|1[0-2])(0[1-9]|[1-2][0-9]|3[0-1])$/;
+            var regExp = new RegExp(reg);
+            if(!regExp.test(joindate)){
+                layer.msg('请正确填写入党时间! 例如:19921204',{icon:2,time:2000});
+                return;
+            }
+
+            var  idCard=$("#idcard").val();
+			var testIdCard=/^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/;
+			var idCardResult=testIdCard.test(idCard);
+			if(idCardResult==false){
+				layer.msg('请正确填写身份证号码!',{icon:2,time:2000});
+				return;
+			}
+			//填写的生日必须存在于省份证号码中才行；
+			if(idCard.indexOf(birthday)==-1){
+				layer.msg('请保证出生年月和身份证号码中的一致!',{icon:2,time:2000});
+				return;
+			}
+
+			//年满18周岁才能入党
+			var  jointime=Number(joindate)-Number(birthday);
+			if(jointime<180000){
+				layer.msg('年满18周岁才能入党，请正确填写入党时间!',{icon:2,time:2000});
+				return;
+			}
+
+			var data={
+                "id":1,
+                "name":name,
+                "gender":gender,
+                "minority":nation,
+                "birthday":birthday,
+                "education":culturelevel,
+                "joinDate":joindate,
+                "claimPost":claimpost,
+                "idCard":idCard,
+                "address":address,
+                "link":mobile,
+                "communityId": 1,
+                "blockId": 1,
+                "buildingId": 1,
+                "difficult":party
+			};
+            console.log(data);
+            if(name==""||birthday==""||joindate==""||mobile==""||party==undefined||address==""||claimpost==undefined
+					||culturelevel==undefined||nation==undefined||gender==undefined){
+				layer.msg('请补全信息!',{icon:2,time:2000});
+				return;
+			}
+            $.ajax({
+                type : ajax_type,
+                url : ajax_url,
+                data :JSON.stringify(data),//提交的对象，删除不用提交
+                contentType:'application/json',
+                success : function(data) {
+                    if (data.code == "0") {
+						console.log(data);
+						layer.msg('新增党员信息成功!',{icon:1,time:3000});
+                    } else if (data.code == "99") {
+                        console.log(data.detail);
+                    }
+                },
+                error : function() {
+                    console.log("请求出错");
+                }
+            });
+		},
+        bindEvent:function(){
+            $("#ok").on("click",function(){
+                modifymanager.render();
+            });
+			$("#cancle").on("click",function(){
+				var date=new Date();
+				location.href="partymember_info.html?timestamp="+date.getTime();
+			});
+        },
+		getParam:function(a){
+            var str=location.search.substr(1);
+            var strArr=str.split("&");
+            var name;
+            $.each(strArr,function(idx,ele){
+                if(ele.indexOf(a)!=(-1))
+                {
+                    var start= a.length+1;
+                    name=ele.substring(start);
+                }
+            });
+            return name;
+		},
+		rendershequ:function(){
+			var ajax_url=apiUrl+"communities/getall";
+			var ajax_type = 'GET';
+			$.ajax({
+				type :ajax_type,
+				url : ajax_url,
+				data :JSON.stringify(),//提交的对象，删除不用提交
+				contentType:'application/json',
+				success : function(data) {
+					if (data.code == "0") {
+						var data=data.data;
+						var html='';
+						for(var i=0;i<data.length;i++)
+						{
+							html+='<option value="'+data[i].value+'">'+data[i].name+'</option>';
+						}
+						$('#ownshequ').append(html);
+					} else if (data.code == "99") {
+						console.log(data.detail);
+					}
+				},
+				error : function() {
+					console.log("请求出错");
+				}
+			});
+
+		}
+    };
+    modifymanager.init();
+</script>
+</body>
+</html>

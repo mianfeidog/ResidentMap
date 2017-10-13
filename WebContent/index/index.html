@@ -1,0 +1,680 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<style type="text/css">
+		body, html {width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}
+		#allmap{width:100%;height:100%;}
+
+        .search{
+			position: fixed;top: 10px;left: 10px;z-index: 10;border-radius: 10px;
+		}
+		.sear{
+			position: absolute;top: 8px;left: 8px;z-index: 10;border-radius: 10px;width: 26px;height: 26px;background: url('./img/search.png');background-size: cover;
+		}
+		.text{
+			padding: 10px 10px 10px 40px;border-radius: 10px;width: 270px;vertical-align: center;border: 1px solid #eee;box-shadow: 0 0 10px #000;
+		}
+		.searchBtn{
+			padding: 9px;border-radius: 10px;background: #fc4a44;color: #fff;margin-left: 10px;box-shadow: 0 0 10px #000;width: 60px;text-align: center;border: none;font-size: 14px;cursor: pointer;
+	    }
+		.checkbox{
+			background: #fff;border-radius: 10px;width: 400px;padding: 0;font-size: 0;box-shadow: 0 0 10px #000;margin-top: 10px;
+		}
+        .checkbox li{
+            display: inline-block;width: 120px;color: #fc4a44;font-size: 14px;padding: 10px 0 10px 10px;
+		}
+
+		.table{
+			position: fixed;top: 10px;right: 10px;z-index: 10;width: 489px;box-shadow: 0 0 10px #000;background: #fff;padding-bottom: 24px;
+		}
+		.closeTable{height: 100px;overflow: hidden;}
+		.table .menu{font-size: 0;width: 100%;padding: 0;margin-bottom: 10px;}
+		.table .menu li{
+            display: inline-block;background: #fc4a44;color: #fff;font-size: 14px;padding: 10px;border-right: 1px solid #eee;cursor: pointer; 
+		}
+		.table .menu li:last-child{
+			border: none;
+		}
+		.table .close{
+			width: 40px;height: 40px;line-height: 40px;background: url(./img/close.png);background-size:cover;display: inline-block;position: absolute;top: 270px;right: 20px;cursor: pointer;
+		}
+		.upDown{
+			display: inline-block;width: 100%;height: 24px;line-height: 24px;background: #fff;position: absolute;bottom: 0;right: 0;
+		}
+		.table .up{
+			width: 20px;height: 20px;line-height: 20px;background: url(./img/up.png);background-size:cover;display: inline-block;position: absolute;bottom: 0;left: 230px;cursor: pointer;
+		}
+		.table div{
+			width: 100%;height: 500px;background: #fff;overflow: scroll;
+		}
+		.tab1{display: block;}
+		.tab2{display: none;}
+		.tab3{display: none;}
+		.tab4{display: none;}
+		.tab5{display: none;}
+		.tab6{display: none;}
+		table{width: 100%;border-collapse: collapse;text-align: center;font-size: 12px;}
+		th{background: #eee;}
+		td{padding: 10px;}
+        .community{cursor: pointer;}
+           
+		.info{background: #fff;position: fixed;bottom: 10px;left: 10px;width: 400px;box-shadow: 0 0 10px #000;border-radius: 10px;}
+		.up1{display:block;position: absolute;right: 0;top: 0;width: 45px;height: 30px;background: url('./img/up1.png');background-size: cover;}
+		.pic img{display: inline-block;width:60px;height:60px;border-radius: 50%;margin: 10px;vertical-align: middle;}
+		.upInfo{
+			height: 130px;overflow: hidden;
+		}
+		.infoDetail{
+			display: none;width: 45px; height: 30px;line-height: 30px;background: #fc4a44;border-radius: 10px 0;position: absolute;right: 0;bottom: 0;color: #fff;text-align: center;
+		}
+		.name{font-size: 24px;color: #666;display: inline-block;vertical-align: middle;margin-right: 8px;}
+		.sex{display: inline-block;vertical-align: middle;}
+		.info ul{list-style: none;margin: -20px 0 0 40px;}
+		.info ul li{display: block;padding: 6px;font-size: 14px;color: #666;}
+		.assist{display: none;}
+	</style>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=75a524717d55b0cde28a4f22ca100015"></script>
+	<script src="./template.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+	<title>民情</title>
+</head>
+<body>
+	<div id="allmap"></div>
+
+    <div class='search'>
+        <span class='sear'></span>
+    	<input type="text" class="text">
+    	<input type='button' class='searchBtn' value='筛选'>
+    	<ul class="checkbox"></ul>
+    	<script id='searchInfo' type='text/html'>
+    	    {{each data as value i}}
+    		<li><input type="checkbox" data-type={{value.dataType}} data-val={{value.value}}>{{value.name}}</li>
+    	    {{/each}}
+    	</script>
+    </div>
+
+	<div class='table'>
+        <ul class='menu'>
+            <li style='background:#fff;color: #fc4a44'>基本民情</li>
+            <li>重点人员</li>
+            <li>社区党员</li>
+            <li>责任分工</li>
+            <li>网络化管理</li>
+            <li>残疾人信息</li>
+        </ul>
+        <!-- <span class="close"></span> -->
+
+        <div class='tab1'></div>
+        <script id="tab1" type="text/html">
+			<table border='1' bordercolor='#ccc';>
+				<!-- <thead>
+					<tr>
+						<th>总占地面积</th>
+						<th>小区个数</th>
+						<th>总户数</th>
+						<th>总人口数</th>
+						<th>入党时间</th>
+						<th>认领岗位</th>
+						<th>身份证号</th>
+						<th>家庭住址</th>
+						<th>联系方式</th>
+						<th>是否困难</th>
+					</tr>
+				</thead> -->
+				<tbody>
+				    {{each data as value i}}
+				    <tr>
+				    	<th colspan="4" class='community' data-id={{value.id}}>{{value.name}}</th>
+				    </tr>
+					<tr>
+					    <th>总占地面积</th>
+						<td>{{value.area}}</td>
+						<th>小区个数</th>
+						<td>{{value.blockCount}}</td>
+					</tr>
+					<tr>
+					    <th>总户数</th>
+						<td>{{value.familyCount}}</td>
+						<th>总人口数</th>
+						<td>{{value.peopleCount}}</td>
+					</tr>
+					<tr>
+					    <th>常住户数</th>
+						<td>{{value.residentFamilyCount}}</td>
+						<th>常住人口</th>
+						<td>{{value.residentPeopleCount}}</td>
+					</tr>
+					<tr>
+					    <th>暂住户数</th>
+						<td>{{value.temporaryFamilyCount}}</td>
+						<th>暂住人数</th>
+						<td>{{value.temporaryPeopleCount}}</td>
+					</tr>
+					<tr>
+					    <th>流入人口数</th>
+						<td>{{value.incomePeopleCount}}</td>
+						<th>流出人口数</th>
+						<td>{{value.outPeopleCount}}</td>
+					</tr>
+					<tr>
+					    <th>党员总人数</th>
+						<td>{{value.partyMemberCount}}</td>
+						<th>流入党员人数</th>
+						<td>{{value.incomePartyMemberCount}}</td>
+					</tr>
+					<tr>
+					    <th>流出党员人数</th>
+						<td>{{value.outPartyMemberCount}}</td>
+						<th>育龄妇女</th>
+						<td>{{value.childbearingCount}}</td>
+					</tr>
+                    <tr>
+					    <th>残疾人数</th>
+						<td>{{value.deformityCount}}</td>
+						<th>低保户数</th>
+						<td>{{value.allowancesFamilyCount}}</td>
+					</tr>
+					<tr>
+					    <th>低收入家庭</th>
+						<td>{{value.lowIncomeFamilyCount}}</td>
+						<th>老龄人口</th>
+						<td>{{value.oldPeopleCount}}</td>
+					</tr>
+					<tr>
+					    <th>居民医保参保人数</th>
+						<td>{{value.medicalInsuranceCount}}</td>
+						<th>居民养老参保人数</th>
+						<td>{{value.oldInsuranceCount}}</td>
+					</tr>
+					<tr>
+					    <th>重点人员</th>
+						<td>{{value.keyPersonCount}}</td>
+						<th>路长院长所长人数</th>
+						<td>{{value.gridManagerCount}}</td>
+					</tr>
+					<tr>
+					    <th>已参加水改户数</th>
+						<td>{{value.warterReformFamilyCount}}</td>
+						<th>已参加电改户数</th>
+						<td>{{value.electricityReformFamilyCount}}</td>
+					</tr>
+					<tr>
+					    <th>集中供暖户数</th>
+						<td>{{value.heatingSupplyFamilyCount}}</td>
+						<th>天然气安装户数</th>
+						<td>{{value.gasFamilyCount}}</td>
+					</tr>
+					<tr>
+					    <th>安防设施</th>
+						<td>{{value.securitySystemCount}}</td>
+						<th>摄像头数</th>
+						<td>{{value.cameraCount}}</td>
+					</tr>
+					<tr>
+					    <th>社区党支部书记</th>
+						<td>{{value.secretaryName}}</td>
+						<th>联系方式</th>
+						<td>{{value.secretaryTel}}</td>
+					</tr>
+					<tr>
+					    <th>社区居委会主任</th>
+						<td>{{value.directorName}}</td>
+						<th>联系方式</th>
+						<td>{{value.directorTel}}</td>
+					</tr>
+					<tr>
+					    <th>街道包抓领导</th>
+						<td>{{value.inChargeLeaderName}}</td>
+						<th>联系方式</th>
+						<td>{{value.inChargeLeaderTel}}</td>
+					</tr>
+					<tr>
+					    <th>社区工作日领导</th>
+						<td>{{value.workDayLeaderName}}</td>
+						<th>联系方式</th>
+						<td>{{value.workDayLeaderTel}}</td>
+					</tr>
+					{{/each}}
+				</tbody>
+			</table>
+		</script>
+
+        <div class='tab2'></div>
+		<script id="tab2" type="text/html">
+			<table border='1' bordercolor='#ccc';>
+				<thead>
+					<tr>
+						<th>姓名</th>
+						<th>性别</th>
+						<th>年龄</th>
+						<th>类别</th>
+						<th>基本信息</th>
+						<th>身份证号</th>
+						<th>家庭住址联系方式</th>
+					</tr>
+				</thead>
+				<tbody>
+				    {{each data as value i}}
+					<tr>
+						<td>{{value.name}}</td>
+						<td>{{value.gender == 1 ? '男' : '女'}}</td>
+						<td>{{value.age}}</td>
+						<td>{{value.typeName}}</td>
+						<td>{{value.baseCondition}}</td>
+						<td>{{value.idCard}}</td>
+						<td>{{value.address}}</td>
+					</tr>
+					{{/each}}
+				</tbody>
+			</table>
+		</script>    
+
+        <div class='tab3'></div>
+        <script id="tab3" type="text/html">
+			<table border='1' bordercolor='#ccc';>
+				<thead>
+					<tr>
+						<th>姓名</th>
+						<th>性别</th>
+						<th>出生年月</th>
+						<th>文化程度</th>
+						<th>入党时间</th>
+						<th>认领岗位</th>
+						<th>身份证号</th>
+						<th>家庭住址</th>
+						<th>联系方式</th>
+						<th>是否困难</th>
+					</tr>
+				</thead>
+				<tbody>
+				    {{each data as value i}}
+					<tr>
+						<td>{{value.name}}</td>
+						<td>{{value.gender == 1 ? '男' : '女'}}</td>
+						<td>{{value.birthday}}</td>
+						<td>{{value.educationName}}</td>
+						<td>{{value.joinDate}}</td>
+						<td>{{value.claimPostName}}</td>
+						<td>{{value.idCard}}</td>
+						<td>{{value.address}}</td>
+						<td>{{value.link}}</td>
+						<td>{{value.difficult == true ? '是' : '否'}}</td>
+					</tr>
+					{{/each}}
+				</tbody>
+			</table>
+		</script>
+
+        <div class='tab4'></div>
+        <script id="tab4" type="text/html">
+			<table border='1' bordercolor='#ccc';>
+				<thead>
+					<tr>
+					    <th>院落</th>
+						<th>姓名</th>
+						<th>联系方式</th>
+					</tr>
+				</thead>
+				<tbody>
+				    {{each data as value i}}
+					<tr>
+					    <td>{{value.communityName}}</td>
+						<td>{{value.personInCharge}}</td>
+						<td>{{value.personInChargeTel}}</td>
+					</tr>
+					{{/each}}
+				</tbody>
+			</table>
+		</script>
+
+        <div class='tab5'></div>
+        <script id="tab5" type="text/html">
+			<table border='1' bordercolor='#ccc';>
+				<thead>
+					<tr>
+						<th>网格名称</th>
+						<th>姓名</th>
+						<th>性别</th>
+						<th>民族</th>
+						<th>出生年月</th>
+						<th>文化程度</th>
+						<th>是否党员</th>
+						<th>家庭住址</th>
+						<th>联系方式</th>
+					</tr>
+				</thead>
+				<tbody>
+				    {{each data as value i}}
+					<tr>
+						<td>{{value.gridName}}</td>
+						<td>{{value.name}}</td>
+						<td>{{value.gender == 1 ? '男' : '女'}}</td>
+						<td>{{value.minorityName}}</td>
+						<td>{{value.birthday}}</td>
+						<td>{{value.educationName}}</td>
+						<td>{{value.partyMember == true ? '是' : '否'}}</td>
+						<td>{{value.address}}</td>
+						<td>{{value.link}}</td>
+					</tr>
+					{{/each}}
+				</tbody>
+			</table>
+		</script>
+
+        <div class='tab6'></div>
+        <script id="tab6" type="text/html">
+			<table border='1' bordercolor='#ccc';>
+				<thead>
+					<tr>
+						<th>编号</th>
+						<th>姓名</th>
+						<th>性别</th>
+						<th>家庭住址</th>
+					</tr>
+				</thead>
+				<tbody>
+				    {{each data as value i}}
+					<tr>
+						<td>{{value.id}}</td>
+						<td>{{value.name}}</td>
+						<td>{{value.gender == 1 ? '男' : '女'}}</td>
+						<td>{{value.address}}</td>
+					</tr>
+					{{/each}}
+				</tbody>
+			</table>
+		</script>
+
+		<span class='upDown'>
+			<span class="up"></span>
+		</span>
+    </div>
+
+    <div class='info'>
+        <span class='up1'></span>
+        <span class='infoDetail'>详情</span>
+    	<div class='pic'>
+    	    <img src='./img/head.jpg'>
+            <span class='name'>张三</span>
+    	    <span class='sex'>男</span>
+    	</div>
+    	<ul class="key">
+    		<li>类别：<span class='typeName'></span></li>
+    		<li>年龄：<span class='age'></span></li>
+    		<li>基本情况：<span class='baseCondition'></span></li>
+    		<li>联系电话：<span class='tel'></span></li>
+    		<li>家庭住址：<span class='address'></span></li>
+    	</ul>
+    	<ul class='assist'>
+    		<li>类别：<span class='typeName'></span></li>
+    		<li>出生年月：<span class="birth"></span></li>
+    		<li>联系电话：<span class='tel'></span></li>
+    		<li>惠民政策：<span class="policy"></span></li>
+    		<li>家庭年收入：<span class='totalMoney'></span></li>
+    		<li>家庭人口：<span class='peopleNums'></span></li>
+    		<li>家庭住址：<span class='address'></span></li>
+    	</ul>
+    </div>
+</body>
+</html>
+<script src='../static/h-ui.admin/js/H-ui.admin.page.js'></script>
+<script>
+    $(".up").css({'transform':'rotate(180deg)'});
+	// 百度地图API功能
+	var map = new BMap.Map("allmap");
+	var point = new BMap.Point(109, 34.3);
+	map.centerAndZoom(point, 11);
+	map.disableDoubleClickZoom(true);
+	map.enableScrollWheelZoom(true); 	
+	
+	// 事件处理
+	var divs = $('.table div'), menus = $('.menu li'), len = divs.length;
+	$('.menu').delegate('li', 'click', function(i){
+	    var index = $(this).index() + 1;
+		for(var i = 0; i < len; i++){
+		    $(divs[i]).hide();
+		    $(menus[i]).css({'background-color': '#fc4a44', 'color': '#fff'});
+		};
+		$('.tab' + index).show();
+		$(this).css({'background-color': '#fff', 'color': '#fc4a44'});
+	});
+	// $('.close').on('click', function(){
+	// 	$('.table').addClass('closeTable');
+	// });
+	var d = 180;
+	$('.up').on('click', function(){
+		d += 180;
+		$(".up").css({'transform':'rotate(' + d + 'deg)'}); 
+		$('.table').toggleClass('closeTable');
+	});
+
+	$('.up1').on('click', function(){
+		$('.info').addClass('upInfo');
+		$(this).hide();
+		$('.infoDetail').show();
+	});
+	$('.infoDetail').on('click', function(){
+		$('.info').removeClass('upInfo');
+		$(this).hide();
+		$('.up1').show();
+	});
+	
+    // searchInfo
+    $.ajax({
+    	url: apiUrl + 'data_dictionaries/getbytypes/1_12',
+    	type: 'get',
+    	dataType: 'json',
+    	success: function(resp){
+            var searchInfoHtml = template('searchInfo', resp);
+	        document.querySelector('.checkbox').innerHTML = searchInfoHtml;
+    	}
+    });
+
+    var checkedArr = [], checkedNum = [], type1=[], type12=[];
+    $(".checkbox").delegate('input', 'change', function(e) {
+    	if(e.target.checked){
+    		checkedArr.push(e.target.parentElement.innerText);
+    		checkedNum.push(e.target.getAttribute('data-type')); 
+    		if(e.target.getAttribute('data-type') == 1){
+    			type1.push('1_' + e.target.getAttribute('data-val'));
+    		}else{
+                type12.push('12_' + e.target.getAttribute('data-val'));
+    		}
+    	}else{
+    		var i = checkedArr.indexOf(e.target.parentElement.innerText);
+            checkedArr.splice(i, 1);
+            checkedNum.splice(i, 1);
+            if((e.target.getAttribute('data-type'))  == 1){
+    			type1.splice('1_' + e.target.getAttribute('data-val'), 1);
+    		}else{
+                type12.splice('12_' + e.target.getAttribute('data-val'), 1);
+    		}
+    	}
+    	//$('.text').val(checkedArr);
+	});
+	$('.searchBtn').on('click', function(){
+		map.clearOverlays();   
+		var num = checkedNum.join('_');
+		var ty1 = type1.join(','); 
+		var ty12 = type12.join(','); 
+		var params = ty1 + ',' + ty12 + '+' + $('.text').val();
+		$.ajax({
+		    	url: apiUrl + 'merge_residents/getbycondition/' + params,
+		    	type: 'get',
+		    	dataType: 'json',
+		    	success: function(resp){
+		    		// 编写自定义函数,创建标注
+					function addMarker(point,label, id, dataType){
+						var marker = new BMap.Marker(point);
+						map.addOverlay(marker);
+						marker.setLabel(label);
+						marker.addEventListener('click',function(e){
+						    if(dataType == 1){
+						    	$('.key').show();
+						    	$('.assist').hide();
+						    	$.ajax({
+							    	url: apiUrl + 'key_persons/getbyid/' + id,
+							    	type: 'get',
+							    	dataType: 'json',
+							    	success: function(resp){
+							    		$('.typeName').text(resp.data.typeName);
+							    		$('.name').text(resp.data.name);
+							    		$('.age').text(resp.data.age);
+							    		$('.sex').text(resp.data.gender == 1 ? '男' : '女');
+							    		$('.baseCondition').text(resp.data.baseCondition);
+										$('.tel').text(resp.data.link);
+										$('.address').text(resp.data.address);
+							    	}
+			                    });
+						    }else{
+						    	$('.key').hide();
+						    	$('.assist').show();
+                                $.ajax({
+							    	url: apiUrl + 'assist_residents/getbyid/' + id,
+							    	type: 'get',
+							    	dataType: 'json',
+							    	success: function(resp){
+							    		$('.typeName').text(resp.data.typeName);
+							    		$('.name').text(resp.data.name);
+							    		$('.sex').text(resp.data.gender == 1 ? '男' : '女');
+										$('.birth').text(resp.data.birthday);
+										$('.policy').text(resp.data.receivePolicyStandard);
+										$('.totalMoney').text(resp.data.familyYearIncome);
+										$('.peopleNums').text(resp.data.familyMemberCount);
+										$('.link').text(resp.data.link);
+										$('.address').text(resp.data.address);
+							    	}
+			                   });
+						    }
+						});
+					}
+					var len = resp.data.length;
+					if(len == 0){
+						alert('暂无数据');
+					};
+					for (var i = 0; i < len; i++) {
+						var point = new BMap.Point(resp.data[i].lng, resp.data[i].lat);
+						var label = new BMap.Label(resp.data[i].address ,{offset:new BMap.Size(20,-10)});
+						addMarker(point, label, resp.data[i].id, resp.data[i].dataType);
+					}
+		    	}
+		    });
+	});
+
+    // tab1
+	$.ajax({
+    	url: apiUrl + 'communities/getall',
+    	type: 'get',
+    	dataType: 'json',
+    	success: function(resp){
+            var tabHtml1 = template('tab1', resp);
+	        document.querySelector('.tab1').innerHTML = tabHtml1;
+	        $('.tab1').delegate('.community', 'click', function(e){
+	        	e = arguments.callee.caller.arguments[0] || window.event; 
+	        	//map.clearOverlays();         
+			    var local = new BMap.LocalSearch(map, {
+					renderOptions:{map: map}
+				});
+				local.search(e.target.innerText);
+                var id = e.target.getAttribute('data-id');
+				// $.ajax({
+			 //    	url: apiUrl + 'communities/getblocksbyid/' + id,
+			 //    	type: 'get',
+			 //    	dataType: 'json',
+			 //    	success: function(resp){
+				// 		for(var i = 0; i < resp.data.length; i++){
+				// 			var arr = resp.data[i].mapRange.split(',');
+				// 			var poly = [];
+				// 			arr.forEach(function(item){
+    //                             poly.push(new BMap.Point(item.toString().split(' ')[0], item.toString().split(' ')[1]));
+				// 			})
+    //                         var polygon = new BMap.Polygon(poly, {strokeColor:"red", fillColor: 'red', strokeWeight:5, strokeOpacity:0.8});  
+	   //                      map.addOverlay(polygon); 
+	   //                      var marker = new BMap.Marker(new BMap.Point(arr[0].toString().split(' ')[0], arr[0].toString().split(' ')[1]));
+				// 		    var label = new BMap.Label(resp.data[i].name, { offset: new BMap.Size(20, -10) });
+				// 		    marker.setLabel(label);
+
+				// 		    map.addOverlay(marker); 
+				// 		}
+			 //    	}
+			 //    });
+			    $.ajax({
+			    	url: apiUrl + 'communities/getbyid/' + id,
+			    	type: 'get',
+			    	dataType: 'json',
+			    	success: function(resp){
+						var arr = resp.data.mapRange.split(',');
+						var poly = [];
+						arr.forEach(function(item){
+                            poly.push(new BMap.Point(item.toString().split(' ')[0], item.toString().split(' ')[1]));
+						})
+                        var polygon = new BMap.Polygon(poly, {strokeColor:"#e3a13b", fillColor: '#e3a13b', strokeWeight:2, strokeOpacity:1});  
+                        map.addOverlay(polygon); 
+                        var marker = new BMap.Marker(new BMap.Point(arr[0].toString().split(' ')[0], arr[0].toString().split(' ')[1]));
+					    var label = new BMap.Label(resp.data.name, { offset: new BMap.Size(20, -10) });
+					    marker.setLabel(label);
+
+					    map.addOverlay(marker); 
+			    	}
+			    });
+			});
+    	}
+    });
+
+	// tab2
+	$.ajax({
+    	url: apiUrl + 'key_persons/getall',
+    	type: 'get',
+    	dataType: 'json',
+    	success: function(resp){
+            var tabHtml2 = template('tab2', resp);
+	        document.querySelector('.tab2').innerHTML = tabHtml2;
+    	}
+    });
+
+    // tab3
+	$.ajax({
+    	url: apiUrl + 'party_members/getall',
+    	type: 'get',
+    	dataType: 'json',
+    	success: function(resp){
+            var tabHtml3 = template('tab3', resp);
+	        document.querySelector('.tab3').innerHTML = tabHtml3;
+    	}
+    });
+
+    // tab4
+	$.ajax({
+    	url: apiUrl + 'blocks/getall',
+    	type: 'get',
+    	dataType: 'json',
+    	success: function(resp){
+            var tabHtml4 = template('tab4', resp);
+	        document.querySelector('.tab4').innerHTML = tabHtml4;
+    	}
+    });
+
+    // tab5
+	$.ajax({
+    	url: apiUrl + 'grid_managers/getall',
+    	type: 'get',
+    	dataType: 'json',
+    	success: function(resp){
+            var tabHtml5 = template('tab5', resp);
+	        document.querySelector('.tab5').innerHTML = tabHtml5;
+    	}
+    });
+
+    // tab6
+	$.ajax({
+    	url: apiUrl + 'assist_residents/getall',
+    	type: 'get',
+    	dataType: 'json',
+    	success: function(resp){
+            var tabHtml6 = template('tab6', resp);
+	        document.querySelector('.tab6').innerHTML = tabHtml6;
+    	}
+    });
+</script>

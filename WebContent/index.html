@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<style type="text/css">
+		body, html {width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}
+		#allmap{width:100%;height:100%;}
+
+        .search{
+			position: fixed;top: 10px;left: 10px;z-index: 10;border-radius: 10px;
+		}
+		.sear{
+			position: absolute;top: 8px;left: 8px;z-index: 10;border-radius: 10px;width: 26px;height: 26px;background: url('./img/search.png');background-size: cover;cursor: pointer;
+		}
+		.text{
+			padding: 10px 10px 10px 40px;border-radius: 10px;width: 270px;vertical-align: center;border: 1px solid #eee;box-shadow: 0 0 10px #000;
+		}
+		.searchBtn{
+			padding: 9px;border-radius: 10px;background: #fc4a44;color: #fff;margin-left: 10px;box-shadow: 0 0 10px #000;width: 60px;text-align: center;border: none;font-size: 14px;cursor: pointer;
+	    }
+		.checkbox{
+			background: #fff;border-radius: 10px;width: 400px;padding: 0;font-size: 0;box-shadow: 0 0 10px #000;margin-top: 10px;
+		}
+        .checkbox li{
+            display: inline-block;width: 120px;color: #fc4a44;font-size: 14px;padding: 10px 0 10px 10px;
+		}
+
+		.table{
+			position: fixed;top: 10px;right: 10px;z-index: 10;width: 489px;box-shadow: 0 0 10px #000;background: #fff;
+		}
+		.closeTable{height: 100px;overflow: hidden;}
+		.table .menu{font-size: 0;width: 100%;padding: 0;margin-bottom: 10px;}
+		.table .menu li{
+            display: inline-block;background: #fc4a44;color: #fff;font-size: 14px;padding: 10px;border-right: 1px solid #eee;cursor: pointer; 
+		}
+		.table .menu li:last-child{
+			border: none;
+		}
+		.table .close{
+			width: 40px;height: 40px;line-height: 40px;background: url(./img/close.png);background-size:cover;display: inline-block;position: absolute;top: 270px;right: 20px;cursor: pointer;
+		}
+		.table .up{
+			width: 20px;height: 20px;line-height: 20px;background: url(./img/up.png);background-size:cover;display: inline-block;position: absolute;bottom: 10px;left: 270px;cursor: pointer;
+		}
+		.table div{
+			width: 100%;height: 500px;background: #fff;overflow: scroll;
+		}
+		.tab1{display: block;}
+		.tab2{display: none;}
+		.tab3{display: none;}
+		.tab4{display: none;}
+		.tab5{display: none;}
+		.tab6{display: none;}
+		table{width: 100%;border-collapse: collapse;text-align: center;font-size: 12px;}
+		th{background: #eee;}
+		td{padding: 10px;}
+
+		.info{background: #fff;position: fixed;bottom: 10px;left: 10px;width: 400px;box-shadow: 0 0 10px #000;border-radius: 10px;}
+		.up1{display:block;position: absolute;right: 0;top: 0;width: 45px;height: 30px;background: url('./img/up1.png');background-size: cover;}
+		.pic img{display: inline-block;width:60px;height:60px;border: 50%;margin: 10px;vertical-align: middle;}
+		.upInfo{
+			height: 130px;overflow: hidden;
+		}
+		.infoDetail{
+			display: none;width: 45px; height: 30px;line-height: 30px;background: #fc4a44;border-radius: 10px 0;position: absolute;right: 0;bottom: 0;color: #fff;text-align: center;
+		}
+		.name{font-size: 24px;color: #666;display: inline-block;vertical-align: middle;}
+		.info ul{list-style: none;margin: -20px 0 0 40px;}
+		.info ul li{display: block;padding: 6px;font-size: 14px;color: #666;}
+	</style>
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=75a524717d55b0cde28a4f22ca100015"></script>
+	<script src="./template.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
+	<title>民情</title>
+</head>
+<body>
+	<div id="allmap"></div>
+
+    <div class='search'>
+        <span class='sear'></span>
+    	<input type="text" class="text">
+    	<input type='button' class='searchBtn' value='筛选'>
+    	<ul class="checkbox"></ul>
+    	<script id='searchInfo' type='text/html'>
+    	    {{each data as value i}}
+    		<li><input type="checkbox" data-index={{i+1}}>{{value.name}}</li>
+    	    {{/each}}
+    	</script>
+    </div>
+
+	<div class='table'>
+        <ul class='menu'>
+            <li style='background:#fff;color: #fc4a44'>重点人员</li>
+            <li>基本民情</li>
+            <li>社区党员</li>
+            <li>责任分工</li>
+            <li>网络化管理</li>
+            <li>残疾人信息</li>
+        </ul>
+        <span class="close"></span>
+        <span class="up"></span>
+        <div class='tab1'>1</div>
+		<script id="tab1" type="text/html">
+			<table border='1' bordercolor='#ccc';>
+				<thead>
+					<tr>
+						<th>姓名</th>
+						<th>性别</th>
+						<th>年龄</th>
+						<th>类别</th>
+						<th>基本信息</th>
+						<th>身份证号</th>
+						<th>家庭住址联系方式</th>
+					</tr>
+				</thead>
+				<tbody>
+				    {{each data as value i}}
+					<tr>
+						<td>{{value.name}}</td>
+						<td>{{value.gender}}</td>
+						<td>{{value.age}}</td>
+						<td>{{value.type}}</td>
+						<td>{{value.baseCondition}}</td>
+						<td>{{value.idCard}}</td>
+						<td>{{value.address}}</td>
+					</tr>
+					{{/each}}
+				</tbody>
+			</table>
+		</script>
+		
+        <div class='tab2'>2</div>
+        <script id="tab2" type="text/html">
+			<table border='1' bordercolor='#ccc';>
+				<!-- <thead>
+					<tr>
+						<th>总占地面积</th>
+						<th>小区个数</th>
+						<th>总户数</th>
+						<th>总人口数</th>
+						<th>入党时间</th>
+						<th>认领岗位</th>
+						<th>身份证号</th>
+						<th>家庭住址</th>
+						<th>联系方式</th>
+						<th>是否困难</th>
+					</tr>
+				</thead> -->
+				<tbody>
+				    {{each data as value i}}
+				    <tr>
+				    	<th colspan="4">{{value.name}}</th>
+				    </tr>
+					<tr>
+					    <th>总占地面积</th>
+						<td>{{value.area}}</td>
+						<th>小区个数</th>
+						<td>{{value.block_count}}</td>
+					</tr>
+					<tr>
+					    <th>总户数</th>
+						<td>{{value.family_count}}</td>
+						<th>总人口数</th>
+						<td>{{value.people_count}}</td>
+					</tr>
+					<tr>
+					    <th>常住户数</th>
+						<td>{{value.resident_family_count}}</td>
+						<th>常住人口</th>
+						<td>{{value.resident_people_count}}</td>
+					</tr>
+					<tr>
+					    <th>暂住户数</th>
+						<td>{{value.temporary_family_count}}</td>
+						<th>暂住人数</th>
+						<td>{{value.people}}</td>
+					</tr>
+					<tr>
+					    <th>流入人口数</th>
+						<td>{{value.income_people_count}}</td>
+						<th>流出人口数</th>
+						<td>{{value.out_people_count}}</td>
+					</tr>
+					<tr>
+					    <th>党员总人数</th>
+						<td>{{value.party_member_count}}</td>
+						<th>流入党员人数</th>
+						<td>{{value.income_party_member_count}}</td>
+					</tr>
+					<tr>
+					    <th>流出党员人数</th>
+						<td>{{value.out_party_member_count}}</td>
+						<th>育龄妇女</th>
+						<td>{{value.childbearing_count}}</td>
+					</tr>
+                    <tr>
+					    <th>残疾人数</th>
+						<td>{{value.deformity_count}}</td>
+						<th>低保户数</th>
+						<td>{{value.allowances_family_count}}</td>
+					</tr>
+					<tr>
+					    <th>低收入家庭</th>
+						<td>{{value.low_income_family_count}}</td>
+						<th>老龄人口</th>
+						<td>{{value.old_people_count}}</td>
+					</tr>
+					<tr>
+					    <th>居民医保参保人数</th>
+						<td>{{value.medical_insurance_count}}</td>
+						<th>居民养老参保人数</th>
+						<td>{{value.old_insurance_count}}</td>
+					</tr>
+					<tr>
+					    <th>重点人员</th>
+						<td>{{value.key_person_count}}</td>
+						<th>路长院长所长人数</th>
+						<td>{{value.grid_manager_count}}</td>
+					</tr>
+					<tr>
+					    <th>已参加水改户数</th>
+						<td>{{value.warter_reform_family_count}}</td>
+						<th>已参加电改户数</th>
+						<td>{{value.electricity_reform_family_count}}</td>
+					</tr>
+					<tr>
+					    <th>集中供暖户数</th>
+						<td>{{value.heating_supply_family_count}}</td>
+						<th>天然气安装户数</th>
+						<td>{{value.gas_family_count}}</td>
+					</tr>
+					<tr>
+					    <th>安防设施</th>
+						<td>{{value.security_system_count}}</td>
+						<th>摄像头数</th>
+						<td>{{value.camera_count}}</td>
+					</tr>
+					<tr>
+					    <th>社区党支部书记</th>
+						<td>{{value.secretary_name}}</td>
+						<th>联系方式</th>
+						<td>{{value.secretary_tel}}</td>
+					</tr>
+					<tr>
+					    <th>社区居委会主任</th>
+						<td>{{value.director_name}}</td>
+						<th>联系方式</th>
+						<td>{{value.director_tel}}</td>
+					</tr>
+					<tr>
+					    <th>街道包抓领导</th>
+						<td>{{value.in_charge_leader_name}}</td>
+						<th>联系方式</th>
+						<td>{{value.in_charge_leader_tel}}</td>
+					</tr>
+					<tr>
+					    <th>社区工作日领导</th>
+						<td>{{value.work_day_leader_name}}</td>
+						<th>联系方式</th>
+						<td>{{value.work_day_leader_tel}}</td>
+					</tr>
+					{{/each}}
+				</tbody>
+			</table>
+		</script>
+
+        <div class='tab3'>3</div>
+        <script id="tab3" type="text/html">
+			<table border='1' bordercolor='#ccc';>
+				<thead>
+					<tr>
+						<th>姓名</th>
+						<th>性别</th>
+						<th>出生年月</th>
+						<th>文化程度</th>
+						<th>入党时间</th>
+						<th>认领岗位</th>
+						<th>身份证号</th>
+						<th>家庭住址</th>
+						<th>联系方式</th>
+						<th>是否困难</th>
+					</tr>
+				</thead>
+				<tbody>
+				    {{each data as value i}}
+					<tr>
+						<td>{{value.name}}</td>
+						<td>{{value.gender}}</td>
+						<td>{{value.birthday}}</td>
+						<td>{{value.education}}</td>
+						<td>{{value.joinDate}}</td>
+						<td>{{value.claimPost}}</td>
+						<td>{{value.idCard}}</td>
+						<td>{{value.address}}</td>
+						<td>{{value.link}}</td>
+						<td>{{value.difficult}}</td>
+					</tr>
+					{{/each}}
+				</tbody>
+			</table>
+		</script>
+
+        <div class='tab4'>责任分工</div>
+        <script id="tab4" type="text/html">
+			<table border='1' bordercolor='#ccc';>
+				<thead>
+					<tr>
+					    <th>院落</th>
+						<th>姓名</th>
+						<th>联系方式</th>
+					</tr>
+				</thead>
+				<tbody>
+				    {{each data as value i}}
+					<tr>
+					    <td>{{value.communityName}}</td>
+						<td>{{value.personInCharge}}</td>
+						<td>{{value.personInChargeTel}}</td>
+					</tr>
+					{{/each}}
+				</tbody>
+			</table>
+		</script>
+
+        <div class='tab5'>5</div>
+        <script id="tab5" type="text/html">
+			<table border='1' bordercolor='#ccc';>
+				<thead>
+					<tr>
+						<th>网格名称</th>
+						<th>姓名</th>
+						<th>性别</th>
+						<th>民族</th>
+						<th>出生年月</th>
+						<th>文化程度</th>
+						<th>是否党员</th>
+						<th>家庭住址</th>
+						<th>联系方式</th>
+					</tr>
+				</thead>
+				<tbody>
+				    {{each data as value i}}
+					<tr>
+						<td>{{value.gridName}}</td>
+						<td>{{value.name}}</td>
+						<td>{{value.gender}}</td>
+						<td>{{value.minority}}</td>
+						<td>{{value.birthday}}</td>
+						<td>{{value.education}}</td>
+						<td>{{value.is_party_member}}</td>
+						<td>{{value.address}}</td>
+						<td>{{value.link}}</td>
+					</tr>
+					{{/each}}
+				</tbody>
+			</table>
+		</script>
+
+        <div class='tab6'>6</div>
+        <script id="tab6" type="text/html">
+			<table border='1' bordercolor='#ccc';>
+				<thead>
+					<tr>
+						<th>编号</th>
+						<th>姓名</th>
+						<th>性别</th>
+						<th>家庭住址</th>
+					</tr>
+				</thead>
+				<tbody>
+				    {{each data as value i}}
+					<tr>
+						<td>{{value.id}}</td>
+						<td>{{value.name}}</td>
+						<td>{{value.gender}}</td>
+						<td>{{value.address}}</td>
+					</tr>
+					{{/each}}
+				</tbody>
+			</table>
+		</script>
+    </div>
+
+    <div class='info'>
+        <span class='up1'></span>
+        <span class='infoDetail'>详情</span>
+    	<div class='pic'>
+    	    <img src='./img/close.png'>
+            <span class='name'>哈哈哈</span>
+    	    <span class='sex'>123</span>
+    	</div>
+    	<ul>
+    		<li>类别：<span class=''>123</span></li>
+    		<li>出生年月：<span class="birth">123</span></li>
+    		<li>联系电话：<span class='tel'>123</span></li>
+    		<li>是否党员：<span class='isDang'>123</span></li>
+    		<li>是否残疾人：<span class='isCan'>123</span></li>
+    		<li>是否低保户：<span class="isDi">123</span></li>
+    		<li>家庭年收入：<span class='totalMoney'>123</span></li>
+    		<li>家庭人口：<span class='peopleNums'>123</span></li>
+    		<li>身份证号：<span class="idCard">123</span></li>
+    		<li>家庭住址：<span class='address'>123</span></li>
+    	</ul>
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+	// 百度地图API功能
+	var map = new BMap.Map("allmap");
+	var point = new BMap.Point(109, 34.3);
+	map.centerAndZoom(point, 11);
+	map.disableDoubleClickZoom(true);
+	map.enableScrollWheelZoom(true); 	
+	
+	// 事件处理
+	var divs = $('.table div'), menus = $('.menu li'), len = divs.length;
+	$('.menu').delegate('li', 'click', function(i){
+	    var index = $(this).index() + 1;
+		for(var i = 0; i < len; i++){
+		    $(divs[i]).hide();
+		    $(menus[i]).css({'background-color': '#fc4a44', 'color': '#fff'});
+		};
+		$('.tab' + index).show();
+		$(this).css({'background-color': '#fff', 'color': '#fc4a44'});
+	});
+	$('.close').on('click', function(){
+		$('.table').addClass('closeTable');
+	});
+	$('.up').on('click', function(){
+		$('.table').removeClass('closeTable');
+	});
+
+	$('.up1').on('click', function(){
+		$('.info').addClass('upInfo');
+		$(this).hide();
+		$('.infoDetail').show();
+	});
+	$('.infoDetail').on('click', function(){
+		$('.info').removeClass('upInfo');
+		$(this).hide();
+		$('.up1').show();
+	});
+	$('.searchBtn').on('click', function(){
+		$('.checkbox').toggle();
+	});
+	
+    // searchInfo
+    $.ajax({
+    	url: 'http://1cx7921111.51mypc.cn/ResidentMap/data_dictionaries/type/12',
+    	type: 'get',
+    	dataType: 'json',
+    	success: function(resp){
+            var searchInfoHtml = template('searchInfo', resp);
+	        document.querySelector('.checkbox').innerHTML = searchInfoHtml;
+    	}
+    });
+
+    var checkedArr = [], checkedNum = [];
+    $(".checkbox").delegate('input', 'change', function(e) {
+    	if(e.target.checked){
+    		checkedArr.push(e.target.parentElement.innerText); 
+    		checkedNum.push(e.target.dataset.index); 
+    	}else{
+    		var i = checkedArr.indexOf(e.target.parentElement.innerText);
+            checkedArr.splice(i, 1);
+            checkedNum.splice(i, 1);
+    	}
+    	$('.text').val(checkedArr);
+	});
+	$('.sear').on('click', function(){
+		var num = checkedNum.join('_');
+		$.ajax({
+	    	url: 'http://1cx7921111.51mypc.cn/ResidentMap/assist_residents/getbytypes/' + num,
+	    	type: 'get',
+	    	dataType: 'json',
+	    	success: function(resp){
+	    		// 编写自定义函数,创建标注
+				function addMarker(point,label){
+					var marker = new BMap.Marker(point);
+					map.addOverlay(marker);
+					marker.setLabel(label);
+					// marker.addEventListener('click',function(e){
+					//     console.log(e.target.getLabel().content);
+					//     $.ajax({
+					//     	url: 'http://1cx7921111.51mypc.cn/ResidentMap/assist_residents/getbytypes/' + num,
+					//     	type: 'get',
+					//     	dataType: 'json',
+					//     	success: function(resp){
+					// 			console.log(resp);
+					// 			$('.birth').text(resp.data[0].birthday);
+					// 			$('.tel').text(resp.data[0].link);
+					// 			$('.idDang').text(resp.data[0].birthday);
+					// 			$('.isCan').text(resp.data[0].birthday);
+					// 			$('.isDi').text(resp.data[0].birthday);
+					// 			$('.totalMoney').text(resp.data[0].birthday);
+					// 			$('.peopleNums').text(resp.data[0].birthday);
+					// 			$('.idCard').text(resp.data[0].birthday);
+					// 			$('.address').text(resp.data[0].address);
+					//     	}
+	    //                 });
+					// });
+				}
+				// 随机向地图添加25个标注
+				var bounds = map.getBounds();
+				var sw = bounds.getSouthWest();
+				var ne = bounds.getNorthEast();
+				var lngSpan = Math.abs(sw.lng - ne.lng);
+				var latSpan = Math.abs(ne.lat - sw.lat);
+				for (var i = 0; i < 10; i++) {
+					var point = new BMap.Point(sw.lng + lngSpan * (Math.random() * 0.7), ne.lat - latSpan * (Math.random() * 0.7));
+					var label = new BMap.Label("我是id="+i,{offset:new BMap.Size(20,-10)});
+					addMarker(point,label);
+				}
+	    	}
+	    });
+	})
+
+	// tab1
+	$.ajax({
+    	url: 'http://1cx7921111.51mypc.cn/ResidentMap/key_persons/getall',
+    	type: 'get',
+    	dataType: 'json',
+    	success: function(resp){
+            var tabHtml1 = template('tab1', resp);
+	        document.querySelector('.tab1').innerHTML = tabHtml1;
+    	}
+    })
+
+    // tab2
+	$.ajax({
+    	url: 'http://1cx7921111.51mypc.cn/ResidentMap/communities/getall',
+    	type: 'get',
+    	dataType: 'json',
+    	success: function(resp){
+            var tabHtml2 = template('tab2', resp);
+	        document.querySelector('.tab2').innerHTML = tabHtml2;
+    	}
+    })
+
+    // tab3
+	$.ajax({
+    	url: 'http://1cx7921111.51mypc.cn/ResidentMap/party_members/getall',
+    	type: 'get',
+    	dataType: 'json',
+    	success: function(resp){
+            var tabHtml3 = template('tab3', resp);
+	        document.querySelector('.tab3').innerHTML = tabHtml3;
+    	}
+    })
+
+    // tab4
+	$.ajax({
+    	url: 'http://1cx7921111.51mypc.cn/ResidentMap/blocks/getall',
+    	type: 'get',
+    	dataType: 'json',
+    	success: function(resp){
+            var tabHtml4 = template('tab4', resp);
+	        document.querySelector('.tab4').innerHTML = tabHtml4;
+    	}
+    })
+
+    // tab5
+	$.ajax({
+    	url: 'http://1cx7921111.51mypc.cn/ResidentMap/grid_managers/getall',
+    	type: 'get',
+    	dataType: 'json',
+    	success: function(resp){
+            var tabHtml5 = template('tab5', resp);
+	        document.querySelector('.tab5').innerHTML = tabHtml5;
+    	}
+    })
+
+    // tab6
+	$.ajax({
+    	url: 'http://1cx7921111.51mypc.cn/ResidentMap/assist_residents/getall',
+    	type: 'get',
+    	dataType: 'json',
+    	success: function(resp){
+            var tabHtml6 = template('tab6', resp);
+	        document.querySelector('.tab6').innerHTML = tabHtml6;
+    	}
+    })
+</script>

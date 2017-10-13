@@ -1,0 +1,467 @@
+﻿<!--_meta 作为公共模版分离出去-->
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="Bookmark" href="favicon.ico" >
+<!-- <link rel="Shortcut Icon" href="favicon.ico" /> -->
+<!--[if lt IE 9]>
+<script type="text/javascript" src="lib/html5.js"></script>
+<script type="text/javascript" src="lib/respond.min.js"></script>
+<![endif]-->
+<link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/black/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
+<!--[if IE 6]>
+<script type="text/javascript" src="http://lib.h-ui.net/DD_belatedPNG_0.0.8a-min.js" ></script>
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<!--/meta 作为公共模版分离出去-->
+
+<title>居民管理</title>
+</head>
+<body>
+<!--_header 作为公共模版分离出去-->
+<header class="navbar-wrapper">
+	<div class="navbar navbar-fixed-top">
+		<div class="container-fluid cl">  <span class="logo navbar-slogan f-l mr-10 hidden-xs">社区民情大数据</span> <a aria-hidden="false" class="nav-toggle Hui-iconfont visible-xs" href="javascript:;">&#xe667;</a>
+			<nav class="nav navbar-nav">
+			</nav>
+			<nav id="Hui-userbar" class="nav navbar-nav navbar-userbar hidden-xs">
+				<ul class="cl">
+					<!--<li>超级管理员</li>-->
+					<li class="dropDown dropDown_hover"> <a href="#" class="dropDown_A">admin <i class="Hui-iconfont">&#xe6d5;</i></a>
+						<ul class="dropDown-menu menu radius box-shadow">
+							<li><a href="javascript:;" onClick="myselfinfo()">个人信息</a></li>
+							<li><a href="#">切换账户</a></li>
+							<li><a href="#">退出</a></li>
+						</ul>
+					</li>
+					<li id="Hui-msg"> <a href="#" title="消息"><span class="badge badge-danger">1</span><i class="Hui-iconfont" style="font-size:18px">&#xe68a;</i></a> </li>
+					<li id="Hui-skin" class="dropDown right dropDown_hover"> <a href="javascript:;" class="dropDown_A" title="换肤"><i class="Hui-iconfont" style="font-size:18px">&#xe62a;</i></a>
+						<ul class="dropDown-menu menu radius box-shadow">
+							<li><a href="javascript:;" data-val="default" title="默认（红色）">默认（红色）</a></li>
+							<li><a href="javascript:;" data-val="blue" title="蓝色">蓝色</a></li>
+							<li><a href="javascript:;" data-val="green" title="绿色">绿色</a></li>
+							<li><a href="javascript:;" data-val="black" title="黑色">黑色</a></li>
+							<li><a href="javascript:;" data-val="yellow" title="黄色">黄色</a></li>
+							<li><a href="javascript:;" data-val="orange" title="橙色">橙色</a></li>
+						</ul>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</header>
+<!--/_header 作为公共模版分离出去-->
+<!--_menu 作为公共模版分离出去-->
+<aside class="Hui-aside">
+
+    <div class="menu_dropdown bk_2">
+        <dl>
+            <dt  class="selected"><i class="Hui-iconfont">&#xe62d;</i>
+                <a href="residents_management.html" title="居民管理"> 居民管理</a>
+                <!--<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>-->
+            </dt>
+            <!--<dd style="display: block;">
+                <ul>
+                    <li class="current"><a href="residents_management.html" title="居民管理">居民管理</a></li>
+                </ul>
+            </dd>-->
+        </dl>
+
+        <dl id="menu-member">
+            <dt><i class="Hui-iconfont">&#xe60d;</i>
+                <a href="residents_type_management.html" title="居民管理"> 居民类型管理</a>
+                <!--<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>-->
+        </dl>
+
+        <dl>
+            <dt><i class="Hui-iconfont">&#xe616;</i>
+                <a href="org_relationship_management.html" title="管理">组织关系管理</a>
+                <!--<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>-->
+        </dl>
+        <dl id="menu-picture">
+            <dt><i class="Hui-iconfont">&#xe613;</i>
+                <a href="street_management.html" title="街道管理"> 街道管理</a>
+                <!--<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>-->
+        </dl>
+        <dl id="menu-product">
+            <dt><i class="Hui-iconfont">&#xe620;</i>
+                <a href="shequ_management.html" title="社区管理"> 社区管理</a>
+                <!--<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>-->
+        </dl>
+        <dl id="menu-comments">
+            <dt><i class="Hui-iconfont">&#xe622;</i>
+                <a href="xiaoqu_management.html" title="小区管理"> 小区管理</a>
+                <!--<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>-->
+        </dl>
+
+        <dl>
+            <dt><i class="Hui-iconfont">&#xe61a;</i>
+                <a href="account_management.html" title="管理"> 账号管理</a>
+                <i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
+        </dl>
+        <dl>
+            <dt><i class="Hui-iconfont">&#xe62e;</i>
+                <a href="users_management.html" title="管理"> 用户管理</a>
+                <!--<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>-->
+        </dl>
+        <dl>
+            <dt><i class="Hui-iconfont">&#xe62e;</i>
+                <a href="rule_management.html" title="管理"> 角色管理</a>
+                <!--<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>-->
+        </dl>
+        <dl>
+            <dt><i class="Hui-iconfont">&#xe62e;</i>
+                <a href="vip_management.html" title="管理">  重要人员管理</a>
+               </dt>
+        </dl>
+		<dl>
+			<dt><i class="Hui-iconfont">&#xe62e;</i>
+				<a href="poor_management.html" title="管理">  贫困/低保人员管理</a>
+			</dt>
+		</dl>
+
+    </div>
+</aside>
+<div class="dislpayArrow hidden-xs"><a class="pngfix" href="javascript:void(0);" onClick="displaynavbar(this)"></a></div>
+<!--/_menu 作为公共模版分离出去-->
+<section class="Hui-article-box">
+    <nav class="breadcrumb"><a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="
+		javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i>
+    </a></nav>
+
+    <div class="Hui-article">
+		<article class="cl pd-20">
+			<div class="cl pd-5 bg-1 bk-gray">
+                <span class="l">
+
+                    <a class="btn btn-success radius"   id="addPerson" href="javascript:;"><i class="Hui-iconfont">&#xe600;</i>新增</a>
+                    <a href="javascript:;"   class="btn btn-danger radius"  id="removePerson"><i class="Hui-iconfont">&#xe6e2;</i>删除</a>
+                                  <a class="btn btn-primary radius"   id="modify"  data-chooseall="false"  href="javascript:;">
+                                      <i class="Hui-iconfont">&#xe600;</i>修改
+                                  </a>
+                </span>
+				<span class="r">
+					<div class="text-c">
+							<input type="text" class="input-text" style="width:250px;" placeholder="请输入关键字搜索"  name="" id="shuru">
+							<button type="button" class="btn btn-success"    id="search"   ><i class="Hui-iconfont">&#xe665;</i>搜索</button>
+				     </div>
+			</span> </div>
+			<div class="mt-10">
+			<table class="table table-border table-bordered table-hover table-bg">
+				<thead>
+					<!--<tr >
+						<th scope="col" colspan="9">居民管理</th>
+					</tr>-->
+					<tr class="text-c">
+						<th width="25">选择</th>
+						<th width="100">类别</th>
+						<th width="100">姓名</th>
+						<th width="100">出生年月</th>
+						<th width="100">家庭人口</th>
+						<th width="100">联系电话</th>
+						<th width="80">是否低保户</th>
+						<th width="100">是否残疾人（几级）</th>
+						<th width="50">详情</th>
+					</tr>
+                </thead>
+                <tbody>
+					<!--<tr class="text-c">
+						<td><input type="checkbox" value="" name="check"></td>
+						<td>孤独</td>
+						<td><a href="#" id="name">小明</a></td>
+						<td>1992-12-06</td>
+						<td class="f-14">6</td>
+						<td>135307867</td>
+						<td><a href="#">是</a></td>
+						<td>三级残疾</td>
+						<td class="f-14"><a href="javascript:;" style="color:#d71823"  class="godetail">详情</a></td>
+					</tr>-->
+				</tbody>
+			</table>
+			</div>
+		</article>
+	</div>
+</section>
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script> 
+<script type="text/javascript" src="static/h-ui/js/H-ui.js"></script> 
+<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.page.js"></script> 
+<!--/_footer /作为公共模版分离出去-->
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="lib/My97DatePicker/4.8/WdatePicker.js"></script>
+<script type="text/javascript" src="lib/datatables/1.10.0/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="lib/laypage/1.2/laypage.js"></script>
+<script type="text/javascript">
+    var index={
+        init:function (){
+            var that=this;
+            this.render();
+
+        },
+        render:function(){
+            var that=this;
+            var ajax_url=apiUrl+"residents/getall";
+            var ajax_type = 'GET';
+            $.ajax({
+                type :ajax_type,
+                url : ajax_url,
+                data :JSON.stringify(),//提交的对象，删除不用提交
+                contentType:'application/json',
+                success : function(data) {
+                    if (data.code == "0") {
+                        console.log(data);
+                        var data=data.data;
+                        var html='';
+                        var type;
+                        for(var i=0;i<data.length;i++)
+                        {
+                            type=getType(data[i].type);
+                            var lowIncome=data[i].lowIncome==true?"是":"否";
+                            var deformity=data[i].deformity==true?"是":"否";
+                            html+='<tr class="text-c"><td><input type="checkbox" value="'+data[i].id+'" class="ceshi"  name="check"></td><td>'+type+'</td>'+
+                            '<td><a href="#" id="name">'+data[i].name+'</a></td><td>'+data[i].birthdayStr+'</td><td class="f-14">'+data[i].familyCnt+'</td><td>'+data[i].telephone+'</td>'+
+                                '<td><a href="#">'+lowIncome+'</a></td><td>'+deformity+'</td><td class="f-14"><a href="javascript:;" style="color:#d71823"  class="godetail">详情</a></td></tr>';
+                        }
+                        $('tbody').append(html);
+                        $('.table-bg').dataTable({
+                            "aaSorting": [[1, "asc" ]],//默认第几个排序
+                            "bStateSave": true,//状态保存
+                            "aoColumnDefs": [
+                                //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
+                                {"orderable":false,"aTargets":[0,8]}// 不参与排序的列
+                            ]
+                        });
+                        $("#DataTables_Table_0_filter").children("label").css("font-size","0");
+
+                        that.bindEvent();
+                    } else if (data.code == "99") {
+                        console.log(data.detail);
+                    }
+                },
+                error : function() {
+                    console.log("请求出错");
+                }
+            });
+
+        },
+        addResident:function (){
+            location.href="add_residents.html";
+        },
+        removeResident:function(id){
+            var ajax_url="http://1cx7921111.51mypc.cn/residents/";
+            var ajax_type = 'delete';
+            $.ajax({
+                type : ajax_type,
+                url : ajax_url+id,
+				data:JSON.stringify(),
+                contentType:'application/json',
+                success : function(data) {
+                    console.log(data);
+                    if (data.code == "0") {
+                        location.reload();
+                        layer.msg('删除成功!',{icon:1,time:1000});
+                    }
+                },
+                error : function() {
+                    console.log("请求出错");
+                }
+            });
+        },
+        removeResidentList:function(id){
+            var ajax_url="http://1cx7921111.51mypc.cn/residents/deletelist/";
+            var ajax_type = 'delete';
+            $.ajax({
+                type : ajax_type,
+                url : ajax_url+id,
+                data:JSON.stringify(),
+                contentType:'application/json',
+                success : function(data) {
+                    console.log(data);
+                    if (data.code == "0") {
+                        location.reload();
+                        layer.msg('删除成功!',{icon:1,time:1000});
+                    }
+                },
+                error : function() {
+                    console.log("请求出错");
+                }
+            });
+        },
+        bindEvent:function(){
+            $("#addPerson").on("click",function(){
+                index.addResident();
+            });
+            $("#removePerson").on("click",function(){
+                var obj=document.getElementsByName('check'); //选择所有name="'test'"的对象，返回数组
+                var idarr=[];
+                for(var i=0; i<obj.length; i++){
+                    if(obj[i].checked){
+                        idarr.push(obj[i].value); //如果选中，将value添加到变量s中
+                    }
+                }
+                if(idarr.length==0){
+                    layer.msg('请勾选!',{icon:3,time:2000});
+                    return;
+                }
+                layer.confirm('确认要删除吗？',function(flag){
+                     var id=idarr.join("_");
+                     if(idarr.length==1){
+                         index.removeResident(id);
+                     }
+                     else{
+                         index.removeResidentList(id);
+                     }
+                });
+            });
+            //修改信息
+            $('#modify').click(function(){
+                var checknum=$('input:checkbox:checked').length;
+                if(checknum==1){
+                    var id=$('input:checkbox:checked').val();
+                    var name=$('input:checkbox:checked').parent().siblings().find("#name").text();
+                    location.href="modify_residents_info.html?id="+id+"&name="+name;
+                }else if(checknum==0){
+                    layer.msg('请勾选修改人员!',{icon:0,time:2000});
+                }else{
+                    layer.msg('只能勾选一位!',{icon:0,time:2000});
+                }
+            });
+            //点击详情
+            $(".godetail").on("click",function(){
+                var id=$(this).parent().siblings().find("input").val();
+                var name=$(this).parent().siblings().find("#name").text();
+               location.href="detail_residents_info.html?id="+id+"&name="+name;
+            });
+            //点击查询
+            $("#search").on("click",function(){
+                index.monitorSearch();
+                var content=$("#shuru").val();
+                var id= Number(content);
+                if (!isNaN(id)){    //如果是数字的话
+                    var ajax_url = "http://1cx7921111.51mypc.cn/residents/getbyid/" +id;
+                    var ajax_type = 'GET';
+                    $.ajax({
+                        type:ajax_type,
+                        url: ajax_url,
+                        data: JSON.stringify(),
+                        contentType: 'application/json',
+                        success: function (data) {
+                            console.log(data);
+                            if (data.code == "0") {
+                                var data=data.data;
+                                if(data.length==0){
+                                    layer.msg('此人不存在!',{icon:1,time:2000});
+                                    return;
+                                }
+                                $('tbody').empty();
+                                var html='';
+                                var type=getType(data.type);
+                                var lowIncome=data.lowIncome==true?"是":"否";
+                                var deformity=data.deformity==true?"是":"否";
+                                html='<tr class="text-c"><td><input type="checkbox" value="'+data.id+'" name="check"></td><td>'+type+'</td>'+
+                                        '<td><a href="#" id="name">'+data.name+'</a></td><td>'+data.birthdayStr+'</td><td class="f-14">'+data.familyCnt+'</td><td>'+data.telephone+'</td>'+
+                                        '<td><a href="#">'+lowIncome+'</a></td><td>'+deformity+'</td><td class="f-14"><a href="javascript:;" style="color:#d71823"  class="godetail">详情</a></td></tr>';
+                                $('tbody').append(html);
+                                index.bindEvent();
+                            }
+                            index.bindEvent();
+
+                        },
+                        error: function () {
+                            console.log("请求出错");
+                        }
+                    })
+                }else{
+                    //如果是名字的话
+                    var url="http://1cx7921111.51mypc.cn/ResidentMap/residents/getbyname/"+content;
+                    $.ajax({
+                        type :"GET",
+                        url : url,
+                        data :JSON.stringify(),
+                        contentType:'application/json',
+                        success : function(data) {
+                            if (data.code == "0") {
+                                var data=data.data;
+                                if(data.length==0){
+                                    layer.msg('此人不存在!',{icon:1,time:2000});
+                                    return;
+                                }
+                                $('tbody').empty();
+                                var html='';
+                                for(var i=0;i<data.length;i++)
+                                {
+                                    var type=getType(data[i].type);
+                                    var lowIncome=data[i].lowIncome==true?"是":"否";
+                                    var deformity=data[i].deformity==true?"是":"否";
+                                    html+='<tr class="text-c"><td><input type="checkbox" value="'+data[i].id+'" name="check"></td><td>'+type+'</td>'+
+                                            '<td><a href="#" id="name">'+data[i].name+'</a></td><td>'+data[i].birthdayStr+'</td><td class="f-14">'+data[i].familyCnt+'</td><td>'+data[i].telephone+'</td>'+
+                                            '<td><a href="#">'+lowIncome+'</a></td><td>'+deformity+'</td><td class="f-14"><a href="javascript:;" style="color:#d71823"  class="godetail">详情</a></td></tr>';
+                                }
+                                $('tbody').append(html);
+                                index.bindEvent();
+                            }
+                            index.bindEvent();
+                        },
+                        error : function() {
+                            console.log("请求出错");
+                        }
+                    });
+                }
+            });
+        },
+        //当搜索框打开之后，就对其中的内容进行监视，当其中的内容字段为空时再延时3秒，还是为空时，则加载页面数据
+        monitorSearch:function(){
+            var i=0;
+            if(i<50){  //在点击后100秒以内进行查询；
+                i++;
+            }
+            setInterval("index.time()",1000);
+        },
+        time:function(){
+           var content=$("#shuru").val();
+            if(content==""){
+                window.location.reload();
+            }
+        }
+    };
+    index.init();
+    /**
+    *time:2017-08-12
+    *disc:获取类型
+    */
+    function getType(type){
+        switch (type){
+            case 1:
+                type="孤独老人";
+                break;
+            case 2:
+                type="失业人员";
+                break;
+            case 3:
+                type="返贫家庭";
+                break;
+            case 4:
+                type="低保户";
+                break;
+            case 5:
+                type="留守儿童";
+                break;
+            default:
+                type="贫困户";
+                break;
+        }
+        return type;
+    }
+</script>
+</body>
+</html>
