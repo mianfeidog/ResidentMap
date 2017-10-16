@@ -11,6 +11,8 @@ import com.ydl.residentmap.util.IdWorker;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -26,7 +28,7 @@ public class CommunityDaoImpl implements CommunityDao {
     @Resource
     private BaseDao<BlockVo> baseBlockVoDAO;
 
-    private String commonSql="select t1.map_range mapRange, t1.id,t1.name,t1.area,t1.block_count blockCount,t1.family_count familyCount,t1.people_count peopleCount,t1.resident_family_count residentFamilyCount, " +
+    private String commonSql="select t1.create_at createAt, t1.map_range mapRange, t1.id,t1.name,t1.area,t1.block_count blockCount,t1.family_count familyCount,t1.people_count peopleCount,t1.resident_family_count residentFamilyCount, " +
             " t1.resident_people_count residentPeopleCount,t1.temporary_family_count temporaryFamilyCount,t1.temporary_people_count temporaryPeopleCount,t1.income_people_count incomePeopleCount," +
             " t1.out_people_count outPeopleCount,t1.party_member_count partyMemberCount,t1.income_party_member_count incomePartyMemberCount,t1.out_party_member_count outPartyMemberCount,t1.childbearing_count childbearingCount," +
             " t1.deformity_count deformityCount,t1.allowances_family_count allowancesFamilyCount,t1.low_income_family_count lowIncomeFamilyCount,t1.old_people_count oldPeopleCount," +
@@ -43,6 +45,13 @@ public class CommunityDaoImpl implements CommunityDao {
     public Boolean save(Community community) {
         Boolean flag = true;
         try {
+
+            //创建时间
+            Date now = new Date();
+            String sdate=(new SimpleDateFormat("yyyyMMddHHmm")).format(now);
+            Long dateLong = Long.parseLong(sdate);
+            community.setCreateAt(dateLong);
+
             Random random = new Random();
             community.setId(new IdWorker((long)random.nextInt(15)).nextId());
             baseDAO.save(community);
@@ -113,7 +122,7 @@ public class CommunityDaoImpl implements CommunityDao {
     @Override
     public List<CommunityVo> getAllCommunityVos() {
         CommunityVo communityVo = new CommunityVo();
-        String hql=this.commonSql;
+        String hql=this.commonSql + " order by t1.create_at desc ";
         List<CommunityVo> communityVoList = baseVoDAO.getResultBySQL(hql,new Object[]{},CommunityVo.class);
         return communityVoList;
 
@@ -122,7 +131,7 @@ public class CommunityDaoImpl implements CommunityDao {
     @Override
     public List<CommunityVo> getCommunityVosByName(String name) {
         CommunityVo communityVo = new CommunityVo();
-        String hql=this.commonSql + " where t1.name like ?";
+        String hql=this.commonSql + " where t1.name like ? order by t1.create_at desc";
         Object[] params = new Object[1];
         params[0] = "%"+name+"%";
         List<CommunityVo> communityVoList = baseVoDAO.getResultBySQL(hql,params,CommunityVo.class);

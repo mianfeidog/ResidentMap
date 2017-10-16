@@ -37,4 +37,6 @@ public interface KeyPersonDao {
     List<KeyPersonVo> getKeyPersonVosByPage(int offset, int size);
 
     List<KeyPersonVo> getAllKeyPersonVos();
+
+    List<KeyPerson> getKeyPersonsByIdCard(String idCard,String action,Long id);
 }

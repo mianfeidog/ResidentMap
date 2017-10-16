@@ -76,6 +76,17 @@ public class AssistResident implements Serializable {
     @Column(name = "lat")
     private String lat;
 
+    @Column(name = "create_at")
+    private Long createAt;
+
+    public Long getCreateAt() {
+        return createAt;
+    }
+
+    public void setCreateAt(Long createAt) {
+        this.createAt = createAt;
+    }
+
     public String getLng() {
         return lng;
     }

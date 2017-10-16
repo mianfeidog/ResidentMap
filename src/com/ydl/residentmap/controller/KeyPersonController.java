@@ -1,6 +1,7 @@
 package com.ydl.residentmap.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.ydl.residentmap.constants.CommonConst;
 import com.ydl.residentmap.constants.ResultCode;
 import com.ydl.residentmap.constants.ResultMessage;
 import com.ydl.residentmap.model.KeyPerson;
@@ -66,9 +67,23 @@ public class KeyPersonController {
 		String error = "";
 		String error_description = "";
 		try {
+			String idCard = keyPerson.getIdCard();
+			if(idCard!=null && !idCard.trim().equals(""))
+			{
+				List<KeyPerson> keyPersonList = keyPersonService.getKeyPersonsByIdCard(idCard, CommonConst.ACTION_ADD,keyPerson.getId());
+				if(keyPersonList.size()>0)
+				{
+					status = ResultCode.ERROR_DUPLICATE_IDCADR;
+					desc = ResultMessage.SAVE_FAILURE;
+					error_description=ResultMessage.SAVE_FAILURE_DUPLICATE_IDCARD;
+					return ResponseResult.create(status, data, desc, error, error_description);
+				}
+			}
+
 			keyPersonService.save(keyPerson);
 			data = keyPerson.getId();
 			desc = ResultMessage.SAVE_SUCCESS;
+
 		}
 		catch (Exception ex){
 			status = ResultCode.ERROR;
@@ -128,6 +143,18 @@ public class KeyPersonController {
 		String error = "";
 		String error_description = "";
 		try {
+			String idCard = keyPerson.getIdCard();
+			if(idCard!=null && !idCard.trim().equals(""))
+			{
+				List<KeyPerson> keyPersonList = keyPersonService.getKeyPersonsByIdCard(idCard, CommonConst.ACTION_EDIT,keyPerson.getId());
+				if(keyPersonList.size()>0)
+				{
+					status = ResultCode.ERROR_DUPLICATE_IDCADR;
+					desc = ResultMessage.UPDATE_FAILURE;
+					error_description=ResultMessage.UPDATE_FAILURE_DUPLICATE_IDCARD;
+					return ResponseResult.create(status, data, desc, error, error_description);
+				}
+			}
 
 			String address = keyPerson.getAddress().trim();
 			//地址不为空，获取经纬度

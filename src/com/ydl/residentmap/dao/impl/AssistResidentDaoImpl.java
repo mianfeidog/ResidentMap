@@ -9,13 +9,15 @@ import com.ydl.residentmap.util.IdWorker;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
 @Repository
 public class AssistResidentDaoImpl implements AssistResidentDao {
 
-    private String commonSql="select t1.lng,t1.lat, t1.id,t1.name,t1.type,t1.gender,t1.birthday,t1.family_member_count familyMemberCount, " +
+    private String commonSql="select t1.create_at createAt, t1.lng,t1.lat, t1.id,t1.name,t1.type,t1.gender,t1.birthday,t1.family_member_count familyMemberCount, " +
     " t1.family_year_income familyYearIncome,t1.deformity_card_rank deformityCardRank, " +
     " t1.deformity_certificate_num deformityCertificateNum, " +
     " t1.receive_policy_standard receivePolicyStandard,t1.address,t1.link, " +
@@ -40,6 +42,12 @@ public class AssistResidentDaoImpl implements AssistResidentDao {
     public Boolean save(AssistResident assistResident) {
         Boolean flag = true;
         try {
+            //创建时间
+            Date now = new Date();
+            String sdate=(new SimpleDateFormat("yyyyMMddHHmm")).format(now);
+            Long dateLong = Long.parseLong(sdate);
+            assistResident.setCreateAt(dateLong);
+
             Random random = new Random();
             assistResident.setId(new IdWorker((long)random.nextInt(15)).nextId());
             baseDAO.save(assistResident);
@@ -83,14 +91,14 @@ public class AssistResidentDaoImpl implements AssistResidentDao {
 
     @Override
     public List<AssistResidentVo> getAllAssistResidentVos() {
-        String hql=this.commonSql;
+        String hql=this.commonSql + " order by t1.create_at desc ";
         List<AssistResidentVo> assistResidentVos = baseVoDAO.getResultBySQL(hql,new Object[]{},AssistResidentVo.class);
         return assistResidentVos;
     }
 
     @Override
     public List<AssistResidentVo> getAssistResidentVosByName(String name) {
-        String hql=this.commonSql +" where t1.name like ?";
+        String hql=this.commonSql +" where t1.name like ? order by t1.create_at desc ";
         Object[] params = new Object[1];
         params[0] = "%"+name+"%";
         List<AssistResidentVo> assistResidentVos = baseVoDAO.getResultBySQL(hql,params,AssistResidentVo.class);
@@ -99,14 +107,14 @@ public class AssistResidentDaoImpl implements AssistResidentDao {
 
     @Override
     public List<AssistResidentVo> getAssistResidentVosByTypes(List<String> types) {
-        String hql=this.commonSql + " where t1.type in ("+String.join(",",types)+")";
+        String hql=this.commonSql + " where t1.type in ("+String.join(",",types)+") order by t1.create_at desc";
         List<AssistResidentVo> assistResidentVos = baseVoDAO.getResultBySQL(hql,new Object[]{},AssistResidentVo.class);
         return assistResidentVos;
     }
 
     @Override
     public List<AssistResidentVo> getAssistResidentVosByTypesName(List<String> types,String name) {
-        String hql=this.commonSql + " where t1.type in ("+String.join(",",types)+") and t1.name like ?";
+        String hql=this.commonSql + " where t1.type in ("+String.join(",",types)+") and t1.name like ? order by t1.create_at desc";
         Object[] params = new Object[1];
         params[0] = "%"+name+"%";
         List<AssistResidentVo> assistResidentVos = baseVoDAO.getResultBySQL(hql,params,AssistResidentVo.class);

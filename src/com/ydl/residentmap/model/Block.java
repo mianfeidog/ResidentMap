@@ -80,6 +80,17 @@ public class Block implements Serializable {
     @Column(name = "map_range")
     private String mapRange;
 
+    @Column(name = "create_at")
+    private Long createAt;
+
+    public Long getCreateAt() {
+        return createAt;
+    }
+
+    public void setCreateAt(Long createAt) {
+        this.createAt = createAt;
+    }
+
     public String getMapRange() {
         return mapRange;
     }

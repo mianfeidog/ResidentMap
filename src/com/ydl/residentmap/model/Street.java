@@ -41,6 +41,16 @@ public class Street implements Serializable {
     @Column(name = "street_build")
     private String streetBuild;
 
+    @Column(name = "create_at")
+    private Long createAt;
+
+    public Long getCreateAt() {
+        return createAt;
+    }
+
+    public void setCreateAt(Long createAt) {
+        this.createAt = createAt;
+    }
 
     public Long getId() {
         return id;

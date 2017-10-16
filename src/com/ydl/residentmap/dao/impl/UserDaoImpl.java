@@ -31,9 +31,9 @@ public class UserDaoImpl implements UserDao {
 			user.setId(new IdWorker((long)random.nextInt(15)).nextId());
 			//创建时间
 			Date now = new Date();
-			String sdate=(new SimpleDateFormat("yyyyMMdd")).format(now);
+			String sdate=(new SimpleDateFormat("yyyyMMddHHdd")).format(now);
 			Long dateLong = Long.parseLong(sdate);
-			user.setCreatedAt(dateLong);
+			user.setCreateAt(dateLong);
 
 			String pwd = user.getPassword();
 
@@ -58,13 +58,13 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public List<User> getAll() {
-		String hql="from User";
+		String hql="from User order by createAt desc ";
 		return baseDAO.find(hql);
 	}
 
 	@Override
 	public List<User> getUsersByType(Integer type) {
-		String hql="from User  where userType="+type;
+		String hql="from User  where userType="+type + " order by createAt desc ";
 		return baseDAO.find(hql);
 	}
 
@@ -97,7 +97,7 @@ public class UserDaoImpl implements UserDao {
 
 	@Override
 	public List<User> getUsersByName(String name) {
-		String hql="from User where name like ?";
+		String hql="from User where name like ? order by createAt desc ";
 		Object[] params = new Object[1];
 		params[0] = "%"+name+"%";
 		List<User> users = baseDAO.find(hql, params);

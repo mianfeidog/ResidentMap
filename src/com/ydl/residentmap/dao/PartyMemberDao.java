@@ -23,4 +23,6 @@ public interface PartyMemberDao {
     List<PartyMemberVo> getPartyMemberVosByName(String name);
 
     PartyMemberVo getPartyMemberVoById(Long id);
+
+    List<PartyMember> getPartyMembersByIdCard(String idCard,String action,Long id);
 }

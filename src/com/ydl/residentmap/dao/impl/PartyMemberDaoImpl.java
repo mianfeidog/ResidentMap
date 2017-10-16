@@ -1,5 +1,6 @@
 package com.ydl.residentmap.dao.impl;
 
+import com.ydl.residentmap.constants.CommonConst;
 import com.ydl.residentmap.constants.DataDictionaryCode;
 import com.ydl.residentmap.dao.BaseDao;
 import com.ydl.residentmap.dao.PartyMemberDao;
@@ -9,6 +10,8 @@ import com.ydl.residentmap.util.IdWorker;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -21,7 +24,7 @@ public class PartyMemberDaoImpl implements PartyMemberDao {
     @Resource
     private BaseDao<PartyMemberVo> baseVoDAO;
 
-    private String commonSql="select ifnull(t4.name,'') minorityName,ifnull(t5.name,'') educationName,ifnull(t6.name,'') claimPostName, " +
+    private String commonSql="select t1.create_at createAt, ifnull(t4.name,'') minorityName,ifnull(t5.name,'') educationName,ifnull(t6.name,'') claimPostName, " +
             " t1.id,t1.name,t1.gender,t1.minority,t1.birthday, " +
             " t1.education,t1.join_date joinDate,t1.claim_post claimPost,t1.id_card idCard,t1.address,t1.link, " +
             " t1.difficult,t1.street_id streetId,t1.community_id communityId,t1.block_id blockId,t1.building_id buildingId, " +
@@ -37,6 +40,12 @@ public class PartyMemberDaoImpl implements PartyMemberDao {
     public Boolean save(PartyMember partyMember) {
         Boolean flag = true;
         try {
+            //创建时间
+            Date now = new Date();
+            String sdate=(new SimpleDateFormat("yyyyMMddHHmm")).format(now);
+            Long dateLong = Long.parseLong(sdate);
+            partyMember.setCreateAt(dateLong);
+
             Random random = new Random();
             partyMember.setId(new IdWorker((long) random.nextInt(15)).nextId());
             baseDAO.save(partyMember);
@@ -96,7 +105,7 @@ public class PartyMemberDaoImpl implements PartyMemberDao {
     @Override
     public List<PartyMemberVo> getAllPartyMemberVos() {
         PartyMemberVo partyMemberVo=new PartyMemberVo();
-        String hql=this.commonSql;
+        String hql=this.commonSql + " order by t1.create_at desc";
         List<PartyMemberVo> partyMemberVoList = baseVoDAO.getResultBySQL(hql,new Object[]{},PartyMemberVo.class);
         return partyMemberVoList;
     }
@@ -104,7 +113,7 @@ public class PartyMemberDaoImpl implements PartyMemberDao {
     @Override
     public List<PartyMemberVo> getPartyMemberVosByName(String name) {
         PartyMemberVo partyMemberVo=new PartyMemberVo();
-        String hql=this.commonSql + " where t1.name like ?";
+        String hql=this.commonSql + " where t1.name like ? order by t1.create_at desc";
         Object[] params = new Object[1];
         params[0] = "%"+name+"%";
         List<PartyMemberVo> partyMemberVoList = baseVoDAO.getResultBySQL(hql,new Object[]{},PartyMemberVo.class);
@@ -120,5 +129,22 @@ public class PartyMemberDaoImpl implements PartyMemberDao {
             partyMemberVo=partyMemberVoList.get(0);
         }
         return partyMemberVo;
+    }
+
+    @Override
+    public List<PartyMember> getPartyMembersByIdCard(String idCard,String action,Long id)
+    {
+        String hql="from PartyMember where idCard =?";
+        if(CommonConst.ACTION_ADD.equals(action))
+        {}
+        else if(CommonConst.ACTION_EDIT.equals(action))
+        {
+            hql+=" and id<>"+id;
+        }
+
+        Object[] params = new Object[1];
+        params[0] = idCard;
+        List<PartyMember> partyMembers = baseDAO.find(hql, params);
+        return partyMembers;
     }
 }

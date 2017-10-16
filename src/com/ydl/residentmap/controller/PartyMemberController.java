@@ -1,6 +1,7 @@
 package com.ydl.residentmap.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.ydl.residentmap.constants.CommonConst;
 import com.ydl.residentmap.constants.ResultCode;
 import com.ydl.residentmap.constants.ResultMessage;
 import com.ydl.residentmap.model.KeyPerson;
@@ -38,6 +39,18 @@ public class PartyMemberController {
         String error = "";
         String error_description = "";
         try {
+            String idCard = partyMember.getIdCard();
+            if(idCard!=null && !idCard.trim().equals(""))
+            {
+                List<PartyMember> partyMemberList = partyMemberService.getPartyMembersByIdCard(idCard, CommonConst.ACTION_ADD,partyMember.getId());
+                if(partyMemberList.size()>0)
+                {
+                    status = ResultCode.ERROR_DUPLICATE_IDCADR;
+                    desc = ResultMessage.SAVE_FAILURE;
+                    error_description=ResultMessage.SAVE_FAILURE_DUPLICATE_IDCARD;
+                    return ResponseResult.create(status, data, desc, error, error_description);
+                }
+            }
             partyMemberService.save(partyMember);
             data = partyMember.getId();
             desc = ResultMessage.SAVE_SUCCESS;
@@ -100,7 +113,21 @@ public class PartyMemberController {
         String error = "";
         String error_description = "";
         try {
+            String idCard = partyMember.getIdCard();
+            if(idCard!=null && !idCard.trim().equals(""))
+            {
+                List<PartyMember> partyMemberList = partyMemberService.getPartyMembersByIdCard(idCard, CommonConst.ACTION_EDIT,partyMember.getId());
+                if(partyMemberList.size()>0)
+                {
+                    status = ResultCode.ERROR_DUPLICATE_IDCADR;
+                    desc = ResultMessage.UPDATE_FAILURE;
+                    error_description=ResultMessage.UPDATE_FAILURE_DUPLICATE_IDCARD;
+                    return ResponseResult.create(status, data, desc, error, error_description);
+                }
+            }
+
             partyMemberService.update(partyMember);
+
         } catch (Exception e) {
             status = ResultCode.ERROR;
             desc = ResultMessage.UPDATE_FAILURE;

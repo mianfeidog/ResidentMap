@@ -1,6 +1,7 @@
 package com.ydl.residentmap.filter;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -40,14 +41,13 @@ public class LoginFilter implements Filter{
 		HttpServletRequest hsq = (HttpServletRequest)req;
 		//System.out.println("过滤器");
 		boolean isExclueURL = false;
+		String servletPath = hsq.getServletPath();
+		if(servletPath.indexOf(".js")>=0 || servletPath.indexOf(".css")>=0)
+		{
+			isExclueURL = true;
+		}
+
 		if(excludedPageArray != null){
-			String servletPath = hsq.getServletPath();
-
-			if(servletPath.indexOf(".js")>=0 || servletPath.indexOf(".css")>=0)
-			{
-				isExclueURL = true;
-			}
-
 			//判断本次请求是否在过滤URL之外
 			for(String url : excludedPageArray){
 				if(servletPath.equals(url)){
@@ -64,7 +64,11 @@ public class LoginFilter implements Filter{
 			User user = (User)hsq.getSession().getAttribute("loginUser");
 			if(user==null) {
 				String contextPath = hsq.getContextPath();
-				((HttpServletResponse)resp).sendRedirect(contextPath+"/login.html");
+				PrintWriter pw = ((HttpServletResponse)resp).getWriter();
+				pw.write("needlogin");
+				//((HttpServletResponse)resp).sendRedirect(contextPath+"/login.html");
+				//req.getRequestDispatcher("login.html").forward(req,resp);
+				return;
 				//chain.doFilter(req, resp);
 			}
 			else

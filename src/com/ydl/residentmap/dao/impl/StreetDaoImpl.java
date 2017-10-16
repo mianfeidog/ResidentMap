@@ -8,6 +8,8 @@ import com.ydl.residentmap.model.Street;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import com.ydl.residentmap.util.IdWorker;
@@ -21,6 +23,12 @@ public class StreetDaoImpl implements StreetDao {
     public Boolean save(Street street) {
         Boolean flag = true;
         try {
+            //创建时间
+            Date now = new Date();
+            String sdate=(new SimpleDateFormat("yyyyMMddHHmm")).format(now);
+            Long dateLong = Long.parseLong(sdate);
+            street.setCreateAt(dateLong);
+
             Random random = new Random();
             street.setId(new IdWorker((long)random.nextInt(15)).nextId());
             baseDAO.save(street);
@@ -34,13 +42,13 @@ public class StreetDaoImpl implements StreetDao {
 
     @Override
     public List<Street> getAll() {
-        String hql="from Street";
+        String hql="from Street order by createAt desc";
         return baseDAO.find(hql);
     }
 
     @Override
     public List<Street> getStreetsByName(String name) {
-        String hql = "from Street where name like ?";
+        String hql = "from Street where name like ? order by createAt desc";
         Object[] params = new Object[1];
         params[0] = "%" + name + "%";
         List<Street> streets = baseDAO.find(hql, params);

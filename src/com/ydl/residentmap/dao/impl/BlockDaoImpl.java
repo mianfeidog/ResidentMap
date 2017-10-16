@@ -9,6 +9,8 @@ import com.ydl.residentmap.util.IdWorker;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -20,7 +22,7 @@ public class BlockDaoImpl implements BlockDao {
     @Resource
     private BaseDao<BlockVo> baseVoDAO;
 
-    private String commonSql="select t1.map_range mapRange, t1.id,t1.name,t1.name,t1.lng,t1.lat,t1.address,t1.community_id communityId," +
+    private String commonSql="select t1.create_at createAt, t1.map_range mapRange, t1.id,t1.name,t1.name,t1.lng,t1.lat,t1.address,t1.community_id communityId," +
             " t1.secretary_name secretaryName,t1.director_name directorName,t1.in_charge_leader_name inChargeLeaderName, "+
             " t1.work_day_leader_name workDayLeaderName,t1.secretary_tel secretaryTel,t1.director_tel directorTel,t1.in_charge_leader_tel inChargeLeaderTel, " +
             " t1.work_day_leader_tel workDayLeaderTel,t1.person_in_charge personInCharge,t1.person_in_charge_tel personInChargeTel,ifnull(t2.name,'') communityName, " +
@@ -34,6 +36,12 @@ public class BlockDaoImpl implements BlockDao {
     public Boolean save(Block block) {
         Boolean flag = true;
         try {
+            //创建时间
+            Date now = new Date();
+            String sdate=(new SimpleDateFormat("yyyyMMddHHmm")).format(now);
+            Long dateLong = Long.parseLong(sdate);
+            block.setCreateAt(dateLong);
+
             Random random = new Random();
             block.setId(new IdWorker((long)random.nextInt(15)).nextId());
             baseDAO.save(block);
@@ -103,14 +111,14 @@ public class BlockDaoImpl implements BlockDao {
 
     @Override
     public List<BlockVo> getAllBlockVos() {
-        String hql=this.commonSql;
+        String hql=this.commonSql + " order by t1.create_at desc ";
         List<BlockVo> blockVos = baseVoDAO.getResultBySQL(hql,new Object[]{},BlockVo.class);
         return blockVos;
     }
 
     @Override
     public List<BlockVo> getBlockVosByName(String name) {
-        String hql=this.commonSql + " where t1.name like ?";
+        String hql=this.commonSql + " where t1.name like ? order by t1.create_at desc";
         Object[] params = new Object[1];
         params[0] = "%"+name+"%";
         List<BlockVo> blockVos = baseVoDAO.getResultBySQL(hql,params,BlockVo.class);

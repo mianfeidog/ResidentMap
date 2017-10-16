@@ -37,7 +37,7 @@ public class User implements Serializable {
 	
 	//创建时间
 	@Column(name = "created_at")
-	private Long createdAt;
+	private Long createAt;
 
 	public Long getId() {
 		return id;
@@ -71,11 +71,11 @@ public class User implements Serializable {
 		this.realName = realName;
 	}
 
-	public Long getCreatedAt() {
-		return createdAt;
+	public Long getCreateAt() {
+		return createAt;
 	}
 
-	public void setCreatedAt(Long createdAt) {
-		this.createdAt = createdAt;
+	public void setCreateAt(Long createAt) {
+		this.createAt = createAt;
 	}
 }
