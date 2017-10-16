@@ -58,4 +58,10 @@ public class CommitteeMemberServiceImpl implements CommitteeMemberService {
     public CommitteeMemberVo getCommitteeMemberVoById(Long id) {
         return committeeMemberDao.getCommitteeMemberVoById(id);
     }
+
+    @Override
+    public List<CommitteeMember> getCommitteeMemebersByIdCard(String idCard,String action,Long id)
+    {
+        return committeeMemberDao.getCommitteeMemebersByIdCard(idCard,action,id);
+    }
 }

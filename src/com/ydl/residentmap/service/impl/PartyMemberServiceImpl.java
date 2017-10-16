@@ -59,4 +59,9 @@ public class PartyMemberServiceImpl implements PartyMemberService {
     public PartyMemberVo getPartyMemberVoById(Long id) {
         return partyMemberDao.getPartyMemberVoById(id);
     }
+
+    @Override
+    public List<PartyMember> getPartyMembersByIdCard(String idCard, String action, Long id) {
+        return partyMemberDao.getPartyMembersByIdCard(idCard,action,id);
+    }
 }

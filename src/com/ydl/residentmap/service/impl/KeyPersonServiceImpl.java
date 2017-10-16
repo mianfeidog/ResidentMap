@@ -130,4 +130,9 @@ public class KeyPersonServiceImpl implements KeyPersonService{
     public List<KeyPersonVo> getAllKeyPersonVos() {
         return keyPersonDao.getAllKeyPersonVos();
     }
+
+    @Override
+    public List<KeyPerson> getKeyPersonsByIdCard(String idCard, String action, Long id) {
+        return keyPersonDao.getKeyPersonsByIdCard(idCard,action,id);
+    }
 }
