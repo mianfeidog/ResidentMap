@@ -23,4 +23,6 @@ public interface CommitteeMemberService {
     List<CommitteeMemberVo> getCommitteeMemberVosByName(String name);
 
     CommitteeMemberVo getCommitteeMemberVoById(Long id);
+
+    List<CommitteeMember> getCommitteeMemebersByIdCard(String idCard,String action,Long id);
 }
