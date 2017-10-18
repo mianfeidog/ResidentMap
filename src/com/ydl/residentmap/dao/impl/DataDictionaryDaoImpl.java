@@ -77,7 +77,7 @@ public class DataDictionaryDaoImpl implements DataDictionaryDao {
 
 	@Override
 	public List<DataDictionary> getAll() {
-		String hql ="from DataDictionary order by id ";
+		String hql ="from DataDictionary order by dataType asc, value asc ";
 		return baseDAO.find(hql);
 	}
 }
