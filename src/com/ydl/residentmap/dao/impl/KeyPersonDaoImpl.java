@@ -19,6 +19,7 @@ import java.util.Random;
 @Repository
 public class KeyPersonDaoImpl implements KeyPersonDao{
 
+
     @Resource
     private BaseDao<KeyPerson> baseDAO;
 
