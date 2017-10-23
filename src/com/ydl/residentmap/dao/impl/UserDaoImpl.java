@@ -27,19 +27,6 @@ public class UserDaoImpl implements UserDao {
 	public Boolean save(User user) {
 		Boolean flag = true;
 		try {
-			Random random = new Random();
-			user.setId(new IdWorker((long)random.nextInt(15)).nextId());
-			//创建时间
-			Date now = new Date();
-			String sdate=(new SimpleDateFormat("yyyyMMddHHdd")).format(now);
-			Long dateLong = Long.parseLong(sdate);
-			user.setCreateAt(dateLong);
-
-			String pwd = user.getPassword();
-
-			String pwd2=MD5Util.string2MD5(pwd);
-			user.setPassword(pwd2);
-
 			//DES des = new DES();
 			//byte[] encontent = des.Encrytor(pwd);
 			//byte[] decontent = des.Decryptor(encontent);
@@ -137,18 +124,6 @@ public class UserDaoImpl implements UserDao {
 	public Boolean update(User user) {
 		Boolean flag = true;
 		try {
-			if (user.getPassword() == "")
-			{
-				//如果密码为空，取出数据库中的原密码
-				User u = baseDAO.get(User.class, user.getId());
-				user.setPassword(u.getPassword());
-			}
-			else
-			{
-				String pwd = user.getPassword();
-				String pwd2=MD5Util.string2MD5(pwd);
-				user.setPassword(pwd2);
-			}
 			baseDAO.update(user);
 		} catch (Exception e) {
 			e.printStackTrace();

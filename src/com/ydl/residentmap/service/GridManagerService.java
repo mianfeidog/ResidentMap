@@ -1,6 +1,7 @@
 package com.ydl.residentmap.service;
 
 import com.ydl.residentmap.model.GridManager;
+import com.ydl.residentmap.model.vo.GridManagerVo;
 
 import java.util.List;
 
@@ -16,4 +17,10 @@ public interface GridManagerService {
     List<GridManager> getKeyGridManagersByName(String name);
 
     GridManager getGridManagerById(Long id);
+
+    List<GridManagerVo> getAllGridManagerVos();
+
+    List<GridManagerVo> getKeyGridManagerVosByName(String name);
+
+    GridManagerVo getGridManagerVoById(Long id);
 }

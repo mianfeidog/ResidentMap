@@ -5,13 +5,17 @@ import com.ydl.residentmap.model.KeyPerson;
 import com.ydl.residentmap.model.Pager;
 import com.ydl.residentmap.model.vo.KeyPersonVo;
 import com.ydl.residentmap.service.KeyPersonService;
+import com.ydl.residentmap.util.IdWorker;
 import com.ydl.residentmap.util.LatitudeUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 @Service
 public class KeyPersonServiceImpl implements KeyPersonService{
@@ -21,6 +25,15 @@ public class KeyPersonServiceImpl implements KeyPersonService{
 
     @Override
     public Boolean save(KeyPerson keyPerson) {
+        Random random = new Random();
+        keyPerson.setId(new IdWorker((long)random.nextInt(15)).nextId());
+
+        //创建时间
+        Date now = new Date();
+        String sdate=(new SimpleDateFormat("yyyyMMddHHmm")).format(now);
+        Long dateLong = Long.parseLong(sdate);
+        keyPerson.setCreateAt(dateLong);
+
         String address = keyPerson.getAddress().trim();
         //地址不为空，获取经纬度
         if(!"".equals(address)){

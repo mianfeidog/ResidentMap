@@ -155,25 +155,6 @@ public class KeyPersonController {
 					return ResponseResult.create(status, data, desc, error, error_description);
 				}
 			}
-
-			String address = keyPerson.getAddress().trim();
-			//地址不为空，获取经纬度
-			if(!"".equals(address)){
-				desc = ResultMessage.SAVE_SUCCESS;
-				Map<String,String> lngLat = LatitudeUtils.getGeocoderLatitude(address);
-				if(lngLat!=null){
-					String lng = lngLat.get("lng");
-					String lat = lngLat.get("lat");
-					keyPerson.setLng(lng);
-					keyPerson.setLat(lat);
-				}
-				else{
-					keyPerson.setLng(null);
-					keyPerson.setLat(null);
-					desc += " 根据地址["+address+"]未查询到重点人员经纬度，经纬度设置为空。";
-				}
-			}
-
 			keyPersonService.update(keyPerson);
 		} catch (Exception e) {
 			status = ResultCode.ERROR;

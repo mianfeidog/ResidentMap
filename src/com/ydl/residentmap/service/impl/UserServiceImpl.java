@@ -1,9 +1,13 @@
 package com.ydl.residentmap.service.impl;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import javax.annotation.Resource;
 
+import com.ydl.residentmap.util.IdWorker;
 import com.ydl.residentmap.util.MD5Util;
 import org.springframework.stereotype.Service;
 
@@ -33,6 +37,20 @@ public class UserServiceImpl implements UserService {
 			String msg = "";
 			throw new UserException("该账号已经存在，" + msg);
 		}
+
+		Random random = new Random();
+		obj.setId(new IdWorker((long)random.nextInt(15)).nextId());
+		//创建时间
+		Date now = new Date();
+		String sdate=(new SimpleDateFormat("yyyyMMddHHdd")).format(now);
+		Long dateLong = Long.parseLong(sdate);
+		obj.setCreateAt(dateLong);
+
+		String pwd = obj.getPassword();
+
+		String pwd2=MD5Util.string2MD5(pwd);
+		obj.setPassword(pwd2);
+
 		return userDao.save(obj);
 	}
 
@@ -88,10 +106,18 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Boolean modifyPassword(User obj) {
+		//创建时间
+		Date now = new Date();
+		String sdate=(new SimpleDateFormat("yyyyMMddHHdd")).format(now);
+		Long dateLong = Long.parseLong(sdate);
+		obj.setCreateAt(dateLong);
+
+		String pwd = obj.getPassword();
 		//查询用户
 		User tempUser = userDao.getUserByName(obj.getName());
+		String objPwd = MD5Util.string2MD5(pwd);
 		//设置新密码
-		tempUser.setPassword(obj.getPassword());
+		tempUser.setPassword(objPwd);
 		return userDao.update(tempUser);
 		
 	}

@@ -191,31 +191,41 @@ public class UserController {
 		Object data = new JSONObject();
 		String desc = ResultMessage.DELETE_SUCCESS;
 		String error = "";
-		String error_description = ""; 
-		//校验验证码是否正确
-		// 缓存中验证码
-		String cacheVerifyCode;
-		CacheEntity ce = cacheTimer.getCache(user.getName());
-		if (ce == null) {
-			status = ResultCode.ERROR;
-			error_description = "验证码过期";
-		} else {
-			cacheVerifyCode = (String) ce.getCacheContext();
+		String error_description = "";
 
-			// 如果赎金来的验证码和缓存中的验证码一致，则验证成功
-			if (!user.getValidatecode().equals(cacheVerifyCode)) {
-				status = ResultCode.ERROR;
-				error_description = "验证码错误";
-			}else{
-				Boolean rs = userService.modifyPassword(user);
-				if(!rs){
-					status = ResultCode.ERROR;
-					error_description = ResultMessage.MODIFY_PWD_FAIL;
-				}else{
-					desc = ResultMessage.MODIFY_PWD_SUCC;
-				}
-			}
+		Boolean rs = userService.modifyPassword(user);
+		if(!rs){
+			status = ResultCode.ERROR;
+			error_description = ResultMessage.MODIFY_PWD_FAIL;
+		}else{
+			desc = ResultMessage.MODIFY_PWD_SUCC;
 		}
+
+
+//		//校验验证码是否正确
+//		// 缓存中验证码
+//		String cacheVerifyCode;
+//		CacheEntity ce = cacheTimer.getCache(user.getName());
+//		if (ce == null) {
+//			status = ResultCode.ERROR;
+//			error_description = "验证码过期";
+//		} else {
+//			cacheVerifyCode = (String) ce.getCacheContext();
+//
+//			// 如果赎金来的验证码和缓存中的验证码一致，则验证成功
+//			if (!user.getValidatecode().equals(cacheVerifyCode)) {
+//				status = ResultCode.ERROR;
+//				error_description = "验证码错误";
+//			}else{
+//				Boolean rs = userService.modifyPassword(user);
+//				if(!rs){
+//					status = ResultCode.ERROR;
+//					error_description = ResultMessage.MODIFY_PWD_FAIL;
+//				}else{
+//					desc = ResultMessage.MODIFY_PWD_SUCC;
+//				}
+//			}
+//		}
 		
 		return ResponseResult.create(status, data, desc, error, error_description);
 		

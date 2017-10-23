@@ -6,6 +6,7 @@ import com.ydl.residentmap.constants.ResultMessage;
 import com.ydl.residentmap.model.GridManager;
 import com.ydl.residentmap.model.KeyPerson;
 import com.ydl.residentmap.model.ResponseResult;
+import com.ydl.residentmap.model.vo.GridManagerVo;
 import com.ydl.residentmap.service.GridManagerService;
 import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.*;
@@ -121,7 +122,7 @@ public class GridManagerController {
         String desc = ResultMessage.SEARCH_SUCCESS;
         String error = "";
         String error_description = "";
-        List<GridManager> gridManagers = gridManagerService.getAllGridManagers();
+        List<GridManagerVo> gridManagers = gridManagerService.getAllGridManagerVos();
         if(gridManagers.size()==0){
             status=ResultCode.ERROR;
         }
@@ -145,7 +146,7 @@ public class GridManagerController {
         String desc = ResultMessage.SEARCH_SUCCESS;
         String error = "";
         String error_description = "";
-        List<GridManager> gridManagers = gridManagerService.getKeyGridManagersByName(name);
+        List<GridManagerVo> gridManagers = gridManagerService.getKeyGridManagerVosByName(name);
         if(gridManagers.size()==0){
             status=ResultCode.ERROR;
         }
@@ -171,7 +172,7 @@ public class GridManagerController {
         String error = "";
         String error_description = "";
         try {
-            data = gridManagerService.getGridManagerById(id);
+            data = gridManagerService.getGridManagerVoById(id);
         } catch (Exception e) {
             e.printStackTrace();
             status = ResultCode.ERROR;

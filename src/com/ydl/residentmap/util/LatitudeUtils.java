@@ -11,6 +11,8 @@ import java.util.Map;
 public class LatitudeUtils {
 
     public static final String KEY_1 = "7d9fbeb43e975cd1e9477a7e5d5e192a";
+
+    public static final String AK="XQ2Vpx5BqhOjfFG7qvmXOYCfZhA1LRKP";
     // String key2 = "8ec6cd98bd56554407a207d597c0f3e5";
     // String key3 = "be025dc280e1e3f7ffb95fe42a01fab2";
     // String key4 = "327db7009617d6806b9c38e819ea06ac";
@@ -27,7 +29,8 @@ public class LatitudeUtils {
 //                          如果有代理，要设置代理，没代理可注释
 //          System.setProperty("http.proxyHost","192.168.1.188");
 //          System.setProperty("http.proxyPort","3128");
-            URL tirc = new URL("http://api.map.baidu.com/geocoder?address="+ address +"&output=json&key="+ KEY_1);
+            //URL tirc = new URL("http://api.map.baidu.com/geocoder?address="+ address +"&output=json&key="+ KEY_1);
+            URL tirc = new URL("http://api.map.baidu.com/geocoder/v2/?address="+ address +"&output=json&ak="+ AK);
 
             in = new BufferedReader(new InputStreamReader(tirc.openStream(),"UTF-8"));
             String res;

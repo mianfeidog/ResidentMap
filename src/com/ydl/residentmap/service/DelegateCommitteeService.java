@@ -1,5 +1,7 @@
 package com.ydl.residentmap.service;
 
+import com.ydl.residentmap.model.vo.DelegateCommitteeVo;
+
 import java.util.List;
 
 public interface DelegateCommitteeService  {
@@ -14,4 +16,10 @@ public interface DelegateCommitteeService  {
     List<com.ydl.residentmap.model.DelegateCommittee> getDelegateCommitteesByName(String name);
 
     com.ydl.residentmap.model.DelegateCommittee getDelegateCommitteeById(Long id);
+
+    List<DelegateCommitteeVo> getAllDelegateCommitteeVos();
+
+    List<DelegateCommitteeVo> getDelegateCommitteeVosByName(String name);
+
+    DelegateCommitteeVo getDelegateCommitteeVoById(Long id);
 }

@@ -26,10 +26,10 @@ public class KeyPersonDaoImpl implements KeyPersonDao{
     @Resource
     private BaseDao<KeyPersonVo> baseVoDAO;
 
-    private String commonSql="select t1.create_at createAt, t1.lng,t1.lat, t1.id,t1.name,t1.gender,t1.age,t1.type,t1.base_condition baseCondition,t1.id_card idCard," +
+    private String commonSql="select t1.id,t1.name,t1.gender,t1.age,t1.type,t1.base_condition baseCondition,t1.id_card idCard," +
             " t1.address,t1.link,t1.block_id blockId,t1.building_id buildingId," +
             " ifnull(t2.name,'') streetName,ifnull(t6.name,'') typeName, " +
-            " t3.name communityName,t4.name blockName,t5.name buildingName "+
+            " t3.name communityName,t4.name blockName,t5.name buildingName,t1.create_at createAt, t1.lng,t1.lat "+
             " from key_person t1 " +
             " left join data_dictionary t6 on t1.type=t6.value and t6.data_type="+ DataDictionaryCode.DATA_TYPE_KEY_PERSON +
             " left join block t4 on t1.block_id=t4.id " +
@@ -41,14 +41,6 @@ public class KeyPersonDaoImpl implements KeyPersonDao{
     public Boolean save(KeyPerson keyPerson) {
         Boolean flag = true;
         try {
-            //创建时间
-            Date now = new Date();
-            String sdate=(new SimpleDateFormat("yyyyMMddHHmm")).format(now);
-            Long dateLong = Long.parseLong(sdate);
-            keyPerson.setCreateAt(dateLong);
-
-            Random random = new Random();
-            keyPerson.setId(new IdWorker((long)random.nextInt(15)).nextId());
             baseDAO.save(keyPerson);
             System.out.println("添加重点人员 OK   重点人员ID："+keyPerson.getId());
         } catch (Exception e) {

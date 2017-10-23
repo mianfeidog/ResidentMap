@@ -13,7 +13,7 @@ import java.io.Serializable;
 @Table(name = "key_person")
 public class KeyPerson implements Serializable {
 
-    private static final long serialVersionUID = 8556304036066494897L;
+    private static final long serialVersionUID = 8556304036066494789L;
 
     @Id
     @Column(name = "id")

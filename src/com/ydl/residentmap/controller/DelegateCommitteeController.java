@@ -6,6 +6,7 @@ import com.ydl.residentmap.constants.ResultMessage;
 import com.ydl.residentmap.model.Cadre;
 import com.ydl.residentmap.model.DelegateCommittee;
 import com.ydl.residentmap.model.ResponseResult;
+import com.ydl.residentmap.model.vo.DelegateCommitteeVo;
 import com.ydl.residentmap.service.CadreService;
 import com.ydl.residentmap.service.DelegateCommitteeService;
 import org.apache.log4j.Logger;
@@ -122,7 +123,7 @@ public class DelegateCommitteeController {
         String desc = ResultMessage.SEARCH_SUCCESS;
         String error = "";
         String error_description = "";
-        List<DelegateCommittee> delegateCommittees = delegateCommitteeService.getAllDelegateCommittees();
+        List<DelegateCommitteeVo> delegateCommittees = delegateCommitteeService.getAllDelegateCommitteeVos();
         if(delegateCommittees.size()==0){
             status=ResultCode.ERROR;
         }
@@ -146,7 +147,7 @@ public class DelegateCommitteeController {
         String desc = ResultMessage.SEARCH_SUCCESS;
         String error = "";
         String error_description = "";
-        List<DelegateCommittee> delegateCommittees = delegateCommitteeService.getDelegateCommitteesByName(name);
+        List<DelegateCommitteeVo> delegateCommittees = delegateCommitteeService.getDelegateCommitteeVosByName(name);
         if(delegateCommittees.size()==0){
             status=ResultCode.ERROR;
         }
@@ -172,7 +173,7 @@ public class DelegateCommitteeController {
         String error = "";
         String error_description = "";
         try {
-            data = delegateCommitteeService.getDelegateCommitteeById(id);
+            data = delegateCommitteeService.getDelegateCommitteeVoById(id);
         } catch (Exception e) {
             e.printStackTrace();
             status = ResultCode.ERROR;

@@ -49,6 +49,17 @@ public class DelegateCommittee implements Serializable {
     @Column(name = "community_id")
     private Long communityId;
 
+    @Column(name = "create_at")
+    private Long createAt;
+
+    public Long getCreateAt() {
+        return createAt;
+    }
+
+    public void setCreateAt(Long createAt) {
+        this.createAt = createAt;
+    }
+
     public Long getId() {
         return id;
     }
