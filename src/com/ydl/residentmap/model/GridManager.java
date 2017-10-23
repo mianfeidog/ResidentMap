@@ -43,8 +43,8 @@ public class GridManager implements Serializable {
     @Column(name = "education")
     private Integer education;
 
-    @Column(name = "is_party_member")
-    private Boolean isPartyMember;
+    @Column(name = "party_member")
+    private Boolean partyMember;
 
     @Column(name = "address")
     private String address;
@@ -54,6 +54,17 @@ public class GridManager implements Serializable {
 
     @Column(name = "community_id")
     private Long communityId;
+
+    @Column(name = "create_at")
+    private Long createAt;
+
+    public Long getCreateAt() {
+        return createAt;
+    }
+
+    public void setCreateAt(Long createAt) {
+        this.createAt = createAt;
+    }
 
     public Long getCommunityId() {
         return communityId;
@@ -136,11 +147,11 @@ public class GridManager implements Serializable {
     }
 
     public Boolean getPartyMember() {
-        return isPartyMember;
+        return partyMember;
     }
 
     public void setPartyMember(Boolean partyMember) {
-        isPartyMember = partyMember;
+        this.partyMember = partyMember;
     }
 
     public String getAddress() {
