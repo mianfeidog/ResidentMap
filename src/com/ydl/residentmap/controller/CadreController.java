@@ -1,10 +1,12 @@
 package com.ydl.residentmap.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.ydl.residentmap.constants.CommonConst;
 import com.ydl.residentmap.constants.ResultCode;
 import com.ydl.residentmap.constants.ResultMessage;
 import com.ydl.residentmap.model.Cadre;
 import com.ydl.residentmap.model.ResponseResult;
+import com.ydl.residentmap.model.vo.CadreVo;
 import com.ydl.residentmap.service.CadreService;
 import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +38,19 @@ public class CadreController {
         String error = "";
         String error_description = "";
         try {
+            String idCard = cadre.getIdCard();
+            if(idCard!=null && !idCard.trim().equals(""))
+            {
+                List<Cadre> cadres = cadreService.getKeyPersonsByIdCard(idCard, CommonConst.ACTION_ADD,cadre.getId());
+                if(cadres.size()>0)
+                {
+                    status = ResultCode.ERROR_DUPLICATE_IDCADR;
+                    desc = ResultMessage.SAVE_FAILURE;
+                    error_description=ResultMessage.SAVE_FAILURE_DUPLICATE_IDCARD;
+                    return ResponseResult.create(status, data, desc, error, error_description);
+                }
+            }
+
             cadreService.save(cadre);
             data = cadre.getId();
             desc = ResultMessage.SAVE_SUCCESS;
@@ -98,6 +113,19 @@ public class CadreController {
         String error = "";
         String error_description = "";
         try {
+            String idCard = cadre.getIdCard();
+            if(idCard!=null && !idCard.trim().equals(""))
+            {
+                List<Cadre> keyPersonList = cadreService.getKeyPersonsByIdCard(idCard, CommonConst.ACTION_EDIT,cadre.getId());
+                if(keyPersonList.size()>0)
+                {
+                    status = ResultCode.ERROR_DUPLICATE_IDCADR;
+                    desc = ResultMessage.UPDATE_FAILURE;
+                    error_description=ResultMessage.UPDATE_FAILURE_DUPLICATE_IDCARD;
+                    return ResponseResult.create(status, data, desc, error, error_description);
+                }
+            }
+
             cadreService.update(cadre);
         } catch (Exception e) {
             status = ResultCode.ERROR;
@@ -120,7 +148,7 @@ public class CadreController {
         String desc = ResultMessage.SEARCH_SUCCESS;
         String error = "";
         String error_description = "";
-        List<Cadre> cadres = cadreService.getAllCadres();
+        List<CadreVo> cadres = cadreService.getAllCadreVos();
         if(cadres.size()==0){
             status=ResultCode.ERROR;
         }
@@ -144,7 +172,7 @@ public class CadreController {
         String desc = ResultMessage.SEARCH_SUCCESS;
         String error = "";
         String error_description = "";
-        List<Cadre> cadres = cadreService.getCadresByName(name);
+        List<CadreVo> cadres = cadreService.getCadreVosByName(name);
         if(cadres.size()==0){
             status=ResultCode.ERROR;
         }
@@ -170,7 +198,7 @@ public class CadreController {
         String error = "";
         String error_description = "";
         try {
-            data = cadreService.getCadreById(id);
+            data = cadreService.getCadreVoById(id);
         } catch (Exception e) {
             e.printStackTrace();
             status = ResultCode.ERROR;

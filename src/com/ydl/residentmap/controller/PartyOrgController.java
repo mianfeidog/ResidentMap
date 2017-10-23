@@ -6,6 +6,7 @@ import com.ydl.residentmap.constants.ResultMessage;
 import com.ydl.residentmap.model.KeyPerson;
 import com.ydl.residentmap.model.PartyOrg;
 import com.ydl.residentmap.model.ResponseResult;
+import com.ydl.residentmap.model.vo.PartyOrgVo;
 import com.ydl.residentmap.service.KeyPersonService;
 import com.ydl.residentmap.service.PartyOrgService;
 import org.apache.log4j.Logger;
@@ -123,7 +124,7 @@ public class PartyOrgController {
         String error = "";
         String error_description = "";
         //List<KeyPersonVo> keyPersons = keyPersonService.getAllKeyPersonVos();
-        List<PartyOrg> partyOrgs = partyOrgService.getAllPartyOrgs();
+        List<PartyOrgVo> partyOrgs = partyOrgService.getAllPartyOrgVos();
         if(partyOrgs.size()==0){
             status=ResultCode.ERROR;
         }
@@ -147,7 +148,7 @@ public class PartyOrgController {
         String desc = ResultMessage.SEARCH_SUCCESS;
         String error = "";
         String error_description = "";
-        List<PartyOrg> partyOrgs = partyOrgService.getPartyOrgsByName(name);
+        List<PartyOrgVo> partyOrgs = partyOrgService.getPartyOrgVosByName(name);
         if(partyOrgs.size()==0){
             status=ResultCode.ERROR;
         }
@@ -173,7 +174,7 @@ public class PartyOrgController {
         String error = "";
         String error_description = "";
         try {
-            data = partyOrgService.getPartyOrgById(id);
+            data = partyOrgService.getPartyOrgVoById(id);
         } catch (Exception e) {
             e.printStackTrace();
             status = ResultCode.ERROR;

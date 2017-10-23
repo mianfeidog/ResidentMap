@@ -52,6 +52,17 @@ public class Cadre implements Serializable {
     @Column(name = "id_card")
     private String idCard;
 
+    @Column(name = "create_at")
+    private Long createAt;
+
+    public Long getCreateAt() {
+        return createAt;
+    }
+
+    public void setCreateAt(Long createAt) {
+        this.createAt = createAt;
+    }
+
     public Integer getEducation() {
         return education;
     }

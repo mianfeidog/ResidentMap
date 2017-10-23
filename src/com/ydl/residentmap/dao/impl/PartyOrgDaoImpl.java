@@ -1,9 +1,11 @@
 package com.ydl.residentmap.dao.impl;
 
+import com.ydl.residentmap.constants.DataDictionaryCode;
 import com.ydl.residentmap.dao.BaseDao;
 import com.ydl.residentmap.dao.PartyOrgDao;
 import com.ydl.residentmap.model.KeyPerson;
 import com.ydl.residentmap.model.PartyOrg;
+import com.ydl.residentmap.model.vo.PartyOrgVo;
 import com.ydl.residentmap.util.IdWorker;
 import org.springframework.stereotype.Repository;
 
@@ -17,12 +19,24 @@ public class PartyOrgDaoImpl implements PartyOrgDao {
     @Resource
     private BaseDao<PartyOrg> baseDAO;
 
+    @Resource
+    private BaseDao<PartyOrgVo> baseVoDAO;
+
+    private String commonSql="select IFNULL(t2.name,'') parName,IFNULL(t3.name,'') orgSystemName, " +
+        " IFNULL(t4.name,'') orgAttributeName,t5.name communityName, " +
+        " t1.id,t1.name,t1.org_system orgSystem,t1.org_attribute orgAttribute, " +
+        " t1.par_id parId,t1.secretary_name secretaryName,t1.member_cnt memberCnt,t1.address, " +
+        " t1.telephone,t1.community_id communityId,t1.create_at createAt " +
+        " from party_org t1 " +
+        " left join party_org t2 on t1.par_id=t2.id " +
+        " left join data_dictionary t3 on t1.org_system=t3.value and t3.data_type= " + DataDictionaryCode.DATA_TYPE_ORG_SYSTEM +
+        " left join data_dictionary t4 on t1.org_attribute=t4.value and t4.data_type= " + DataDictionaryCode.DATA_TYPE_ORG_ATTRIBUTE +
+        " left join community t5 on t1.community_id=t5.id ";
+
     @Override
     public Boolean save(PartyOrg partyOrg) {
         Boolean flag = true;
         try {
-            Random random = new Random();
-            partyOrg.setId(new IdWorker((long)random.nextInt(15)).nextId());
             baseDAO.save(partyOrg);
             System.out.println("添加党组织 OK   重点人员ID："+partyOrg.getId());
         } catch (Exception e) {
@@ -75,5 +89,32 @@ public class PartyOrgDaoImpl implements PartyOrgDao {
     @Override
     public PartyOrg getPartyOrgById(Long id) {
         return baseDAO.get(PartyOrg.class, id);
+    }
+
+    @Override
+    public List<PartyOrgVo> getAllPartyOrgVos() {
+        String hql=this.commonSql + " order by t1.create_at desc ";
+        List<PartyOrgVo> partyOrgVos = baseVoDAO.getResultBySQL(hql,new Object[]{},PartyOrgVo.class);
+        return partyOrgVos;
+    }
+
+    @Override
+    public List<PartyOrgVo> getPartyOrgVosByName(String name) {
+        String hql=this.commonSql +" where t1.name like ? order by t1.create_at desc ";
+        Object[] params = new Object[1];
+        params[0] = "%"+name+"%";
+        List<PartyOrgVo> partyOrgVos = baseVoDAO.getResultBySQL(hql,params,PartyOrgVo.class);
+        return partyOrgVos;
+    }
+
+    @Override
+    public PartyOrgVo getPartyOrgVoById(Long id) {
+        String hql=this.commonSql + " where t1.id="+id;
+        List<PartyOrgVo> partyOrgVos = baseVoDAO.getResultBySQL(hql,new Object[]{},PartyOrgVo.class);
+        PartyOrgVo partyOrgVo = new PartyOrgVo();
+        if(partyOrgVos.size()>0){
+            partyOrgVo=partyOrgVos.get(0);
+        }
+        return partyOrgVo;
     }
 }

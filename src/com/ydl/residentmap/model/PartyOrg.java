@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * 重点人员基本信息
+ * 党组织
  */
 @Entity
 @Table(name = "party_org")
@@ -29,8 +29,8 @@ public class PartyOrg {
     @Column(name = "par_id")
     private Long parId;
 
-    @Column(name = "secretary_id")
-    private Long secretaryId;
+    @Column(name = "secretary_name")
+    private String secretaryName;
 
     @Column(name = "member_cnt")
     private Integer memberCnt;
@@ -43,6 +43,17 @@ public class PartyOrg {
 
     @Column(name = "community_id")
     private String communityId;
+
+    @Column(name = "create_at")
+    private Long createAt;
+
+    public Long getCreateAt() {
+        return createAt;
+    }
+
+    public void setCreateAt(Long createAt) {
+        this.createAt = createAt;
+    }
 
     public Long getId() {
         return id;
@@ -84,12 +95,12 @@ public class PartyOrg {
         this.parId = parId;
     }
 
-    public Long getSecretaryId() {
-        return secretaryId;
+    public String getSecretaryName() {
+        return secretaryName;
     }
 
-    public void setSecretaryId(Long secretaryId) {
-        this.secretaryId = secretaryId;
+    public void setSecretaryName(String secretaryName) {
+        this.secretaryName = secretaryName;
     }
 
     public Integer getMemberCnt() {
