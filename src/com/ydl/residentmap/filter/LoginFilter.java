@@ -65,8 +65,8 @@ public class LoginFilter implements Filter{
 			if(user==null) {
 				String contextPath = hsq.getContextPath();
 				PrintWriter pw = ((HttpServletResponse)resp).getWriter();
-				pw.write("needlogin");
-				//((HttpServletResponse)resp).sendRedirect(contextPath+"/login.html");
+				//pw.write("needlogin");
+				((HttpServletResponse)resp).sendRedirect(contextPath+"/login.html");
 				//req.getRequestDispatcher("login.html").forward(req,resp);
 				return;
 				//chain.doFilter(req, resp);
