@@ -38,26 +38,14 @@ public class CadreController {
         String error = "";
         String error_description = "";
         try {
-            String idCard = cadre.getIdCard();
-            if(idCard!=null && !idCard.trim().equals(""))
-            {
-                List<Cadre> cadres = cadreService.getKeyPersonsByIdCard(idCard, CommonConst.ACTION_ADD,cadre.getId());
-                if(cadres.size()>0)
-                {
-                    status = ResultCode.ERROR_DUPLICATE_IDCADR;
-                    desc = ResultMessage.SAVE_FAILURE;
-                    error_description=ResultMessage.SAVE_FAILURE_DUPLICATE_IDCARD;
-                    return ResponseResult.create(status, data, desc, error, error_description);
-                }
-            }
-
             cadreService.save(cadre);
             data = cadre.getId();
             desc = ResultMessage.SAVE_SUCCESS;
         }
         catch (Exception ex){
             status = ResultCode.ERROR;
-            error_description = ResultMessage.SAVE_FAILURE;
+            desc = ResultMessage.SAVE_FAILURE;
+            error_description = ex.getMessage();
         }
         return ResponseResult.create(status, data, desc, error, error_description);
     }
@@ -113,24 +101,11 @@ public class CadreController {
         String error = "";
         String error_description = "";
         try {
-            String idCard = cadre.getIdCard();
-            if(idCard!=null && !idCard.trim().equals(""))
-            {
-                List<Cadre> keyPersonList = cadreService.getKeyPersonsByIdCard(idCard, CommonConst.ACTION_EDIT,cadre.getId());
-                if(keyPersonList.size()>0)
-                {
-                    status = ResultCode.ERROR_DUPLICATE_IDCADR;
-                    desc = ResultMessage.UPDATE_FAILURE;
-                    error_description=ResultMessage.UPDATE_FAILURE_DUPLICATE_IDCARD;
-                    return ResponseResult.create(status, data, desc, error, error_description);
-                }
-            }
-
             cadreService.update(cadre);
         } catch (Exception e) {
             status = ResultCode.ERROR;
             desc = ResultMessage.UPDATE_FAILURE;
-            error_description = ResultMessage.UPDATE_FAILURE;
+            error_description = e.getMessage();
         }
         return ResponseResult.create(status, data, desc, error, error_description);
     }

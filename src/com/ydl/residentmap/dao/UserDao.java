@@ -16,6 +16,8 @@ public interface UserDao{
 	User getUserByNamePwd(String name,String pwd);
 
 	List<User> getUsersByName(String name);
+
+	List<User> checkUserByName(User user,String action);
 	
 	Boolean delete(Long id);
 

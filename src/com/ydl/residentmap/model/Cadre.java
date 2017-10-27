@@ -55,6 +55,28 @@ public class Cadre implements Serializable {
     @Column(name = "create_at")
     private Long createAt;
 
+    @Column(name = "lng")
+    private String lng;
+
+    @Column(name = "lat")
+    private String lat;
+
+    public String getLng() {
+        return lng;
+    }
+
+    public void setLng(String lng) {
+        this.lng = lng;
+    }
+
+    public String getLat() {
+        return lat;
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
     public Long getCreateAt() {
         return createAt;
     }

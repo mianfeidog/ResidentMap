@@ -5,7 +5,6 @@ public class ResultMessage {
 	public static final String SEARCH_FAILURE = "查询失败";
 	public static final String SAVE_SUCCESS = "保存成功";
 	public static final String SAVE_FAILURE = "保存失败";
-	public static final String SAVE_FAILURE_DUPLICATE_IDCARD = "身份证重复";
 	
 	public static final String LOGIN_SUCCESS = "登录成功";
 	public static final String LOGIN_FAILURE = "用户名或密码错误";
@@ -18,7 +17,6 @@ public class ResultMessage {
 	public static final String CODE_FAILURE = "注册码失败";
 	
 	public static final String UPDATE_SUCCESS = "更新成功";
-	public static final String UPDATE_FAILURE_DUPLICATE_IDCARD = "身份证重复";
 	public static final String UPDATE_FAILURE = "更新失败";
 	public static final String DELETE_SUCCESS = "删除成功";
 	public static final String DELETE_FAILURE = "删除失败";
@@ -32,4 +30,9 @@ public class ResultMessage {
 	
 	public static final String OPERATE_SUCC="操作成功";
 	public static final String OPERATE_ERROR="操作失败";
+
+	public static final String DUPLICATE_IDCARD = "身份证重复！";
+	public static final String EMPTY_IDCARD = "身份证不能为空！";
+	public static final String NO_LNG_LAT = "根据地址无法查询经纬度！";
+	public static final String EMPTY_ADDRESS="家庭住址不能为空！";
 }

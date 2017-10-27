@@ -40,14 +40,6 @@ public class PartyMemberDaoImpl implements PartyMemberDao {
     public Boolean save(PartyMember partyMember) {
         Boolean flag = true;
         try {
-            //创建时间
-            Date now = new Date();
-            String sdate=(new SimpleDateFormat("yyyyMMddHHmm")).format(now);
-            Long dateLong = Long.parseLong(sdate);
-            partyMember.setCreateAt(dateLong);
-
-            Random random = new Random();
-            partyMember.setId(new IdWorker((long) random.nextInt(15)).nextId());
             baseDAO.save(partyMember);
             System.out.println("添加党员 OK   党员ID：" + partyMember.getId());
         } catch (Exception e) {

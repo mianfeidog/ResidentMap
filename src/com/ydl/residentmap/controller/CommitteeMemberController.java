@@ -39,26 +39,14 @@ public class CommitteeMemberController {
         String error = "";
         String error_description = "";
         try {
-            String idCard = committeeMember.getIdCard();
-            if(idCard!=null && !idCard.trim().equals(""))
-            {
-                List<CommitteeMember> committeeMemberCheck =  committeeMemberService.getCommitteeMemebersByIdCard(idCard, CommonConst.ACTION_ADD,committeeMember.getId());
-                if(committeeMemberCheck.size()>0)
-                {
-                    status = ResultCode.ERROR_DUPLICATE_IDCADR;
-                    desc = ResultMessage.SAVE_FAILURE;
-                    error_description=ResultMessage.SAVE_FAILURE_DUPLICATE_IDCARD;
-                    return ResponseResult.create(status, data, desc, error, error_description);
-                }
-            }
-
             committeeMemberService.save(committeeMember);
             data = committeeMember.getId();
             desc = ResultMessage.SAVE_SUCCESS;
         }
         catch (Exception ex){
             status = ResultCode.ERROR;
-            error_description = ResultMessage.SAVE_FAILURE;
+            desc = ResultMessage.SAVE_FAILURE;
+            error_description = ex.getMessage();
         }
         return ResponseResult.create(status, data, desc, error, error_description);
     }
@@ -114,25 +102,11 @@ public class CommitteeMemberController {
         String error = "";
         String error_description = "";
         try {
-            String idCard = committeeMember.getIdCard();
-            if(idCard!=null && !idCard.trim().equals(""))
-            {
-                List<CommitteeMember> committeeMemberCheck =  committeeMemberService.getCommitteeMemebersByIdCard(idCard,CommonConst.ACTION_EDIT,committeeMember.getId());
-                if(committeeMemberCheck.size()>0)
-                {
-                    status = ResultCode.ERROR_DUPLICATE_IDCADR;
-                    desc = ResultMessage.UPDATE_FAILURE;
-                    error_description=ResultMessage.UPDATE_FAILURE_DUPLICATE_IDCARD;
-                    return ResponseResult.create(status, data, desc, error, error_description);
-                }
-            }
-
             committeeMemberService.update(committeeMember);
-
         } catch (Exception e) {
             status = ResultCode.ERROR;
-            desc = ResultMessage.UPDATE_FAILURE;
-            error_description = ResultMessage.UPDATE_FAILURE;
+            desc = ResultMessage.SAVE_FAILURE;
+            error_description = e.getMessage();
         }
         return ResponseResult.create(status, data, desc, error, error_description);
     }

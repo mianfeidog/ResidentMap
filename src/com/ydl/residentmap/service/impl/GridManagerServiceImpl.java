@@ -1,13 +1,20 @@
 package com.ydl.residentmap.service.impl;
 
+import com.ydl.residentmap.constants.ResultMessage;
 import com.ydl.residentmap.dao.GridManagerDao;
 import com.ydl.residentmap.model.GridManager;
 import com.ydl.residentmap.model.vo.GridManagerVo;
 import com.ydl.residentmap.service.GridManagerService;
+import com.ydl.residentmap.util.IdWorker;
+import com.ydl.residentmap.util.LatitudeUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 @Service
 public class GridManagerServiceImpl implements GridManagerService {
@@ -16,6 +23,36 @@ public class GridManagerServiceImpl implements GridManagerService {
 
     @Override
     public Boolean save(GridManager gridManager) {
+        String address = gridManager.getAddress().trim();
+        //地址不为空，获取经纬度
+        if(!"".equals(address))
+        {
+            Map<String,String> lngLat = LatitudeUtils.getGeocoderLatitude(address);
+            if(lngLat!=null){
+                String lng = lngLat.get("lng");
+                String lat = lngLat.get("lat");
+                gridManager.setLng(lng);
+                gridManager.setLat(lat);
+            }
+            else
+            {
+                throw new RuntimeException(ResultMessage.NO_LNG_LAT);
+            }
+        }
+        else
+        {
+            throw new RuntimeException(ResultMessage.EMPTY_ADDRESS);
+        }
+
+        //创建时间
+        Date now = new Date();
+        String sdate=(new SimpleDateFormat("yyyyMMddHHmm")).format(now);
+        Long dateLong = Long.parseLong(sdate);
+        gridManager.setCreateAt(dateLong);
+
+        Random random = new Random();
+        gridManager.setId(new IdWorker((long)random.nextInt(15)).nextId());
+
         return gridManagerDao.save(gridManager);
     }
 
@@ -26,6 +63,27 @@ public class GridManagerServiceImpl implements GridManagerService {
 
     @Override
     public Boolean update(GridManager gridManager) {
+        String address = gridManager.getAddress().trim();
+        //地址不为空，获取经纬度
+        if(!"".equals(address))
+        {
+            Map<String,String> lngLat = LatitudeUtils.getGeocoderLatitude(address);
+            if(lngLat!=null){
+                String lng = lngLat.get("lng");
+                String lat = lngLat.get("lat");
+                gridManager.setLng(lng);
+                gridManager.setLat(lat);
+            }
+            else
+            {
+                throw new RuntimeException(ResultMessage.NO_LNG_LAT);
+            }
+        }
+        else
+        {
+            throw new RuntimeException(ResultMessage.EMPTY_ADDRESS);
+        }
+
         return gridManagerDao.update(gridManager);
     }
 

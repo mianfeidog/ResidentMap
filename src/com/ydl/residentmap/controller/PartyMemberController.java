@@ -39,25 +39,15 @@ public class PartyMemberController {
         String error = "";
         String error_description = "";
         try {
-            String idCard = partyMember.getIdCard();
-            if(idCard!=null && !idCard.trim().equals(""))
-            {
-                List<PartyMember> partyMemberList = partyMemberService.getPartyMembersByIdCard(idCard, CommonConst.ACTION_ADD,partyMember.getId());
-                if(partyMemberList.size()>0)
-                {
-                    status = ResultCode.ERROR_DUPLICATE_IDCADR;
-                    desc = ResultMessage.SAVE_FAILURE;
-                    error_description=ResultMessage.SAVE_FAILURE_DUPLICATE_IDCARD;
-                    return ResponseResult.create(status, data, desc, error, error_description);
-                }
-            }
+
             partyMemberService.save(partyMember);
             data = partyMember.getId();
             desc = ResultMessage.SAVE_SUCCESS;
         }
         catch (Exception ex){
             status = ResultCode.ERROR;
-            error_description = ResultMessage.SAVE_FAILURE;
+            desc = ResultMessage.SAVE_FAILURE;
+            error_description =ex.getMessage();
         }
         return ResponseResult.create(status, data, desc, error, error_description);
     }
@@ -113,25 +103,12 @@ public class PartyMemberController {
         String error = "";
         String error_description = "";
         try {
-            String idCard = partyMember.getIdCard();
-            if(idCard!=null && !idCard.trim().equals(""))
-            {
-                List<PartyMember> partyMemberList = partyMemberService.getPartyMembersByIdCard(idCard, CommonConst.ACTION_EDIT,partyMember.getId());
-                if(partyMemberList.size()>0)
-                {
-                    status = ResultCode.ERROR_DUPLICATE_IDCADR;
-                    desc = ResultMessage.UPDATE_FAILURE;
-                    error_description=ResultMessage.UPDATE_FAILURE_DUPLICATE_IDCARD;
-                    return ResponseResult.create(status, data, desc, error, error_description);
-                }
-            }
-
             partyMemberService.update(partyMember);
 
         } catch (Exception e) {
             status = ResultCode.ERROR;
-            desc = ResultMessage.UPDATE_FAILURE;
-            error_description = ResultMessage.UPDATE_FAILURE;
+            desc = ResultMessage.SAVE_FAILURE;
+            error_description =e.getMessage();
         }
         return ResponseResult.create(status, data, desc, error, error_description);
     }

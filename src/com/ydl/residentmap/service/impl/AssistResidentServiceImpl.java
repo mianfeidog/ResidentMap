@@ -1,5 +1,6 @@
 package com.ydl.residentmap.service.impl;
 
+import com.ydl.residentmap.constants.ResultMessage;
 import com.ydl.residentmap.dao.AssistResidentDao;
 import com.ydl.residentmap.dao.CadreDao;
 import com.ydl.residentmap.model.AssistResident;
@@ -30,8 +31,7 @@ public class AssistResidentServiceImpl implements AssistResidentService {
                 assistResident.setLat(lat);
             }
             else{
-                assistResident.setLng("");
-                assistResident.setLat("");
+                throw new RuntimeException(ResultMessage.NO_LNG_LAT);
             }
         }
 
@@ -56,8 +56,7 @@ public class AssistResidentServiceImpl implements AssistResidentService {
                 assistResident.setLat(lat);
             }
             else{
-                assistResident.setLng("");
-                assistResident.setLat("");
+                throw new RuntimeException(ResultMessage.NO_LNG_LAT);
             }
         }
 

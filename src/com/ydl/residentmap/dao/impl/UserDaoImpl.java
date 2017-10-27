@@ -7,6 +7,7 @@ import java.util.Random;
 
 import javax.annotation.Resource;
 
+import com.ydl.residentmap.constants.CommonConst;
 import com.ydl.residentmap.util.DES;
 import com.ydl.residentmap.util.MD5Util;
 import org.springframework.stereotype.Repository;
@@ -87,6 +88,24 @@ public class UserDaoImpl implements UserDao {
 		String hql="from User where name like ? order by createAt desc ";
 		Object[] params = new Object[1];
 		params[0] = "%"+name+"%";
+		List<User> users = baseDAO.find(hql, params);
+		return users;
+	}
+
+
+	@Override
+	public List<User> checkUserByName(User user,String action)
+	{
+		String hql="from User  where name=?";
+		if(CommonConst.ACTION_ADD.equals(action))
+		{}
+		else if (CommonConst.ACTION_EDIT.equals(action))
+		{
+			hql+= " and id<>"+user.getId();
+		}
+
+		Object[] params = new Object[1];
+		params[0] = user.getName();
 		List<User> users = baseDAO.find(hql, params);
 		return users;
 	}

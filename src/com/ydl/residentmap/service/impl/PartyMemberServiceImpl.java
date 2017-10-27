@@ -1,13 +1,21 @@
 package com.ydl.residentmap.service.impl;
 
+import com.ydl.residentmap.constants.CommonConst;
+import com.ydl.residentmap.constants.ResultMessage;
 import com.ydl.residentmap.dao.PartyMemberDao;
 import com.ydl.residentmap.model.PartyMember;
 import com.ydl.residentmap.model.vo.PartyMemberVo;
 import com.ydl.residentmap.service.PartyMemberService;
+import com.ydl.residentmap.util.IdWorker;
+import com.ydl.residentmap.util.LatitudeUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 @Service
 public class PartyMemberServiceImpl implements PartyMemberService {
@@ -17,6 +25,49 @@ public class PartyMemberServiceImpl implements PartyMemberService {
 
     @Override
     public Boolean save(PartyMember partyMember) {
+        String idCard = partyMember.getIdCard();
+        if(idCard!=null && !idCard.trim().equals(""))
+        {
+            List<PartyMember> partyMemberList = partyMemberDao.getPartyMembersByIdCard(idCard, CommonConst.ACTION_ADD,partyMember.getId());
+            if(partyMemberList.size()>0)
+            {
+                throw new RuntimeException(ResultMessage.DUPLICATE_IDCARD);
+            }
+        }
+        else
+        {
+            throw new RuntimeException(ResultMessage.EMPTY_IDCARD);
+        }
+
+        String address = partyMember.getAddress().trim();
+        //地址不为空，获取经纬度
+        if(!"".equals(address))
+        {
+            Map<String,String> lngLat = LatitudeUtils.getGeocoderLatitude(address);
+            if(lngLat!=null){
+                String lng = lngLat.get("lng");
+                String lat = lngLat.get("lat");
+                partyMember.setLng(lng);
+                partyMember.setLat(lat);
+            }
+            else
+            {
+                throw new RuntimeException(ResultMessage.NO_LNG_LAT);
+            }
+        }
+        else
+        {
+            throw new RuntimeException(ResultMessage.EMPTY_ADDRESS);
+        }
+
+        //创建时间
+        Date now = new Date();
+        String sdate=(new SimpleDateFormat("yyyyMMddHHmm")).format(now);
+        Long dateLong = Long.parseLong(sdate);
+        partyMember.setCreateAt(dateLong);
+
+        Random random = new Random();
+        partyMember.setId(new IdWorker((long) random.nextInt(15)).nextId());
         return partyMemberDao.save(partyMember);
     }
 
@@ -27,6 +78,41 @@ public class PartyMemberServiceImpl implements PartyMemberService {
 
     @Override
     public Boolean update(PartyMember partyMember) {
+        String idCard = partyMember.getIdCard();
+        if(idCard!=null && !idCard.trim().equals(""))
+        {
+            List<PartyMember> partyMemberList = partyMemberDao.getPartyMembersByIdCard(idCard, CommonConst.ACTION_EDIT,partyMember.getId());
+            if(partyMemberList.size()>0)
+            {
+                throw new RuntimeException(ResultMessage.DUPLICATE_IDCARD);
+            }
+        }
+        else
+        {
+            throw new RuntimeException(ResultMessage.EMPTY_IDCARD);
+        }
+
+        String address = partyMember.getAddress().trim();
+        //地址不为空，获取经纬度
+        if(!"".equals(address))
+        {
+            Map<String,String> lngLat = LatitudeUtils.getGeocoderLatitude(address);
+            if(lngLat!=null){
+                String lng = lngLat.get("lng");
+                String lat = lngLat.get("lat");
+                partyMember.setLng(lng);
+                partyMember.setLat(lat);
+            }
+            else
+            {
+                throw new RuntimeException(ResultMessage.NO_LNG_LAT);
+            }
+        }
+        else
+        {
+            throw new RuntimeException(ResultMessage.EMPTY_ADDRESS);
+        }
+
         return partyMemberDao.update(partyMember);
     }
 

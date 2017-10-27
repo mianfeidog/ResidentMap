@@ -67,19 +67,6 @@ public class KeyPersonController {
 		String error = "";
 		String error_description = "";
 		try {
-			String idCard = keyPerson.getIdCard();
-			if(idCard!=null && !idCard.trim().equals(""))
-			{
-				List<KeyPerson> keyPersonList = keyPersonService.getKeyPersonsByIdCard(idCard, CommonConst.ACTION_ADD,keyPerson.getId());
-				if(keyPersonList.size()>0)
-				{
-					status = ResultCode.ERROR_DUPLICATE_IDCADR;
-					desc = ResultMessage.SAVE_FAILURE;
-					error_description=ResultMessage.SAVE_FAILURE_DUPLICATE_IDCARD;
-					return ResponseResult.create(status, data, desc, error, error_description);
-				}
-			}
-
 			keyPersonService.save(keyPerson);
 			data = keyPerson.getId();
 			desc = ResultMessage.SAVE_SUCCESS;
@@ -87,7 +74,8 @@ public class KeyPersonController {
 		}
 		catch (Exception ex){
 			status = ResultCode.ERROR;
-			error_description = ResultMessage.SAVE_FAILURE;
+			desc = ResultMessage.SAVE_FAILURE;
+			error_description = ex.getMessage();
 		}
 		return ResponseResult.create(status, data, desc, error, error_description);
 	}
@@ -143,23 +131,11 @@ public class KeyPersonController {
 		String error = "";
 		String error_description = "";
 		try {
-			String idCard = keyPerson.getIdCard();
-			if(idCard!=null && !idCard.trim().equals(""))
-			{
-				List<KeyPerson> keyPersonList = keyPersonService.getKeyPersonsByIdCard(idCard, CommonConst.ACTION_EDIT,keyPerson.getId());
-				if(keyPersonList.size()>0)
-				{
-					status = ResultCode.ERROR_DUPLICATE_IDCADR;
-					desc = ResultMessage.UPDATE_FAILURE;
-					error_description=ResultMessage.UPDATE_FAILURE_DUPLICATE_IDCARD;
-					return ResponseResult.create(status, data, desc, error, error_description);
-				}
-			}
 			keyPersonService.update(keyPerson);
 		} catch (Exception e) {
 			status = ResultCode.ERROR;
 			desc = ResultMessage.UPDATE_FAILURE;
-			error_description = ResultMessage.UPDATE_FAILURE;
+			error_description = e.getMessage();
 		}
 		return ResponseResult.create(status, data, desc, error, error_description);
 	}

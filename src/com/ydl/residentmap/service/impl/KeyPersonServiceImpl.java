@@ -1,5 +1,7 @@
 package com.ydl.residentmap.service.impl;
 
+import com.ydl.residentmap.constants.CommonConst;
+import com.ydl.residentmap.constants.ResultMessage;
 import com.ydl.residentmap.dao.KeyPersonDao;
 import com.ydl.residentmap.model.KeyPerson;
 import com.ydl.residentmap.model.Pager;
@@ -25,6 +27,46 @@ public class KeyPersonServiceImpl implements KeyPersonService{
 
     @Override
     public Boolean save(KeyPerson keyPerson) {
+        String idCard = keyPerson.getIdCard();
+        if(idCard!=null && !idCard.trim().equals(""))
+        {
+            List<KeyPerson> keyPersonList = keyPersonDao.getKeyPersonsByIdCard(idCard, CommonConst.ACTION_ADD,keyPerson.getId());
+            if(keyPersonList.size()>0)
+            {
+                throw new RuntimeException(ResultMessage.DUPLICATE_IDCARD);
+            }
+        }
+        else
+        {
+            throw new RuntimeException(ResultMessage.EMPTY_IDCARD);
+        }
+
+        String address = keyPerson.getAddress().trim();
+        //地址不为空，获取经纬度
+        if(!"".equals(address))
+        {
+            Map<String,String> lngLat = LatitudeUtils.getGeocoderLatitude(address);
+            if(lngLat!=null){
+                String lng = lngLat.get("lng");
+                String lat = lngLat.get("lat");
+                keyPerson.setLng(lng);
+                keyPerson.setLat(lat);
+            }
+            else
+            {
+                throw new RuntimeException(ResultMessage.NO_LNG_LAT);
+            }
+        }
+        else
+        {
+            throw new RuntimeException(ResultMessage.EMPTY_ADDRESS);
+        }
+
+        if(keyPerson.getName() == null)
+        {
+            throw new RuntimeException("名字不能为空！");
+        }
+
         Random random = new Random();
         keyPerson.setId(new IdWorker((long)random.nextInt(15)).nextId());
 
@@ -33,26 +75,6 @@ public class KeyPersonServiceImpl implements KeyPersonService{
         String sdate=(new SimpleDateFormat("yyyyMMddHHmm")).format(now);
         Long dateLong = Long.parseLong(sdate);
         keyPerson.setCreateAt(dateLong);
-
-        String address = keyPerson.getAddress().trim();
-        //地址不为空，获取经纬度
-        if(!"".equals(address)){
-            Map<String,String> lngLat = LatitudeUtils.getGeocoderLatitude(address);
-            if(lngLat!=null){
-                String lng = lngLat.get("lng");
-                String lat = lngLat.get("lat");
-                keyPerson.setLng(lng);
-                keyPerson.setLat(lat);
-            }
-            else{
-                keyPerson.setLng("");
-                keyPerson.setLat("");
-            }
-        }
-
-        if(keyPerson.getName() == null){
-            throw new RuntimeException("名字不能为空！");
-        }
         return keyPersonDao.save(keyPerson);
     }
 
@@ -63,9 +85,24 @@ public class KeyPersonServiceImpl implements KeyPersonService{
 
     @Override
     public Boolean update(KeyPerson keyPerson) {
+        String idCard = keyPerson.getIdCard();
+        if(idCard!=null && !idCard.trim().equals(""))
+        {
+            List<KeyPerson> keyPersonList = keyPersonDao.getKeyPersonsByIdCard(idCard, CommonConst.ACTION_EDIT,keyPerson.getId());
+            if(keyPersonList.size()>0)
+            {
+                throw new RuntimeException(ResultMessage.DUPLICATE_IDCARD);
+            }
+        }
+        else
+        {
+            throw new RuntimeException(ResultMessage.EMPTY_IDCARD);
+        }
+
         String address = keyPerson.getAddress().trim();
         //地址不为空，获取经纬度
-        if(!"".equals(address)){
+        if(!"".equals(address))
+        {
             Map<String,String> lngLat = LatitudeUtils.getGeocoderLatitude(address);
             if(lngLat!=null){
                 String lng = lngLat.get("lng");
@@ -74,9 +111,12 @@ public class KeyPersonServiceImpl implements KeyPersonService{
                 keyPerson.setLat(lat);
             }
             else{
-                keyPerson.setLng("");
-                keyPerson.setLat("");
+                throw new RuntimeException(ResultMessage.NO_LNG_LAT);
             }
+        }
+        else
+        {
+            throw new RuntimeException(ResultMessage.EMPTY_ADDRESS);
         }
 
         return keyPersonDao.update(keyPerson);

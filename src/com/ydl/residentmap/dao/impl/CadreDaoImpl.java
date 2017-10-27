@@ -81,7 +81,7 @@ public class CadreDaoImpl implements CadreDao {
     }
 
     @Override
-    public List<Cadre> getKeyPersonsByIdCard(String idCard,String action,Long id)
+    public List<Cadre> getCadresByIdCard(String idCard,String action,Long id)
     {
         String hql="from Cadre where idCard = ?";
         if(CommonConst.ACTION_ADD.equals(action))

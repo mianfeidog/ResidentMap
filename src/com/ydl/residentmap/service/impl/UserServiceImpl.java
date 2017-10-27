@@ -7,6 +7,7 @@ import java.util.Random;
 
 import javax.annotation.Resource;
 
+import com.ydl.residentmap.constants.CommonConst;
 import com.ydl.residentmap.util.IdWorker;
 import com.ydl.residentmap.util.MD5Util;
 import org.springframework.stereotype.Service;
@@ -32,10 +33,9 @@ public class UserServiceImpl implements UserService {
 		}
 
 		//保存前，校验该账号是否存在，如果存在，返回，账号已经存在
-		User dbUser = userDao.getUserByName(obj.getName());
-		if(dbUser != null){
-			String msg = "";
-			throw new UserException("该账号已经存在，" + msg);
+		List<User> users = userDao.checkUserByName(obj, CommonConst.ACTION_ADD);
+		if(users.size() >0){
+			throw new UserException("该账号已经存在！");
 		}
 
 		Random random = new Random();
@@ -74,6 +74,12 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Boolean update(User user) {
+		//保存前，校验该账号是否存在，如果存在，返回，账号已经存在
+		List<User> users = userDao.checkUserByName(user, CommonConst.ACTION_EDIT);
+		if(users.size() >0){
+			throw new UserException("该账号已经存在！");
+		}
+
 		return userDao.update(user);
 	}
 

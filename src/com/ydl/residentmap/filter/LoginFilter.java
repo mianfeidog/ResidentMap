@@ -39,45 +39,56 @@ public class LoginFilter implements Filter{
 	public void doFilter(ServletRequest req, ServletResponse resp,
 			FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest hsq = (HttpServletRequest)req;
-		//System.out.println("过滤器");
-		boolean isExclueURL = false;
 		String servletPath = hsq.getServletPath();
-		if(servletPath.indexOf(".js")>=0 || servletPath.indexOf(".css")>=0)
+		String contextPath = hsq.getContextPath();
+		//判断用户是否登录
+		User user = (User)hsq.getSession().getAttribute("loginUser");
+		//用户已登录，
+		if(user!=null )
 		{
-			isExclueURL = true;
-		}
-
-		if(excludedPageArray != null){
-			//判断本次请求是否在过滤URL之外
-			for(String url : excludedPageArray){
-				if(servletPath.equals(url)){
-					isExclueURL = true;
-					break;
-				}     
-			}
-		}
-
-		if(isExclueURL){
-			chain.doFilter(req, resp);
-		}else{
-			//判断用户是否登录
-			User user = (User)hsq.getSession().getAttribute("loginUser");
-			if(user==null) {
-				String contextPath = hsq.getContextPath();
-				PrintWriter pw = ((HttpServletResponse)resp).getWriter();
-				//pw.write("needlogin");
-				((HttpServletResponse)resp).sendRedirect(contextPath+"/login.html");
-				//req.getRequestDispatcher("login.html").forward(req,resp);
+			//直接在浏览器输入http://localhost:8080/ResidentMap/时，跳转到首页
+			if("/login.html".equals(servletPath))
+			{
+				((HttpServletResponse)resp).sendRedirect(contextPath+"/party_commitee_info.html");
 				return;
-				//chain.doFilter(req, resp);
 			}
 			else
 			{
 				chain.doFilter(req, resp);
 			}
 		}
-		
-		
+		//用户未登录
+		else
+		{
+			//System.out.println("过滤器");
+			boolean isExclueURL = false;
+
+			if(servletPath.indexOf(".js")>=0 || servletPath.indexOf(".css")>=0)
+			{
+				isExclueURL = true;
+			}
+
+			if(excludedPageArray != null){
+				//判断本次请求是否在过滤URL之外
+				for(String url : excludedPageArray){
+					if(servletPath.equals(url)){
+						isExclueURL = true;
+						break;
+					}
+				}
+			}
+
+			if(isExclueURL){
+				chain.doFilter(req, resp);
+			}
+			else
+			{
+				PrintWriter pw = ((HttpServletResponse)resp).getWriter();
+				((HttpServletResponse)resp).sendRedirect(contextPath+"/login.html");
+				//req.getRequestDispatcher("login.html").forward(req,resp);
+				return;
+			}
+		}
 	}
 
 	@Override

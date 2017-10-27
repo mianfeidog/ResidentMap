@@ -24,5 +24,5 @@ public interface CadreService  {
 
     CadreVo getCadreVoById(Long id);
 
-    List<Cadre> getKeyPersonsByIdCard(String idCard,String action,Long id);
+    List<Cadre> getCadresByIdCard(String idCard,String action,Long id);
 }

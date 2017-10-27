@@ -37,14 +37,6 @@ public class GridManagerDaoImpl implements GridManagerDao{
     public Boolean save(GridManager gridManager) {
         Boolean flag = true;
         try {
-            //创建时间
-            Date now = new Date();
-            String sdate=(new SimpleDateFormat("yyyyMMddHHmm")).format(now);
-            Long dateLong = Long.parseLong(sdate);
-            gridManager.setCreateAt(dateLong);
-
-            Random random = new Random();
-            gridManager.setId(new IdWorker((long)random.nextInt(15)).nextId());
             baseDAO.save(gridManager);
             System.out.println("添加网格化管理人员 OK   重点人员ID："+gridManager.getId());
         } catch (Exception e) {
