@@ -40,32 +40,14 @@ public class BlockController {
         String error = "";
         String error_description = "";
         try {
-
-            String address = block.getAddress().trim();
-            //地址不为空，获取经纬度
-            if(!"".equals(address)){
-                desc = ResultMessage.SAVE_SUCCESS;
-                Map<String,String> lngLat = LatitudeUtils.getGeocoderLatitude(address);
-                if(lngLat!=null){
-                    String lng = lngLat.get("lng");
-                    String lat = lngLat.get("lat");
-                    block.setLng(lng);
-                    block.setLat(lat);
-                }
-                else{
-                    block.setLng(null);
-                    block.setLat(null);
-                    desc += " 根据地址["+address+"]未查询到小区经纬度，经纬度设置为空。";
-                }
-            }
-
             blockService.save(block);
             data = block.getId();
             desc = ResultMessage.SAVE_SUCCESS;
         }
         catch (Exception ex){
             status = ResultCode.ERROR;
-            error_description = ResultMessage.SAVE_FAILURE;
+            desc=ResultMessage.SAVE_FAILURE;
+            error_description = ex.getMessage();
         }
         return ResponseResult.create(status, data, desc, error, error_description);
     }
@@ -121,30 +103,11 @@ public class BlockController {
         String error = "";
         String error_description = "";
         try {
-
-            String address = block.getAddress().trim();
-            //地址不为空，获取经纬度
-            if(!"".equals(address)){
-                desc = ResultMessage.SAVE_SUCCESS;
-                Map<String,String> lngLat = LatitudeUtils.getGeocoderLatitude(address);
-                if(lngLat!=null){
-                    String lng = lngLat.get("lng");
-                    String lat = lngLat.get("lat");
-                    block.setLng(lng);
-                    block.setLat(lat);
-                }
-                else{
-                    block.setLng(null);
-                    block.setLat(null);
-                    desc += " 根据地址["+address+"]未查询到小区经纬度，经纬度设置为空。";
-                }
-            }
-
             blockService.update(block);
         } catch (Exception e) {
             status = ResultCode.ERROR;
             desc = ResultMessage.UPDATE_FAILURE;
-            error_description = ResultMessage.UPDATE_FAILURE;
+            error_description = e.getMessage();
         }
         return ResponseResult.create(status, data, desc, error, error_description);
     }

@@ -152,4 +152,13 @@ public class CommunityDaoImpl implements CommunityDao {
         pager.setData(communityList);
         return pager;
     }
+
+    @Override
+    public List<Community> getCommunitiesByStreetId(Long streetId) {
+        String hql="from Community where streetId = ?";
+        Object[] params = new Object[1];
+        params[0] = streetId;
+        List<Community> communities = baseDAO.find(hql, params);
+        return communities;
+    }
 }

@@ -27,4 +27,6 @@ public interface CommunityDao {
     List<CommunityVo> getCommunityVosByName(String name);
 
     Pager<Community> getCommunitiesByPage(int offset, int size);
+
+    List<Community> getCommunitiesByStreetId(Long streetId);
 }

@@ -36,14 +36,6 @@ public class BlockDaoImpl implements BlockDao {
     public Boolean save(Block block) {
         Boolean flag = true;
         try {
-            //创建时间
-            Date now = new Date();
-            String sdate=(new SimpleDateFormat("yyyyMMddHHmm")).format(now);
-            Long dateLong = Long.parseLong(sdate);
-            block.setCreateAt(dateLong);
-
-            Random random = new Random();
-            block.setId(new IdWorker((long)random.nextInt(15)).nextId());
             baseDAO.save(block);
             System.out.println("添加小区 OK   小区ID："+block.getId());
         } catch (Exception e) {
