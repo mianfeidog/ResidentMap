@@ -16,9 +16,11 @@ public interface GridManagerDao {
 
     List<GridManager> getKeyGridManagersByName(String name);
 
-    List<GridManager> getKeyGridManagersByGridRole(Integer gridRole);
+    List<GridManager> getGridManagersByGridRole(Integer gridRole);
 
     List<GridManager> getKeyGridManagersByMinority(Integer minority);
+
+    List<GridManager> getKeyGridManagersByEducation(Integer education);
 
     GridManager getGridManagerById(Long id);
 

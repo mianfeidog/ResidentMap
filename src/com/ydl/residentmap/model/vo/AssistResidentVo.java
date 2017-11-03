@@ -5,8 +5,6 @@ import com.ydl.residentmap.model.AssistResident;
 public class AssistResidentVo extends AssistResident {
     private String typeName;
 
-    private String deformityCardRankName;
-
     private String streetName;
 
     private String communityName;
@@ -14,14 +12,6 @@ public class AssistResidentVo extends AssistResident {
     private String blockName;
 
     private String buildingName;
-
-    public String getDeformityCardRankName() {
-        return deformityCardRankName;
-    }
-
-    public void setDeformityCardRankName(String deformityCardRankName) {
-        this.deformityCardRankName = deformityCardRankName;
-    }
 
     public String getTypeName() {
         return typeName;

@@ -22,11 +22,10 @@ public class AssistResidentDaoImpl implements AssistResidentDao {
     " t1.deformity_certificate_num deformityCertificateNum, " +
     " t1.receive_policy_standard receivePolicyStandard,t1.address,t1.link, " +
     " t1.block_id blockId,t1.building_id buildingId,t1.lng,t1.lat, " +
-    " ifnull(t2.name,'') typeName,ifnull(t3.name,'') deformityCardRankName, " +
-    " t4.name streetName,t5.name communityName,t6.name blockName,t7.name buildingName " +
+    " ifnull(t2.name,'') typeName, " +
+    " ifnull(t4.name,'') streetName,ifnull(t5.name,'') communityName,ifnull(t6.name,'') blockName,ifnull(t7.name,'') buildingName " +
     " from assist_resident t1 " +
     " left join data_dictionary t2 on t1.type=t2.value and t2.data_type= " + DataDictionaryCode.DATA_TYPE_ASSIST_RESIDENT +
-    " left join data_dictionary t3 on t1.deformity_card_rank=t3.value and t3.data_type= " + DataDictionaryCode.DATA_TYPE_DEFORMITY_CARD_RANK +
     " left join block t6 on t1.block_id=t6.id " +
     " left join community t5 on t6.community_id=t5.id " +
     " left join street t4 on t5.street_id=t4.id " +
@@ -135,6 +134,15 @@ public class AssistResidentDaoImpl implements AssistResidentDao {
         String hql="from AssistResident where name like ?";
         Object[] params = new Object[1];
         params[0] = "%"+name+"%";
+        List<AssistResident> assistResidents = baseDAO.find(hql, params);
+        return assistResidents;
+    }
+
+    @Override
+    public List<AssistResident> getAssistResidentsByType(Integer type) {
+        String hql="from AssistResident where type = ?";
+        Object[] params = new Object[1];
+        params[0] = type;
         List<AssistResident> assistResidents = baseDAO.find(hql, params);
         return assistResidents;
     }

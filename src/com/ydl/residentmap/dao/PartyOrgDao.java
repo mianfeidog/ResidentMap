@@ -16,6 +16,10 @@ public interface PartyOrgDao {
 
     List<PartyOrg> getPartyOrgsByName(String name);
 
+    List<PartyOrg> getPartyOrgsByOrgSystem(Integer orgSystem);
+
+    List<PartyOrg> getPartyOrgsByOrgAttribute(Integer orgAttribute);
+
     PartyOrg getPartyOrgById(Long id);
 
     List<PartyOrgVo> getAllPartyOrgVos();

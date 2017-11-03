@@ -87,6 +87,24 @@ public class CommitteeMemberDaoImpl implements CommitteeMemberDao {
     }
 
     @Override
+    public List<CommitteeMember> getCommitteeMembersByEducation(Integer education) {
+        String hql="from CommitteeMember where education = ?";
+        Object[] params = new Object[1];
+        params[0] = education;
+        List<CommitteeMember> committeeMembers = baseDAO.find(hql, params);
+        return committeeMembers;
+    }
+
+    @Override
+    public List<CommitteeMember> getCommitteeMembersByPosition(Integer position) {
+        String hql="from CommitteeMember where position = ?";
+        Object[] params = new Object[1];
+        params[0] = position;
+        List<CommitteeMember> committeeMembers = baseDAO.find(hql, params);
+        return committeeMembers;
+    }
+
+    @Override
     public CommitteeMember getCommitteeMemberById(Long id) {
         return baseDAO.get(CommitteeMember.class, id);
     }

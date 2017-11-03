@@ -185,7 +185,7 @@ public class DataDictionaryController {
 			status = ResultCode.ERROR;
 			desc = ResultMessage.DELETE_FAILURE;
 			error = "";
-			error_description = ResultMessage.DELETE_FAILURE;
+			error_description = e.getMessage();
 			logger.debug("删除数据字典异常，异常信息为："+error_description);
 		}
 		return ResponseResult.create(status, data, desc, error, error_description);
@@ -215,7 +215,7 @@ public class DataDictionaryController {
 			e.printStackTrace();
 			status = ResultCode.ERROR;
 			desc = ResultMessage.DELETE_FAILURE;
-			error_description = ResultMessage.DELETE_FAILURE;
+			error_description = e.getMessage();
 		}
 		return ResponseResult.create(status, data, desc, error, error_description);
 	}

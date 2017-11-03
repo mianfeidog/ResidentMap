@@ -101,7 +101,7 @@ public class CommunityDaoImpl implements CommunityDao {
 
     @Override
     public List<Community> getCommunitiesByType(Integer type) {
-        String hql="from Community where name type =?";
+        String hql="from Community where type =?";
         Object[] params = new Object[1];
         params[0] = type;
         List<Community> communities = baseDAO.find(hql, params);

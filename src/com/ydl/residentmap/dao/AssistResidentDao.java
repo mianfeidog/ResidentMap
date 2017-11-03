@@ -16,6 +16,8 @@ public interface AssistResidentDao {
 
     List<AssistResident> getAssistResidentsByName(String name);
 
+    List<AssistResident> getAssistResidentsByType(Integer type);
+
     List<AssistResident> getAssistResidentsByTypes(List<String> types);
 
     AssistResident getAssistResidentById(Long id);

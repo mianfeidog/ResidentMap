@@ -16,6 +16,10 @@ public interface CadreDao {
 
     List<Cadre> getCadresByName(String name);
 
+    List<Cadre> getCadresByEducation(Integer education);
+
+    List<Cadre> getCadresByPosition(Integer position);
+
     List<Cadre> getCadresByIdCard(String idCard,String action,Long id);
 
     Cadre getCadreById(Long id);

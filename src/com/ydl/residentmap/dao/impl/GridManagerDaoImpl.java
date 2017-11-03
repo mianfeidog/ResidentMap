@@ -95,8 +95,8 @@ public class GridManagerDaoImpl implements GridManagerDao{
     }
 
     @Override
-    public List<GridManager> getKeyGridManagersByGridRole(Integer gridRole) {
-        String hql="from GridManager where name gridRole= ?";
+    public List<GridManager> getGridManagersByGridRole(Integer gridRole) {
+        String hql="from GridManager where gridRole= ?";
         Object[] params = new Object[1];
         params[0] = gridRole;
         List<GridManager> gridManagers = baseDAO.find(hql, params);
@@ -108,6 +108,15 @@ public class GridManagerDaoImpl implements GridManagerDao{
         String hql="from GridManager where name minority= ?";
         Object[] params = new Object[1];
         params[0] = minority;
+        List<GridManager> gridManagers = baseDAO.find(hql, params);
+        return gridManagers;
+    }
+
+    @Override
+    public List<GridManager> getKeyGridManagersByEducation(Integer education) {
+        String hql="from GridManager where name education= ?";
+        Object[] params = new Object[1];
+        params[0] = education;
         List<GridManager> gridManagers = baseDAO.find(hql, params);
         return gridManagers;
     }

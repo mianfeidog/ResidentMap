@@ -87,6 +87,24 @@ public class PartyOrgDaoImpl implements PartyOrgDao {
     }
 
     @Override
+    public List<PartyOrg> getPartyOrgsByOrgSystem(Integer orgSystem) {
+        String hql="from PartyOrg where name orgSystem =?";
+        Object[] params = new Object[1];
+        params[0] = orgSystem;
+        List<PartyOrg> partyOrgs = baseDAO.find(hql, params);
+        return partyOrgs;
+    }
+
+    @Override
+    public List<PartyOrg> getPartyOrgsByOrgAttribute(Integer orgAttribute) {
+        String hql="from PartyOrg where name orgAttribute =?";
+        Object[] params = new Object[1];
+        params[0] = orgAttribute;
+        List<PartyOrg> partyOrgs = baseDAO.find(hql, params);
+        return partyOrgs;
+    }
+
+    @Override
     public PartyOrg getPartyOrgById(Long id) {
         return baseDAO.get(PartyOrg.class, id);
     }

@@ -18,6 +18,10 @@ public interface PartyMemberDao {
 
     List<PartyMember> getPartyMembersByMinority(Integer minority);
 
+    List<PartyMember> getPartyMembersByEducation(Integer education);
+
+    List<PartyMember> getPartyMembersByPost(Integer post);
+
     PartyMember getPartyMemberById(Long id);
 
     List<PartyMemberVo> getAllPartyMemberVos();

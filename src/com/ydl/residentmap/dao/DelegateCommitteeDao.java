@@ -18,6 +18,10 @@ public interface DelegateCommitteeDao {
 
     List<DelegateCommittee> getDelegateCommitteesByMinority(Integer minority);
 
+    List<DelegateCommittee> getDelegateCommitteesByEducation(Integer education);
+
+    List<DelegateCommittee> getDelegateCommitteesByParty(Integer party);
+
     DelegateCommittee getDelegateCommitteeById(Long id);
 
     List<DelegateCommitteeVo> getAllDelegateCommitteeVos();
