@@ -116,7 +116,7 @@ public class DataDictionaryServiceImpl implements DataDictionaryService {
 					throw new RuntimeException(name+"已被两代表一委员引用，无法删除");
 				}
 
-				List<GridManager> gridManagerList =gridManagerDao.getKeyGridManagersByMinority(value);
+				List<GridManager> gridManagerList =gridManagerDao.getGridManagersByMinority(value);
 				if(gridManagerList.size()>0)
 				{
 					throw new RuntimeException(name+"已被三长三员网格化管理人员引用，无法删除");
@@ -149,7 +149,7 @@ public class DataDictionaryServiceImpl implements DataDictionaryService {
 					throw new RuntimeException(name+"已被两代表一委员引用，无法删除");
 				}
 
-				List<GridManager> gridManagerList=gridManagerDao.getKeyGridManagersByEducation(value);
+				List<GridManager> gridManagerList=gridManagerDao.getGridManagersByEducation(value);
 				if(gridManagerList.size()>0)
 				{
 					throw new RuntimeException(name+"已被三长三员网格化管理人员引用，无法删除");

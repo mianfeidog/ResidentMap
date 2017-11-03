@@ -29,13 +29,13 @@ public class CommitteeMember implements Serializable {
     private Integer gender;
 
     @Column(name = "minority")
-    private Byte minority;
+    private Integer minority;
 
     @Column(name = "birthday")
     private Long birthday;
 
     @Column(name = "education")
-    private Byte education;
+    private Integer education;
 
     @Column(name = "join_date")
     private Long joinDate;
@@ -117,11 +117,11 @@ public class CommitteeMember implements Serializable {
         this.gender = gender;
     }
 
-    public Byte getMinority() {
+    public Integer getMinority() {
         return minority;
     }
 
-    public void setMinority(Byte minority) {
+    public void setMinority(Integer minority) {
         this.minority = minority;
     }
 
@@ -133,11 +133,11 @@ public class CommitteeMember implements Serializable {
         this.birthday = birthday;
     }
 
-    public Byte getEducation() {
+    public Integer getEducation() {
         return education;
     }
 
-    public void setEducation(Byte education) {
+    public void setEducation(Integer education) {
         this.education = education;
     }
 

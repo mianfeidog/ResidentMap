@@ -88,7 +88,7 @@ public class PartyOrgDaoImpl implements PartyOrgDao {
 
     @Override
     public List<PartyOrg> getPartyOrgsByOrgSystem(Integer orgSystem) {
-        String hql="from PartyOrg where name orgSystem =?";
+        String hql="from PartyOrg where orgSystem =?";
         Object[] params = new Object[1];
         params[0] = orgSystem;
         List<PartyOrg> partyOrgs = baseDAO.find(hql, params);
@@ -97,7 +97,7 @@ public class PartyOrgDaoImpl implements PartyOrgDao {
 
     @Override
     public List<PartyOrg> getPartyOrgsByOrgAttribute(Integer orgAttribute) {
-        String hql="from PartyOrg where name orgAttribute =?";
+        String hql="from PartyOrg where orgAttribute =?";
         Object[] params = new Object[1];
         params[0] = orgAttribute;
         List<PartyOrg> partyOrgs = baseDAO.find(hql, params);
