@@ -39,7 +39,7 @@ public class AssistResident implements Serializable {
 
 
     @Column(name = "deformity_card_rank")
-    private Integer deformityCardRank;
+    private String deformityCardRank;
 
     @Column(name = "deformity_certificate_num")
     private String deformityCertificateNum;
@@ -207,11 +207,11 @@ public class AssistResident implements Serializable {
         this.blockId = blockId;
     }
 
-    public Integer getDeformityCardRank() {
+    public String getDeformityCardRank() {
         return deformityCardRank;
     }
 
-    public void setDeformityCardRank(Integer deformityCardRank) {
+    public void setDeformityCardRank(String deformityCardRank) {
         this.deformityCardRank = deformityCardRank;
     }
 

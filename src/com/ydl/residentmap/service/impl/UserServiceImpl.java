@@ -80,6 +80,12 @@ public class UserServiceImpl implements UserService {
 			throw new UserException("该账号已经存在！");
 		}
 
+		//创建时间
+		Date now = new Date();
+		String sdate=(new SimpleDateFormat("yyyyMMddHHdd")).format(now);
+		Long dateLong = Long.parseLong(sdate);
+		user.setCreateAt(dateLong);
+
 		return userDao.update(user);
 	}
 

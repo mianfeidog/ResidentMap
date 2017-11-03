@@ -65,7 +65,8 @@ public class BuildingController {
         }
         catch (Exception ex){
             status = ResultCode.ERROR;
-            error_description = ResultMessage.SAVE_FAILURE;
+            desc=ResultMessage.SAVE_FAILURE;
+            error_description = ex.getMessage();
         }
         return ResponseResult.create(status, data, desc, error, error_description);
     }
@@ -144,7 +145,7 @@ public class BuildingController {
         } catch (Exception e) {
             status = ResultCode.ERROR;
             desc = ResultMessage.UPDATE_FAILURE;
-            error_description = ResultMessage.UPDATE_FAILURE;
+            error_description = e.getMessage();
         }
         return ResponseResult.create(status, data, desc, error, error_description);
     }

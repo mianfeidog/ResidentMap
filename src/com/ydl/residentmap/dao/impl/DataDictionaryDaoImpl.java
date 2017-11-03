@@ -21,6 +21,11 @@ public class DataDictionaryDaoImpl implements DataDictionaryDao {
 		return baseDAO.find(hql,new Object[]{dataType});
 	}
 
+	@Override
+	public DataDictionary getById(Long id) {
+		return baseDAO.get(DataDictionary.class, id);
+	}
+
 
 	@Override
 	public Boolean save(DataDictionary dataDictionary) {

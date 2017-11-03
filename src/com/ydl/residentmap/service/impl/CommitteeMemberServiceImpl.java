@@ -6,12 +6,16 @@ import com.ydl.residentmap.dao.CommitteeMemberDao;
 import com.ydl.residentmap.model.CommitteeMember;
 import com.ydl.residentmap.model.vo.CommitteeMemberVo;
 import com.ydl.residentmap.service.CommitteeMemberService;
+import com.ydl.residentmap.util.IdWorker;
 import com.ydl.residentmap.util.LatitudeUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 @Service
 public class CommitteeMemberServiceImpl implements CommitteeMemberService {
@@ -20,6 +24,12 @@ public class CommitteeMemberServiceImpl implements CommitteeMemberService {
 
     @Override
     public Boolean save(CommitteeMember committeeMember) {
+        Long communityId = committeeMember.getCommunityId();
+        if(communityId==null)
+        {
+            throw new RuntimeException(ResultMessage.EMPTY_COMMUNITY_ID);
+        }
+
         String idCard = committeeMember.getIdCard();
         if(idCard!=null && !idCard.trim().equals(""))
         {
@@ -28,6 +38,10 @@ public class CommitteeMemberServiceImpl implements CommitteeMemberService {
             {
                 throw new RuntimeException(ResultMessage.DUPLICATE_IDCARD);
             }
+        }
+        else
+        {
+            throw new RuntimeException(ResultMessage.EMPTY_ID_CARD);
         }
 
         String address = committeeMember.getAddress().trim();
@@ -48,6 +62,15 @@ public class CommitteeMemberServiceImpl implements CommitteeMemberService {
         {
             throw new RuntimeException(ResultMessage.EMPTY_ADDRESS);
         }
+
+        //创建时间
+        Date now = new Date();
+        String sdate=(new SimpleDateFormat("yyyyMMddHHmm")).format(now);
+        Long dateLong = Long.parseLong(sdate);
+        committeeMember.setCreateAt(dateLong);
+
+        Random random = new Random();
+        committeeMember.setId(new IdWorker((long) random.nextInt(15)).nextId());
 
         return committeeMemberDao.save(committeeMember);
     }
@@ -59,6 +82,12 @@ public class CommitteeMemberServiceImpl implements CommitteeMemberService {
 
     @Override
     public Boolean update(CommitteeMember committeeMember) {
+        Long communityId = committeeMember.getCommunityId();
+        if(communityId==null)
+        {
+            throw new RuntimeException(ResultMessage.EMPTY_COMMUNITY_ID);
+        }
+
         String idCard = committeeMember.getIdCard();
         if(idCard!=null && !idCard.trim().equals(""))
         {
@@ -67,6 +96,10 @@ public class CommitteeMemberServiceImpl implements CommitteeMemberService {
             {
                 throw new RuntimeException(ResultMessage.DUPLICATE_IDCARD);
             }
+        }
+        else
+        {
+            throw new RuntimeException(ResultMessage.EMPTY_ID_CARD);
         }
 
         String address = committeeMember.getAddress().trim();
@@ -87,6 +120,12 @@ public class CommitteeMemberServiceImpl implements CommitteeMemberService {
         {
             throw new RuntimeException(ResultMessage.EMPTY_ADDRESS);
         }
+
+        //创建时间
+        Date now = new Date();
+        String sdate=(new SimpleDateFormat("yyyyMMddHHmm")).format(now);
+        Long dateLong = Long.parseLong(sdate);
+        committeeMember.setCreateAt(dateLong);
 
         return committeeMemberDao.update(committeeMember);
     }

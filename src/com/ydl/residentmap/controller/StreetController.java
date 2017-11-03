@@ -84,6 +84,33 @@ public class StreetController {
         return ResponseResult.create(status, data, desc, error, error_description);
     }
 
+    /**
+     * 根据id获取街道
+     *
+     * @param id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "getbyid/{id}", method = RequestMethod.GET)
+    public ResponseResult getById(@PathVariable("id") Long id) {
+        logger.debug("根据id获取街道，街道ID为：【"+id+"】");
+        String status = ResultCode.SUCCESS;
+        Object data = new JSONObject();
+        String desc = ResultMessage.SEARCH_SUCCESS;
+        String error = "";
+        String error_description = "";
+        try {
+            data = streetService.getStreetById(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            status = ResultCode.ERROR;
+            desc = ResultMessage.SEARCH_FAILURE;
+            error_description = e.getMessage();
+            logger.debug("获取街道信息异常，异常信息为：【"+error_description+"】");
+        }
+        return ResponseResult.create(status, data, desc, error, error_description);
+    }
+
 
     /**
      * 更新街道

@@ -11,6 +11,8 @@ public interface StreetDao {
 
     List<Street> getStreetsByName(String name);
 
+    Street getStreetById(Long id);
+
     Integer deleteList(List<String> idList);
 
     Boolean update(Street street);

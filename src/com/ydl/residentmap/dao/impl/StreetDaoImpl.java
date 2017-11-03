@@ -23,14 +23,6 @@ public class StreetDaoImpl implements StreetDao {
     public Boolean save(Street street) {
         Boolean flag = true;
         try {
-            //创建时间
-            Date now = new Date();
-            String sdate=(new SimpleDateFormat("yyyyMMddHHmm")).format(now);
-            Long dateLong = Long.parseLong(sdate);
-            street.setCreateAt(dateLong);
-
-            Random random = new Random();
-            street.setId(new IdWorker((long)random.nextInt(15)).nextId());
             baseDAO.save(street);
             System.out.println("添加街道OK  街道ID："+street.getId());
         } catch (Exception e) {
@@ -53,6 +45,11 @@ public class StreetDaoImpl implements StreetDao {
         params[0] = "%" + name + "%";
         List<Street> streets = baseDAO.find(hql, params);
         return streets;
+    }
+
+    @Override
+    public Street getStreetById(Long id) {
+        return baseDAO.get(Street.class, id);
     }
 
     @Override

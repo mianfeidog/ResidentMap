@@ -23,7 +23,7 @@ public class DelegateCommitteeDaoImpl implements DelegateCommitteeDao {
 
     private String commonSql="select IFNULL(t2.name,'') minorityName,IFNULL(t3.name,'') educationName, " +
         " IFNULL(t4.name,'') partyName,IFNULL(t5.name,'') communityName, " +
-        " t1.id,t1.name,t1.gender,t1.minority,t1.birthday,t1.education, " +
+        " t1.lat,t1.lng,t1.id,t1.name,t1.gender,t1.minority,t1.birthday,t1.education, " +
         " t1.party,t1.appoint_post appointPost,t1.address,t1.link,t1.community_id communityId,t1.create_at createAt " +
         " from delegate_committee t1 " +
         " left join data_dictionary t2 on t1.minority=t2.value and t2.data_type= " + DataDictionaryCode.DATA_TYPE_MINORITY +

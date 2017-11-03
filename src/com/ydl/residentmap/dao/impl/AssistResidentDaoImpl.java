@@ -42,14 +42,6 @@ public class AssistResidentDaoImpl implements AssistResidentDao {
     public Boolean save(AssistResident assistResident) {
         Boolean flag = true;
         try {
-            //创建时间
-            Date now = new Date();
-            String sdate=(new SimpleDateFormat("yyyyMMddHHmm")).format(now);
-            Long dateLong = Long.parseLong(sdate);
-            assistResident.setCreateAt(dateLong);
-
-            Random random = new Random();
-            assistResident.setId(new IdWorker((long)random.nextInt(15)).nextId());
             baseDAO.save(assistResident);
             System.out.println("添加帮扶人员 OK   ID："+assistResident.getId());
         } catch (Exception e) {

@@ -1,5 +1,6 @@
 package com.ydl.residentmap.service.impl;
 
+import com.ydl.residentmap.constants.ResultMessage;
 import com.ydl.residentmap.dao.PartyOrgDao;
 import com.ydl.residentmap.model.PartyOrg;
 import com.ydl.residentmap.model.vo.PartyOrgVo;
@@ -21,6 +22,11 @@ public class PartyOrgServiceImpl implements PartyOrgService {
 
     @Override
     public Boolean save(PartyOrg partyOrg) {
+        Long communityId = partyOrg.getCommunityId();
+        if(communityId==null)
+        {
+            throw new RuntimeException(ResultMessage.EMPTY_COMMUNITY_ID);
+        }
 
         Random random = new Random();
         partyOrg.setId(new IdWorker((long)random.nextInt(15)).nextId());
@@ -40,6 +46,18 @@ public class PartyOrgServiceImpl implements PartyOrgService {
 
     @Override
     public Boolean update(PartyOrg partyOrg) {
+        Long communityId = partyOrg.getCommunityId();
+        if(communityId==null)
+        {
+            throw new RuntimeException(ResultMessage.EMPTY_COMMUNITY_ID);
+        }
+
+        //创建时间
+        Date now = new Date();
+        String sdate=(new SimpleDateFormat("yyyyMMddHHmm")).format(now);
+        Long dateLong = Long.parseLong(sdate);
+        partyOrg.setCreateAt(dateLong);
+
         return partyOrgDao.update(partyOrg);
     }
 

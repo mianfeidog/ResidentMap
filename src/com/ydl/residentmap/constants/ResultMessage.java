@@ -33,6 +33,10 @@ public class ResultMessage {
 
 	public static final String DUPLICATE_IDCARD = "身份证重复！";
 	public static final String EMPTY_IDCARD = "身份证不能为空！";
+	public static final String EMPTY_COMMUNITY_ID="社区不能为空！";
+	public static final String EMPTY_STREET_ID="街道不能为空！";
+	public static final String EMPTY_ID_CARD="身份证不能为空！";
+	public static final String EMPTY_BLOCK_ID="小区不能为空！";
 	public static final String NO_LNG_LAT = "根据地址无法查询经纬度！";
 	public static final String EMPTY_ADDRESS="家庭住址不能为空！";
 }

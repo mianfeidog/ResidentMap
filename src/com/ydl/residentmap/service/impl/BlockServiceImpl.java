@@ -88,6 +88,12 @@ public class BlockServiceImpl implements BlockService {
             }
         }
 
+        //创建时间
+        Date now = new Date();
+        String sdate=(new SimpleDateFormat("yyyyMMddHHmm")).format(now);
+        Long dateLong = Long.parseLong(sdate);
+        block.setCreateAt(dateLong);
+
         return blockDao.update(block);
     }
 

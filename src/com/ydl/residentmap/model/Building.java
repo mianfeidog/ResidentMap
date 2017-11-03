@@ -54,6 +54,17 @@ public class Building implements Serializable {
     @Column(name = "person_in_charge_tel")
     private String personInChargeTel;
 
+    @Column(name = "create_at")
+    private Long createAt;
+
+    public Long getCreateAt() {
+        return createAt;
+    }
+
+    public void setCreateAt(Long createAt) {
+        this.createAt = createAt;
+    }
+
     public Long getStreetId() {
         return streetId;
     }

@@ -27,6 +27,12 @@ public class KeyPersonServiceImpl implements KeyPersonService{
 
     @Override
     public Boolean save(KeyPerson keyPerson) {
+        Long blockId =keyPerson.getBlockId();
+        if(blockId==null)
+        {
+            throw new RuntimeException(ResultMessage.EMPTY_BLOCK_ID);
+        }
+
         String idCard = keyPerson.getIdCard();
         if(idCard!=null && !idCard.trim().equals(""))
         {
@@ -85,6 +91,12 @@ public class KeyPersonServiceImpl implements KeyPersonService{
 
     @Override
     public Boolean update(KeyPerson keyPerson) {
+        Long blockId =keyPerson.getBlockId();
+        if(blockId==null)
+        {
+            throw new RuntimeException(ResultMessage.EMPTY_BLOCK_ID);
+        }
+
         String idCard = keyPerson.getIdCard();
         if(idCard!=null && !idCard.trim().equals(""))
         {
@@ -118,6 +130,12 @@ public class KeyPersonServiceImpl implements KeyPersonService{
         {
             throw new RuntimeException(ResultMessage.EMPTY_ADDRESS);
         }
+
+        //创建时间
+        Date now = new Date();
+        String sdate=(new SimpleDateFormat("yyyyMMddHHmm")).format(now);
+        Long dateLong = Long.parseLong(sdate);
+        keyPerson.setCreateAt(dateLong);
 
         return keyPersonDao.update(keyPerson);
     }

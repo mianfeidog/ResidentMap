@@ -25,7 +25,7 @@ public class PartyMemberDaoImpl implements PartyMemberDao {
     private BaseDao<PartyMemberVo> baseVoDAO;
 
     private String commonSql="select t1.create_at createAt, ifnull(t4.name,'') minorityName,ifnull(t5.name,'') educationName,ifnull(t6.name,'') claimPostName, " +
-            " t1.id,t1.name,t1.gender,t1.minority,t1.birthday, " +
+            " t1.lat,t1.lng, t1.id,t1.name,t1.gender,t1.minority,t1.birthday, " +
             " t1.education,t1.join_date joinDate,t1.claim_post claimPost,t1.id_card idCard,t1.address,t1.link, " +
             " t1.difficult,t1.street_id streetId,t1.community_id communityId,t1.block_id blockId,t1.building_id buildingId, " +
             " ifnull(t2.name,'') streetName,ifnull(t3.name,'') communityName " +
@@ -108,7 +108,7 @@ public class PartyMemberDaoImpl implements PartyMemberDao {
         String hql=this.commonSql + " where t1.name like ? order by t1.create_at desc";
         Object[] params = new Object[1];
         params[0] = "%"+name+"%";
-        List<PartyMemberVo> partyMemberVoList = baseVoDAO.getResultBySQL(hql,new Object[]{},PartyMemberVo.class);
+        List<PartyMemberVo> partyMemberVoList = baseVoDAO.getResultBySQL(hql,params,PartyMemberVo.class);
         return partyMemberVoList;
     }
 

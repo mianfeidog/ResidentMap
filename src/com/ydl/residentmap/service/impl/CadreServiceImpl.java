@@ -24,6 +24,12 @@ public class CadreServiceImpl implements CadreService{
 
     @Override
     public Boolean save(Cadre cadre) {
+        Long communityId = cadre.getCommunityId();
+        if(communityId==null)
+        {
+            throw new RuntimeException(ResultMessage.EMPTY_COMMUNITY_ID);
+        }
+
         String idCard = cadre.getIdCard();
         if(idCard!=null && !idCard.trim().equals(""))
         {
@@ -32,6 +38,10 @@ public class CadreServiceImpl implements CadreService{
             {
                 throw new RuntimeException(ResultMessage.DUPLICATE_IDCARD);
             }
+        }
+        else
+        {
+            throw new RuntimeException(ResultMessage.EMPTY_ID_CARD);
         }
 
         String address = cadre.getAddress().trim();
@@ -72,6 +82,12 @@ public class CadreServiceImpl implements CadreService{
 
     @Override
     public Boolean update(Cadre cadre) {
+        Long communityId = cadre.getCommunityId();
+        if(communityId==null)
+        {
+            throw new RuntimeException(ResultMessage.EMPTY_COMMUNITY_ID);
+        }
+
         String idCard = cadre.getIdCard();
         if(idCard!=null && !idCard.trim().equals(""))
         {
@@ -81,6 +97,11 @@ public class CadreServiceImpl implements CadreService{
                 throw new RuntimeException(ResultMessage.DUPLICATE_IDCARD);
             }
         }
+        else
+        {
+            throw new RuntimeException(ResultMessage.EMPTY_ID_CARD);
+        }
+
 
         String address = cadre.getAddress().trim();
         //地址不为空，获取经纬度
@@ -100,6 +121,12 @@ public class CadreServiceImpl implements CadreService{
         {
             throw new RuntimeException(ResultMessage.EMPTY_ADDRESS);
         }
+
+        //创建时间
+        Date now = new Date();
+        String sdate=(new SimpleDateFormat("yyyyMMddHHmm")).format(now);
+        Long dateLong = Long.parseLong(sdate);
+        cadre.setCreateAt(dateLong);
 
         return cadreDao.update(cadre);
     }

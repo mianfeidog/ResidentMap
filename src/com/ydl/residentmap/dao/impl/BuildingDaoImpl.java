@@ -34,8 +34,6 @@ public class BuildingDaoImpl implements BuildingDao {
     public Boolean save(Building building) {
         Boolean flag = true;
         try {
-            Random random = new Random();
-            building.setId(new IdWorker((long)random.nextInt(15)).nextId());
             baseDAO.save(building);
             System.out.println("添加楼栋 OK   重点人员ID："+building.getId());
         } catch (Exception e) {

@@ -6,6 +6,8 @@ import com.ydl.residentmap.model.DataDictionary;
 
 public interface DataDictionaryDao{
 	List<DataDictionary> getByType(int dataType);
+
+	DataDictionary getById(Long id);
 	//保存
 	Boolean save(DataDictionary dataDictionary);
 	Boolean update(DataDictionary dataDictionary);

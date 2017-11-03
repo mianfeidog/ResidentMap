@@ -1,13 +1,18 @@
 package com.ydl.residentmap.service.impl;
 
+import com.ydl.residentmap.constants.ResultMessage;
 import com.ydl.residentmap.dao.BuildingDao;
 import com.ydl.residentmap.model.Building;
 import com.ydl.residentmap.model.vo.BuildingVo;
 import com.ydl.residentmap.service.BuildingService;
+import com.ydl.residentmap.util.IdWorker;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class BuildingServiceImpl implements BuildingService {
@@ -16,6 +21,21 @@ public class BuildingServiceImpl implements BuildingService {
 
     @Override
     public Boolean save(Building building) {
+        Long blockId = building.getBlockId();
+        if(blockId==null)
+        {
+            throw new RuntimeException(ResultMessage.EMPTY_BLOCK_ID);
+        }
+
+        //创建时间
+        Date now = new Date();
+        String sdate=(new SimpleDateFormat("yyyyMMddHHmm")).format(now);
+        Long dateLong = Long.parseLong(sdate);
+        building.setCreateAt(dateLong);
+
+        Random random = new Random();
+        building.setId(new IdWorker((long)random.nextInt(15)).nextId());
+
         return buildingDao.save(building);
     }
 
@@ -26,6 +46,18 @@ public class BuildingServiceImpl implements BuildingService {
 
     @Override
     public Boolean update(Building building) {
+        Long blockId = building.getBlockId();
+        if(blockId==null)
+        {
+            throw new RuntimeException(ResultMessage.EMPTY_BLOCK_ID);
+        }
+
+        //创建时间
+        Date now = new Date();
+        String sdate=(new SimpleDateFormat("yyyyMMddHHmm")).format(now);
+        Long dateLong = Long.parseLong(sdate);
+        building.setCreateAt(dateLong);
+
         return buildingDao.update(building);
     }
 

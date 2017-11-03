@@ -23,7 +23,7 @@ public class CommitteeMemberDaoImpl implements CommitteeMemberDao {
     @Resource
     private BaseDao<CommitteeMemberVo> baseVoDAO;
 
-    private String commonSql="select t1.create_at createAt,  t1.id,t1.position,t1.name,t1.gender,t1.minority,t1.birthday, " +
+    private String commonSql="select t1.lat,t1.lng, t1.create_at createAt,  t1.id,t1.position,t1.name,t1.gender,t1.minority,t1.birthday, " +
             " t1.education,t1.join_date joinDate,t1.id_card idCard,t1.address,t1.link,t1.community_id communityId, " +
             " ifnull(t2.name,'') communityName,ifnull(t3.name,'') positionName,ifnull(t4.name,'') minorityName, " +
             " ifnull(t5.name,'') educationName " +
@@ -37,15 +37,6 @@ public class CommitteeMemberDaoImpl implements CommitteeMemberDao {
     public Boolean save(CommitteeMember committeeMember) {
         Boolean flag = true;
         try {
-
-            //创建时间
-            Date now = new Date();
-            String sdate=(new SimpleDateFormat("yyyyMMddHHmm")).format(now);
-            Long dateLong = Long.parseLong(sdate);
-            committeeMember.setCreateAt(dateLong);
-
-            Random random = new Random();
-            committeeMember.setId(new IdWorker((long) random.nextInt(15)).nextId());
             baseDAO.save(committeeMember);
             System.out.println("添加社区大党委成员 OK   成员ID：" + committeeMember.getId());
         } catch (Exception e) {

@@ -6,13 +6,12 @@ import com.ydl.residentmap.model.Community;
 import com.ydl.residentmap.model.Pager;
 import com.ydl.residentmap.model.Street;
 import com.ydl.residentmap.service.StreetService;
+import com.ydl.residentmap.util.IdWorker;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 public class StreetServiceImpl implements StreetService{
@@ -24,6 +23,15 @@ public class StreetServiceImpl implements StreetService{
 
     @Override
     public Boolean save(Street street) {
+        //创建时间
+        Date now = new Date();
+        String sdate=(new SimpleDateFormat("yyyyMMddHHmm")).format(now);
+        Long dateLong = Long.parseLong(sdate);
+        street.setCreateAt(dateLong);
+
+        Random random = new Random();
+        street.setId(new IdWorker((long)random.nextInt(15)).nextId());
+
         return streetDao.save(street);
     }
 
@@ -36,6 +44,12 @@ public class StreetServiceImpl implements StreetService{
     public List<Street> getStreetsByName(String name) {
         return streetDao.getStreetsByName(name);
     }
+
+    @Override
+    public Street getStreetById(Long id) {
+        return streetDao.getStreetById(id);
+    }
+
 
     @Override
     public Integer deleteList(List<String> idList) {
@@ -64,6 +78,12 @@ public class StreetServiceImpl implements StreetService{
 
     @Override
     public Boolean update(Street street) {
+        //创建时间
+        Date now = new Date();
+        String sdate=(new SimpleDateFormat("yyyyMMddHHmm")).format(now);
+        Long dateLong = Long.parseLong(sdate);
+        street.setCreateAt(dateLong);
+
         return streetDao.update(street);
     }
 

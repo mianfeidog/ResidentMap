@@ -24,6 +24,12 @@ public class DelegateCommitteeServiceImpl implements DelegateCommitteeService {
 
     @Override
     public Boolean save(DelegateCommittee delegateCommittee) {
+        Long communityId = delegateCommittee.getCommunityId();
+        if(communityId==null)
+        {
+            throw new RuntimeException(ResultMessage.EMPTY_COMMUNITY_ID);
+        }
+
         String address = delegateCommittee.getAddress().trim();
         //地址不为空，获取经纬度
         if(!"".equals(address))
@@ -62,6 +68,12 @@ public class DelegateCommitteeServiceImpl implements DelegateCommitteeService {
 
     @Override
     public Boolean update(DelegateCommittee delegateCommittee) {
+        Long communityId = delegateCommittee.getCommunityId();
+        if(communityId==null)
+        {
+            throw new RuntimeException(ResultMessage.EMPTY_COMMUNITY_ID);
+        }
+
         String address = delegateCommittee.getAddress().trim();
         //地址不为空，获取经纬度
         if(!"".equals(address))
@@ -81,6 +93,12 @@ public class DelegateCommitteeServiceImpl implements DelegateCommitteeService {
         {
             throw new RuntimeException(ResultMessage.EMPTY_ADDRESS);
         }
+
+        //创建时间
+        Date now = new Date();
+        String sdate=(new SimpleDateFormat("yyyyMMddHHmm")).format(now);
+        Long dateLong = Long.parseLong(sdate);
+        delegateCommittee.setCreateAt(dateLong);
 
         return delegateCommitteeDao.update(delegateCommittee);
     }

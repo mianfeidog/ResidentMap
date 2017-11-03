@@ -42,7 +42,7 @@ public class PartyOrg {
     private String telephone;
 
     @Column(name = "community_id")
-    private String communityId;
+    private Long communityId;
 
     @Column(name = "create_at")
     private Long createAt;
@@ -127,11 +127,11 @@ public class PartyOrg {
         this.telephone = telephone;
     }
 
-    public String getCommunityId() {
+    public Long getCommunityId() {
         return communityId;
     }
 
-    public void setCommunityId(String communityId) {
+    public void setCommunityId(Long communityId) {
         this.communityId = communityId;
     }
 }

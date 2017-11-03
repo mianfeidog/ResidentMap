@@ -1,5 +1,6 @@
 package com.ydl.residentmap.service.impl;
 
+import com.ydl.residentmap.constants.ResultMessage;
 import com.ydl.residentmap.dao.BlockDao;
 import com.ydl.residentmap.dao.CommunityDao;
 import com.ydl.residentmap.model.Community;
@@ -7,10 +8,14 @@ import com.ydl.residentmap.model.Pager;
 import com.ydl.residentmap.model.vo.BlockVo;
 import com.ydl.residentmap.model.vo.CommunityVo;
 import com.ydl.residentmap.service.CommunityService;
+import com.ydl.residentmap.util.IdWorker;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class CommunityServiceImpl implements CommunityService {
@@ -22,6 +27,21 @@ public class CommunityServiceImpl implements CommunityService {
 
     @Override
     public Boolean save(Community community) {
+        Long streetId = community.getStreetId();
+        if(streetId==null)
+        {
+            throw new RuntimeException(ResultMessage.EMPTY_STREET_ID);
+        }
+
+        //创建时间
+        Date now = new Date();
+        String sdate=(new SimpleDateFormat("yyyyMMddHHmm")).format(now);
+        Long dateLong = Long.parseLong(sdate);
+        community.setCreateAt(dateLong);
+
+        Random random = new Random();
+        community.setId(new IdWorker((long)random.nextInt(15)).nextId());
+
         return communityDao.save(community);
     }
 
@@ -32,6 +52,18 @@ public class CommunityServiceImpl implements CommunityService {
 
     @Override
     public Boolean update(Community community) {
+        Long streetId = community.getStreetId();
+        if(streetId==null)
+        {
+            throw new RuntimeException(ResultMessage.EMPTY_STREET_ID);
+        }
+
+        //创建时间
+        Date now = new Date();
+        String sdate=(new SimpleDateFormat("yyyyMMddHHmm")).format(now);
+        Long dateLong = Long.parseLong(sdate);
+        community.setCreateAt(dateLong);
+
         return communityDao.update(community);
     }
 

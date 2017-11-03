@@ -23,6 +23,12 @@ public class GridManagerServiceImpl implements GridManagerService {
 
     @Override
     public Boolean save(GridManager gridManager) {
+        Long communityId = gridManager.getCommunityId();
+        if(communityId==null)
+        {
+            throw new RuntimeException(ResultMessage.EMPTY_COMMUNITY_ID);
+        }
+
         String address = gridManager.getAddress().trim();
         //地址不为空，获取经纬度
         if(!"".equals(address))
@@ -63,6 +69,12 @@ public class GridManagerServiceImpl implements GridManagerService {
 
     @Override
     public Boolean update(GridManager gridManager) {
+        Long communityId = gridManager.getCommunityId();
+        if(communityId==null)
+        {
+            throw new RuntimeException(ResultMessage.EMPTY_COMMUNITY_ID);
+        }
+
         String address = gridManager.getAddress().trim();
         //地址不为空，获取经纬度
         if(!"".equals(address))
@@ -83,6 +95,12 @@ public class GridManagerServiceImpl implements GridManagerService {
         {
             throw new RuntimeException(ResultMessage.EMPTY_ADDRESS);
         }
+
+        //创建时间
+        Date now = new Date();
+        String sdate=(new SimpleDateFormat("yyyyMMddHHmm")).format(now);
+        Long dateLong = Long.parseLong(sdate);
+        gridManager.setCreateAt(dateLong);
 
         return gridManagerDao.update(gridManager);
     }

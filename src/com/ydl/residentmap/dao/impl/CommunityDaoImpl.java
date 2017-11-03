@@ -45,15 +45,6 @@ public class CommunityDaoImpl implements CommunityDao {
     public Boolean save(Community community) {
         Boolean flag = true;
         try {
-
-            //创建时间
-            Date now = new Date();
-            String sdate=(new SimpleDateFormat("yyyyMMddHHmm")).format(now);
-            Long dateLong = Long.parseLong(sdate);
-            community.setCreateAt(dateLong);
-
-            Random random = new Random();
-            community.setId(new IdWorker((long)random.nextInt(15)).nextId());
             baseDAO.save(community);
             System.out.println("添加社区 OK   社区ID："+community.getId());
         } catch (Exception e) {
@@ -104,6 +95,15 @@ public class CommunityDaoImpl implements CommunityDao {
         String hql="from Community where name like ?";
         Object[] params = new Object[1];
         params[0] = "%"+name+"%";
+        List<Community> communities = baseDAO.find(hql, params);
+        return communities;
+    }
+
+    @Override
+    public List<Community> getCommunitiesByType(Integer type) {
+        String hql="from Community where name type =?";
+        Object[] params = new Object[1];
+        params[0] = type;
         List<Community> communities = baseDAO.find(hql, params);
         return communities;
     }

@@ -20,7 +20,7 @@ public class CadreDaoImpl implements CadreDao {
     private BaseDao<CadreVo> baseVoDAO;
 
     private String commonSql="select IFNULL(t2.name,'') positionName,IFNULL(t3.name,'') educationName,IFNULL(t4.name,'') communityName, " +
-        " t1.id,t1.name,t1.position,t1.position_begin_date positionBeginDate,t1.gender, " +
+        " t1.lat,t1.lng,t1.id,t1.name,t1.position,t1.position_begin_date positionBeginDate,t1.gender, " +
         " t1.birthday,t1.education,t1.join_date joinDate,t1.id_card idCard,t1.address,t1.link,t1.community_id communityId " +
         " from cadre t1 " +
         " left join data_dictionary t2 on t1.position=t2.value and t2.data_type= " + DataDictionaryCode.DATA_TYPE_POSITION +

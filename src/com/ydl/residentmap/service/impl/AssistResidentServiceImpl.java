@@ -6,12 +6,16 @@ import com.ydl.residentmap.dao.CadreDao;
 import com.ydl.residentmap.model.AssistResident;
 import com.ydl.residentmap.model.vo.AssistResidentVo;
 import com.ydl.residentmap.service.AssistResidentService;
+import com.ydl.residentmap.util.IdWorker;
 import com.ydl.residentmap.util.LatitudeUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 @Service
 public class AssistResidentServiceImpl implements AssistResidentService {
@@ -20,6 +24,12 @@ public class AssistResidentServiceImpl implements AssistResidentService {
 
     @Override
     public Boolean save(AssistResident assistResident) {
+        Long blockId = assistResident.getBlockId();
+        if(blockId==null)
+        {
+            throw new RuntimeException(ResultMessage.EMPTY_BLOCK_ID);
+        }
+
         String address = assistResident.getAddress().trim();
         //地址不为空，获取经纬度
         if(!"".equals(address)){
@@ -34,6 +44,15 @@ public class AssistResidentServiceImpl implements AssistResidentService {
                 throw new RuntimeException(ResultMessage.NO_LNG_LAT);
             }
         }
+
+        //创建时间
+        Date now = new Date();
+        String sdate=(new SimpleDateFormat("yyyyMMddHHmm")).format(now);
+        Long dateLong = Long.parseLong(sdate);
+        assistResident.setCreateAt(dateLong);
+
+        Random random = new Random();
+        assistResident.setId(new IdWorker((long)random.nextInt(15)).nextId());
 
         return assistResidentDao.save(assistResident);
     }
@@ -45,6 +64,12 @@ public class AssistResidentServiceImpl implements AssistResidentService {
 
     @Override
     public Boolean update(AssistResident assistResident) {
+        Long blockId = assistResident.getBlockId();
+        if(blockId==null)
+        {
+            throw new RuntimeException(ResultMessage.EMPTY_BLOCK_ID);
+        }
+
         String address = assistResident.getAddress().trim();
         //地址不为空，获取经纬度
         if(!"".equals(address)){
@@ -59,6 +84,11 @@ public class AssistResidentServiceImpl implements AssistResidentService {
                 throw new RuntimeException(ResultMessage.NO_LNG_LAT);
             }
         }
+
+        Date now = new Date();
+        String sdate=(new SimpleDateFormat("yyyyMMddHHmm")).format(now);
+        Long dateLong = Long.parseLong(sdate);
+        assistResident.setCreateAt(dateLong);
 
         return assistResidentDao.update(assistResident);
     }

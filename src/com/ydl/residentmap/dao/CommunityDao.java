@@ -20,6 +20,8 @@ public interface CommunityDao {
 
     List<Community> getCommunitiesByName(String name);
 
+    List<Community> getCommunitiesByType(Integer type);
+
     CommunityVo getCommunityVoById(Long id);
 
     List<CommunityVo> getAllCommunityVos();

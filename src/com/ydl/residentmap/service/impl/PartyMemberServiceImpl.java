@@ -25,6 +25,12 @@ public class PartyMemberServiceImpl implements PartyMemberService {
 
     @Override
     public Boolean save(PartyMember partyMember) {
+        Long communityId=partyMember.getCommunityId();
+        if(communityId==null)
+        {
+            throw new RuntimeException(ResultMessage.EMPTY_COMMUNITY_ID);
+        }
+
         String idCard = partyMember.getIdCard();
         if(idCard!=null && !idCard.trim().equals(""))
         {
@@ -78,6 +84,12 @@ public class PartyMemberServiceImpl implements PartyMemberService {
 
     @Override
     public Boolean update(PartyMember partyMember) {
+        Long communityId=partyMember.getCommunityId();
+        if(communityId==null)
+        {
+            throw new RuntimeException(ResultMessage.EMPTY_COMMUNITY_ID);
+        }
+
         String idCard = partyMember.getIdCard();
         if(idCard!=null && !idCard.trim().equals(""))
         {
@@ -112,6 +124,12 @@ public class PartyMemberServiceImpl implements PartyMemberService {
         {
             throw new RuntimeException(ResultMessage.EMPTY_ADDRESS);
         }
+
+        //创建时间
+        Date now = new Date();
+        String sdate=(new SimpleDateFormat("yyyyMMddHHmm")).format(now);
+        Long dateLong = Long.parseLong(sdate);
+        partyMember.setCreateAt(dateLong);
 
         return partyMemberDao.update(partyMember);
     }

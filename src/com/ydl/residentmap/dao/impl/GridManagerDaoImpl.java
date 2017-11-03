@@ -1,5 +1,6 @@
 package com.ydl.residentmap.dao.impl;
 
+import com.ydl.residentmap.constants.DataDictionaryCode;
 import com.ydl.residentmap.dao.BaseDao;
 import com.ydl.residentmap.dao.GridManagerDao;
 import com.ydl.residentmap.model.GridManager;
@@ -24,13 +25,13 @@ public class GridManagerDaoImpl implements GridManagerDao{
 
     private String commonSql="SELECT ifnull(t2.name,'') gridRoleName,IFNULL(t3.name,'') minorityName, " +
         " IFNULL(t4.name,'') educationName,IFNULL(t5.name,'') communityName, " +
-        " t1.id,t1.grid_num gridNum,t1.grid_name gridName,t1.grid_role gridRole,t1.name, " +
+        " t1.lat,t1.lng,t1.id,t1.grid_num gridNum,t1.grid_name gridName,t1.grid_role gridRole,t1.name, " +
         " t1.gender,t1.minority,t1.birthday,t1.education,t1.party_member partyMember, " +
         " t1.address,t1.link,t1.community_id communityId,t1.create_at createAt " +
         " from grid_manager t1 " +
-        " left join data_dictionary t2 on t1.grid_role=t2.value and t2.data_type=4 " +
-        " left join data_dictionary t3 on t1.minority=t3.value and t3.data_type=5 " +
-        " left join data_dictionary t4 on t1.education=t4.value and t4.data_type=6 " +
+        " left join data_dictionary t2 on t1.grid_role=t2.value and t2.data_type= " + DataDictionaryCode.DATA_TYPE_GRID_ROLE +
+        " left join data_dictionary t3 on t1.minority=t3.value and t3.data_type= " + DataDictionaryCode.DATA_TYPE_MINORITY +
+        " left join data_dictionary t4 on t1.education=t4.value and t4.data_type= " +DataDictionaryCode.DATA_TYPE_EDUCATION +
         " left join community t5 on t1.community_id=t5.id ";
 
     @Override
