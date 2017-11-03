@@ -85,6 +85,15 @@ public class DelegateCommitteeDaoImpl implements DelegateCommitteeDao {
     }
 
     @Override
+    public List<DelegateCommittee> getDelegateCommitteesByMinority(Integer minority) {
+        String hql="from DelegateCommittee where minority = ?";
+        Object[] params = new Object[1];
+        params[0] = minority;
+        List<DelegateCommittee> delegateCommittees = baseDAO.find(hql, params);
+        return delegateCommittees;
+    }
+
+    @Override
     public DelegateCommittee getDelegateCommitteeById(Long id) {
         return baseDAO.get(DelegateCommittee.class, id);
     }

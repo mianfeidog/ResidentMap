@@ -90,6 +90,15 @@ public class PartyMemberDaoImpl implements PartyMemberDao {
     }
 
     @Override
+    public List<PartyMember> getPartyMembersByMinority(Integer minority) {
+        String hql="from PartyMember where minority = ?";
+        Object[] params = new Object[1];
+        params[0] = minority;
+        List<PartyMember> partyMembers = baseDAO.find(hql, params);
+        return partyMembers;
+    }
+
+    @Override
     public PartyMember getPartyMemberById(Long id) {
         return baseDAO.get(PartyMember.class, id);
     }

@@ -6,16 +6,10 @@ import javax.annotation.Resource;
 
 import com.ydl.residentmap.constants.CommonConst;
 import com.ydl.residentmap.constants.DataDictionaryCode;
-import com.ydl.residentmap.dao.CommunityDao;
-import com.ydl.residentmap.dao.GridManagerDao;
-import com.ydl.residentmap.dao.KeyPersonDao;
-import com.ydl.residentmap.model.Community;
-import com.ydl.residentmap.model.GridManager;
-import com.ydl.residentmap.model.KeyPerson;
+import com.ydl.residentmap.dao.*;
+import com.ydl.residentmap.model.*;
 import org.springframework.stereotype.Service;
 
-import com.ydl.residentmap.dao.DataDictionaryDao;
-import com.ydl.residentmap.model.DataDictionary;
 import com.ydl.residentmap.service.DataDictionaryService;
 
 @Service
@@ -32,6 +26,12 @@ public class DataDictionaryServiceImpl implements DataDictionaryService {
 
 	@Resource(name="gridManagerDao")
 	private GridManagerDao gridManagerDao ;
+
+	@Resource
+	private PartyMemberDao partyMemberDao ;
+
+	@Resource
+	private DelegateCommitteeDao delegateCommitteeDao ;
 
 	@Override
 	public List<DataDictionary> getByType(int dataType) {
@@ -85,9 +85,40 @@ public class DataDictionaryServiceImpl implements DataDictionaryService {
 					throw new RuntimeException(name+"已被社区引用，无法删除");
 				}
 			}
+			//网格角色
 			else if(dataType==DataDictionaryCode.DATA_TYPE_GRID_ROLE)
 			{
-				//List<GridManager> gridManagerList =
+				List<GridManager> gridManagerList =gridManagerDao.getKeyGridManagersByGridRole(dataType);
+				if(gridManagerList.size()>0)
+				{
+					throw new RuntimeException(name+"已被三长三员网格化管理人员引用，无法删除");
+				}
+			}
+			//民族
+			else if(dataType==DataDictionaryCode.DATA_TYPE_MINORITY)
+			{
+				List<DelegateCommittee> delegateCommitteeList =delegateCommitteeDao.getDelegateCommitteesByMinority(dataType);
+				if(delegateCommitteeList.size()>0)
+				{
+					throw new RuntimeException(name+"已被两代表一委员引用，无法删除");
+				}
+
+				List<GridManager> gridManagerList =gridManagerDao.getKeyGridManagersByMinority(dataType);
+				if(gridManagerList.size()>0)
+				{
+					throw new RuntimeException(name+"已被三长三员网格化管理人员引用，无法删除");
+				}
+
+				List<PartyMember> partyMemberList = partyMemberDao.getPartyMembersByMinority(dataType);
+				if(partyMemberList.size()>0)
+				{
+					throw new RuntimeException(name+"已被党员引用，无法删除");
+				}
+			}
+			//文化程度
+			else if(dataType==DataDictionaryCode.DATA_TYPE_EDUCATION)
+			{
+
 			}
 		}
 

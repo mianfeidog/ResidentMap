@@ -95,6 +95,24 @@ public class GridManagerDaoImpl implements GridManagerDao{
     }
 
     @Override
+    public List<GridManager> getKeyGridManagersByGridRole(Integer gridRole) {
+        String hql="from GridManager where name gridRole= ?";
+        Object[] params = new Object[1];
+        params[0] = gridRole;
+        List<GridManager> gridManagers = baseDAO.find(hql, params);
+        return gridManagers;
+    }
+
+    @Override
+    public List<GridManager> getKeyGridManagersByMinority(Integer minority) {
+        String hql="from GridManager where name minority= ?";
+        Object[] params = new Object[1];
+        params[0] = minority;
+        List<GridManager> gridManagers = baseDAO.find(hql, params);
+        return gridManagers;
+    }
+
+    @Override
     public List<GridManagerVo> getKeyGridManagerVosByName(String name) {
         String hql=this.commonSql +" where t1.name like ? order by t1.create_at desc ";
         Object[] params = new Object[1];
