@@ -22,13 +22,12 @@ public class PartyOrgDaoImpl implements PartyOrgDao {
     @Resource
     private BaseDao<PartyOrgVo> baseVoDAO;
 
-    private String commonSql="select IFNULL(t2.name,'') parName,IFNULL(t3.name,'') orgSystemName, " +
+    private String commonSql="select t1.par_party_name parPartyName,IFNULL(t3.name,'') orgSystemName, " +
         " IFNULL(t4.name,'') orgAttributeName,t5.name communityName, " +
         " t1.id,t1.name,t1.org_system orgSystem,t1.org_attribute orgAttribute, " +
         " t1.par_id parId,t1.secretary_name secretaryName,t1.member_cnt memberCnt,t1.address, " +
         " t1.telephone,t1.community_id communityId,t1.create_at createAt " +
         " from party_org t1 " +
-        " left join party_org t2 on t1.par_id=t2.id " +
         " left join data_dictionary t3 on t1.org_system=t3.value and t3.data_type= " + DataDictionaryCode.DATA_TYPE_ORG_SYSTEM +
         " left join data_dictionary t4 on t1.org_attribute=t4.value and t4.data_type= " + DataDictionaryCode.DATA_TYPE_ORG_ATTRIBUTE +
         " left join community t5 on t1.community_id=t5.id ";

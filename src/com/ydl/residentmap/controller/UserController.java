@@ -105,7 +105,7 @@ public class UserController {
 			u = userService.login(user);
 			session.setAttribute("loginUser",u);
 			model.addAttribute("loginUser", u);
-			data = u;
+			//data = u;
 		}
 		catch (Exception e) {
 			e.printStackTrace();

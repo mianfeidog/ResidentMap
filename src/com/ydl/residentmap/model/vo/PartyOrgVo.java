@@ -5,7 +5,6 @@ import com.ydl.residentmap.model.PartyOrg;
 public class PartyOrgVo extends PartyOrg {
     private String orgSystemName;
     private String orgAttributeName;
-    private String parName;
     private String communityName;
 
     public String getOrgSystemName() {
@@ -22,14 +21,6 @@ public class PartyOrgVo extends PartyOrg {
 
     public void setOrgAttributeName(String orgAttributeName) {
         this.orgAttributeName = orgAttributeName;
-    }
-
-    public String getParName() {
-        return parName;
-    }
-
-    public void setParName(String parName) {
-        this.parName = parName;
     }
 
     public String getCommunityName() {

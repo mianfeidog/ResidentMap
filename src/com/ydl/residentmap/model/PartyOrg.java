@@ -47,6 +47,17 @@ public class PartyOrg {
     @Column(name = "create_at")
     private Long createAt;
 
+    @Column(name = "par_party_name")
+    private String parPartyName;
+
+    public String getParPartyName() {
+        return parPartyName;
+    }
+
+    public void setParPartyName(String parPartyName) {
+        this.parPartyName = parPartyName;
+    }
+
     public Long getCreateAt() {
         return createAt;
     }

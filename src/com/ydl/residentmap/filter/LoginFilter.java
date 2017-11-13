@@ -63,7 +63,8 @@ public class LoginFilter implements Filter{
 			//System.out.println("过滤器");
 			boolean isExclueURL = false;
 
-			if(servletPath.indexOf(".js")>=0 || servletPath.indexOf(".css")>=0)
+			if(servletPath.indexOf(".ttf")>=0 || servletPath.indexOf(".woff2")>=0 || servletPath.indexOf(".woff")>=0 || servletPath.indexOf(".jpg")>=0
+					|| servletPath.indexOf(".png")>=0 || servletPath.indexOf(".js")>=0 || servletPath.indexOf(".css")>=0)
 			{
 				isExclueURL = true;
 			}
