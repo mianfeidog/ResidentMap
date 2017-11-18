@@ -16,6 +16,8 @@ public interface PartyMemberDao {
 
     List<PartyMember> getPartyMembersByName(String name);
 
+    List<PartyMember> getPartyMembersByCommunityId(Long communityId);
+
     List<PartyMember> getPartyMembersByMinority(Integer minority);
 
     List<PartyMember> getPartyMembersByEducation(Integer education);

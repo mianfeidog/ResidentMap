@@ -114,6 +114,15 @@ public class KeyPersonDaoImpl implements KeyPersonDao{
     }
 
     @Override
+    public List<KeyPerson> getKeyPersonsByBlockId(Long blockId) {
+        String hql="from KeyPerson where blockId = ?";
+        Object[] params = new Object[1];
+        params[0] = blockId;
+        List<KeyPerson> keyPersons = baseDAO.find(hql, params);
+        return keyPersons;
+    }
+
+    @Override
     public List<KeyPerson> getKeyPersonsByIdCard(String idCard,String action,Long id)
     {
         String hql="from KeyPerson where idCard = ?";

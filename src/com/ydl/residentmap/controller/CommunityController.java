@@ -83,7 +83,7 @@ public class CommunityController {
             status = ResultCode.ERROR;
             desc = ResultMessage.DELETE_FAILURE;
             error = "";
-            error_description = ResultMessage.DELETE_FAILURE;
+            error_description = e.getMessage();
             logger.debug("删除社区异常，异常信息为："+error_description);
         }
         return ResponseResult.create(status, data, desc, error, error_description);

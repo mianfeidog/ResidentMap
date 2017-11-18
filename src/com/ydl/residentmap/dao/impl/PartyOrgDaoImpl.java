@@ -86,6 +86,15 @@ public class PartyOrgDaoImpl implements PartyOrgDao {
     }
 
     @Override
+    public List<PartyOrg> getPartyOrgsByCommunityId(Long communityId) {
+        String hql="from PartyOrg where communityId= ?";
+        Object[] params = new Object[1];
+        params[0] = communityId;
+        List<PartyOrg> partyOrgs = baseDAO.find(hql, params);
+        return partyOrgs;
+    }
+
+    @Override
     public List<PartyOrg> getPartyOrgsByOrgSystem(Integer orgSystem) {
         String hql="from PartyOrg where orgSystem =?";
         Object[] params = new Object[1];

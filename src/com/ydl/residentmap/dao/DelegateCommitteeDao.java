@@ -16,6 +16,8 @@ public interface DelegateCommitteeDao {
 
     List<DelegateCommittee> getDelegateCommitteesByName(String name);
 
+    List<DelegateCommittee> getDelegateCommitteesByCommunityId(Long communityId);
+
     List<DelegateCommittee> getDelegateCommitteesByMinority(Integer minority);
 
     List<DelegateCommittee> getDelegateCommitteesByEducation(Integer education);

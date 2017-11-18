@@ -16,6 +16,8 @@ public interface CommitteeMemberDao {
 
     List<CommitteeMember> getCommitteeMembersByName(String name);
 
+    List<CommitteeMember> getCommitteeMembersByCommunityId(Long communityId);
+
     List<CommitteeMember> getCommitteeMembersByEducation(Integer education);
 
     List<CommitteeMember> getCommitteeMembersByPosition(Integer position);

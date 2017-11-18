@@ -139,6 +139,15 @@ public class AssistResidentDaoImpl implements AssistResidentDao {
     }
 
     @Override
+    public List<AssistResident> getAssistResidentsByBlockId(Long blockId) {
+        String hql="from AssistResident where blockId = ?";
+        Object[] params = new Object[1];
+        params[0] = blockId;
+        List<AssistResident> assistResidents = baseDAO.find(hql, params);
+        return assistResidents;
+    }
+
+    @Override
     public List<AssistResident> getAssistResidentsByType(Integer type) {
         String hql="from AssistResident where type = ?";
         Object[] params = new Object[1];

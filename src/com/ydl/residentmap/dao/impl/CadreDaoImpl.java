@@ -81,6 +81,15 @@ public class CadreDaoImpl implements CadreDao {
     }
 
     @Override
+    public List<Cadre> getCadresByCommunityId(Long communityId) {
+        String hql="from Cadre where communityId = ?";
+        Object[] params = new Object[1];
+        params[0] = communityId;
+        List<Cadre> cadres = baseDAO.find(hql, params);
+        return cadres;
+    }
+
+    @Override
     public List<Cadre> getCadresByEducation(Integer education) {
         String hql="from Cadre where education = ?";
         Object[] params = new Object[1];

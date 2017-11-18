@@ -95,6 +95,15 @@ public class GridManagerDaoImpl implements GridManagerDao{
     }
 
     @Override
+    public List<GridManager> getKeyGridManagersByCommunityId(Long communityId) {
+        String hql="from GridManager where communityId = ?";
+        Object[] params = new Object[1];
+        params[0] = communityId;
+        List<GridManager> gridManagers = baseDAO.find(hql, params);
+        return gridManagers;
+    }
+
+    @Override
     public List<GridManager> getGridManagersByGridRole(Integer gridRole) {
         String hql="from GridManager where gridRole= ?";
         Object[] params = new Object[1];

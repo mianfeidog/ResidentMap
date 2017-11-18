@@ -16,6 +16,8 @@ public interface CadreDao {
 
     List<Cadre> getCadresByName(String name);
 
+    List<Cadre> getCadresByCommunityId(Long communityId);
+
     List<Cadre> getCadresByEducation(Integer education);
 
     List<Cadre> getCadresByPosition(Integer position);

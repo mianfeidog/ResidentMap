@@ -21,6 +21,8 @@ public interface KeyPersonDao {
 
     List<KeyPerson> getKeyPersonsByName(String name);
 
+    List<KeyPerson> getKeyPersonsByBlockId(Long blockId);
+
     List<KeyPerson> getKeyPersonsByType(int type);
 
     List<KeyPersonVo> getKeyPersonVosByName(String name);
