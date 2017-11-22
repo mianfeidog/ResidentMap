@@ -10,7 +10,7 @@ public interface AssistResidentDao {
 
     Integer deleteList(List<String> idList);
 
-    Boolean update(AssistResident lowIncomeAllowances);
+    Boolean update(AssistResident assistResident);
 
     List<AssistResident> getAllAssistResidents();
 
