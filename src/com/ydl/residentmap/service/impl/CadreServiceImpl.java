@@ -44,25 +44,25 @@ public class CadreServiceImpl implements CadreService{
             throw new RuntimeException(ResultMessage.EMPTY_ID_CARD);
         }
 
-        String address = cadre.getAddress().trim();
-        //地址不为空，获取经纬度
-        if(!"".equals(address))
-        {
-            Map<String,String> lngLat = LatitudeUtils.getGeocoderLatitude(address);
-            if(lngLat!=null){
-                String lng = lngLat.get("lng");
-                String lat = lngLat.get("lat");
-                cadre.setLng(lng);
-                cadre.setLat(lat);
-            }
-            else{
-                throw new RuntimeException(ResultMessage.NO_LNG_LAT);
-            }
-        }
-        else
-        {
-            throw new RuntimeException(ResultMessage.EMPTY_ADDRESS);
-        }
+//        String address = cadre.getAddress().trim();
+//        //地址不为空，获取经纬度
+//        if(!"".equals(address))
+//        {
+//            Map<String,String> lngLat = LatitudeUtils.getGeocoderLatitude(address);
+//            if(lngLat!=null){
+//                String lng = lngLat.get("lng");
+//                String lat = lngLat.get("lat");
+//                cadre.setLng(lng);
+//                cadre.setLat(lat);
+//            }
+//            else{
+//                throw new RuntimeException(ResultMessage.NO_LNG_LAT);
+//            }
+//        }
+//        else
+//        {
+//            throw new RuntimeException(ResultMessage.EMPTY_ADDRESS);
+//        }
 
         Random random = new Random();
         cadre.setId(new IdWorker((long) random.nextInt(15)).nextId());
@@ -103,24 +103,24 @@ public class CadreServiceImpl implements CadreService{
         }
 
 
-        String address = cadre.getAddress().trim();
-        //地址不为空，获取经纬度
-        if(!"".equals(address)){
-            Map<String,String> lngLat = LatitudeUtils.getGeocoderLatitude(address);
-            if(lngLat!=null){
-                String lng = lngLat.get("lng");
-                String lat = lngLat.get("lat");
-                cadre.setLng(lng);
-                cadre.setLat(lat);
-            }
-            else{
-                throw new RuntimeException(ResultMessage.NO_LNG_LAT);
-            }
-        }
-        else
-        {
-            throw new RuntimeException(ResultMessage.EMPTY_ADDRESS);
-        }
+//        String address = cadre.getAddress().trim();
+//        //地址不为空，获取经纬度
+//        if(!"".equals(address)){
+//            Map<String,String> lngLat = LatitudeUtils.getGeocoderLatitude(address);
+//            if(lngLat!=null){
+//                String lng = lngLat.get("lng");
+//                String lat = lngLat.get("lat");
+//                cadre.setLng(lng);
+//                cadre.setLat(lat);
+//            }
+//            else{
+//                throw new RuntimeException(ResultMessage.NO_LNG_LAT);
+//            }
+//        }
+//        else
+//        {
+//            throw new RuntimeException(ResultMessage.EMPTY_ADDRESS);
+//        }
 
         //创建时间
         Date now = new Date();

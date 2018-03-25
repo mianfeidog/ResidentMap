@@ -30,20 +30,20 @@ public class AssistResidentServiceImpl implements AssistResidentService {
             throw new RuntimeException(ResultMessage.EMPTY_BLOCK_ID);
         }
 
-        String address = assistResident.getAddress().trim();
-        //地址不为空，获取经纬度
-        if(!"".equals(address)){
-            Map<String,String> lngLat = LatitudeUtils.getGeocoderLatitude(address);
-            if(lngLat!=null){
-                String lng = lngLat.get("lng");
-                String lat = lngLat.get("lat");
-                assistResident.setLng(lng);
-                assistResident.setLat(lat);
-            }
-            else{
-                throw new RuntimeException(ResultMessage.NO_LNG_LAT);
-            }
-        }
+//        String address = assistResident.getAddress().trim();
+//        //地址不为空，获取经纬度
+//        if(!"".equals(address)){
+//            Map<String,String> lngLat = LatitudeUtils.getGeocoderLatitude(address);
+//            if(lngLat!=null){
+//                String lng = lngLat.get("lng");
+//                String lat = lngLat.get("lat");
+//                assistResident.setLng(lng);
+//                assistResident.setLat(lat);
+//            }
+//            else{
+//                throw new RuntimeException(ResultMessage.NO_LNG_LAT);
+//            }
+//        }
 
         //创建时间
         Date now = new Date();
@@ -70,20 +70,20 @@ public class AssistResidentServiceImpl implements AssistResidentService {
             throw new RuntimeException(ResultMessage.EMPTY_BLOCK_ID);
         }
 
-        String address = assistResident.getAddress().trim();
-        //地址不为空，获取经纬度
-        if(!"".equals(address)){
-            Map<String,String> lngLat = LatitudeUtils.getGeocoderLatitude(address);
-            if(lngLat!=null){
-                String lng = lngLat.get("lng");
-                String lat = lngLat.get("lat");
-                assistResident.setLng(lng);
-                assistResident.setLat(lat);
-            }
-            else{
-                throw new RuntimeException(ResultMessage.NO_LNG_LAT);
-            }
-        }
+//        String address = assistResident.getAddress().trim();
+//        //地址不为空，获取经纬度
+//        if(!"".equals(address)){
+//            Map<String,String> lngLat = LatitudeUtils.getGeocoderLatitude(address);
+//            if(lngLat!=null){
+//                String lng = lngLat.get("lng");
+//                String lat = lngLat.get("lat");
+//                assistResident.setLng(lng);
+//                assistResident.setLat(lat);
+//            }
+//            else{
+//                throw new RuntimeException(ResultMessage.NO_LNG_LAT);
+//            }
+//        }
 
         Date now = new Date();
         String sdate=(new SimpleDateFormat("yyyyMMddHHmm")).format(now);

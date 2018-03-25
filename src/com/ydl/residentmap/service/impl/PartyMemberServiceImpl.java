@@ -45,26 +45,26 @@ public class PartyMemberServiceImpl implements PartyMemberService {
             throw new RuntimeException(ResultMessage.EMPTY_IDCARD);
         }
 
-        String address = partyMember.getAddress().trim();
-        //地址不为空，获取经纬度
-        if(!"".equals(address))
-        {
-            Map<String,String> lngLat = LatitudeUtils.getGeocoderLatitude(address);
-            if(lngLat!=null){
-                String lng = lngLat.get("lng");
-                String lat = lngLat.get("lat");
-                partyMember.setLng(lng);
-                partyMember.setLat(lat);
-            }
-            else
-            {
-                throw new RuntimeException(ResultMessage.NO_LNG_LAT);
-            }
-        }
-        else
-        {
-            throw new RuntimeException(ResultMessage.EMPTY_ADDRESS);
-        }
+//        String address = partyMember.getAddress().trim();
+//        //地址不为空，获取经纬度
+//        if(!"".equals(address))
+//        {
+//            Map<String,String> lngLat = LatitudeUtils.getGeocoderLatitude(address);
+//            if(lngLat!=null){
+//                String lng = lngLat.get("lng");
+//                String lat = lngLat.get("lat");
+//                partyMember.setLng(lng);
+//                partyMember.setLat(lat);
+//            }
+//            else
+//            {
+//                throw new RuntimeException(ResultMessage.NO_LNG_LAT);
+//            }
+//        }
+//        else
+//        {
+//            throw new RuntimeException(ResultMessage.EMPTY_ADDRESS);
+//        }
 
         //创建时间
         Date now = new Date();
@@ -104,26 +104,26 @@ public class PartyMemberServiceImpl implements PartyMemberService {
             throw new RuntimeException(ResultMessage.EMPTY_IDCARD);
         }
 
-        String address = partyMember.getAddress().trim();
-        //地址不为空，获取经纬度
-        if(!"".equals(address))
-        {
-            Map<String,String> lngLat = LatitudeUtils.getGeocoderLatitude(address);
-            if(lngLat!=null){
-                String lng = lngLat.get("lng");
-                String lat = lngLat.get("lat");
-                partyMember.setLng(lng);
-                partyMember.setLat(lat);
-            }
-            else
-            {
-                throw new RuntimeException(ResultMessage.NO_LNG_LAT);
-            }
-        }
-        else
-        {
-            throw new RuntimeException(ResultMessage.EMPTY_ADDRESS);
-        }
+//        String address = partyMember.getAddress().trim();
+//        //地址不为空，获取经纬度
+//        if(!"".equals(address))
+//        {
+//            Map<String,String> lngLat = LatitudeUtils.getGeocoderLatitude(address);
+//            if(lngLat!=null){
+//                String lng = lngLat.get("lng");
+//                String lat = lngLat.get("lat");
+//                partyMember.setLng(lng);
+//                partyMember.setLat(lat);
+//            }
+//            else
+//            {
+//                throw new RuntimeException(ResultMessage.NO_LNG_LAT);
+//            }
+//        }
+//        else
+//        {
+//            throw new RuntimeException(ResultMessage.EMPTY_ADDRESS);
+//        }
 
         //创建时间
         Date now = new Date();
@@ -157,6 +157,11 @@ public class PartyMemberServiceImpl implements PartyMemberService {
     @Override
     public List<PartyMemberVo> getPartyMemberVosByName(String name) {
         return partyMemberDao.getPartyMemberVosByName(name);
+    }
+
+    @Override
+    public List<PartyMemberVo> getPartyMemberVosByCondition(Map<String,String> map) {
+        return partyMemberDao.getPartyMemberVosByCondition(map);
     }
 
     @Override

@@ -44,24 +44,24 @@ public class CommitteeMemberServiceImpl implements CommitteeMemberService {
             throw new RuntimeException(ResultMessage.EMPTY_ID_CARD);
         }
 
-        String address = committeeMember.getAddress().trim();
-        //地址不为空，获取经纬度
-        if(!"".equals(address)){
-            Map<String,String> lngLat = LatitudeUtils.getGeocoderLatitude(address);
-            if(lngLat!=null){
-                String lng = lngLat.get("lng");
-                String lat = lngLat.get("lat");
-                committeeMember.setLng(lng);
-                committeeMember.setLat(lat);
-            }
-            else{
-                throw new RuntimeException(ResultMessage.NO_LNG_LAT);
-            }
-        }
-        else
-        {
-            throw new RuntimeException(ResultMessage.EMPTY_ADDRESS);
-        }
+//        String address = committeeMember.getAddress().trim();
+//        //地址不为空，获取经纬度
+//        if(!"".equals(address)){
+//            Map<String,String> lngLat = LatitudeUtils.getGeocoderLatitude(address);
+//            if(lngLat!=null){
+//                String lng = lngLat.get("lng");
+//                String lat = lngLat.get("lat");
+//                committeeMember.setLng(lng);
+//                committeeMember.setLat(lat);
+//            }
+//            else{
+//                throw new RuntimeException(ResultMessage.NO_LNG_LAT);
+//            }
+//        }
+//        else
+//        {
+//            throw new RuntimeException(ResultMessage.EMPTY_ADDRESS);
+//        }
 
         //创建时间
         Date now = new Date();
@@ -102,24 +102,24 @@ public class CommitteeMemberServiceImpl implements CommitteeMemberService {
             throw new RuntimeException(ResultMessage.EMPTY_ID_CARD);
         }
 
-        String address = committeeMember.getAddress().trim();
-        //地址不为空，获取经纬度
-        if(!"".equals(address)){
-            Map<String,String> lngLat = LatitudeUtils.getGeocoderLatitude(address);
-            if(lngLat!=null){
-                String lng = lngLat.get("lng");
-                String lat = lngLat.get("lat");
-                committeeMember.setLng(lng);
-                committeeMember.setLat(lat);
-            }
-            else{
-                throw new RuntimeException(ResultMessage.NO_LNG_LAT);
-            }
-        }
-        else
-        {
-            throw new RuntimeException(ResultMessage.EMPTY_ADDRESS);
-        }
+//        String address = committeeMember.getAddress().trim();
+//        //地址不为空，获取经纬度
+//        if(!"".equals(address)){
+//            Map<String,String> lngLat = LatitudeUtils.getGeocoderLatitude(address);
+//            if(lngLat!=null){
+//                String lng = lngLat.get("lng");
+//                String lat = lngLat.get("lat");
+//                committeeMember.setLng(lng);
+//                committeeMember.setLat(lat);
+//            }
+//            else{
+//                throw new RuntimeException(ResultMessage.NO_LNG_LAT);
+//            }
+//        }
+//        else
+//        {
+//            throw new RuntimeException(ResultMessage.EMPTY_ADDRESS);
+//        }
 
         //创建时间
         Date now = new Date();

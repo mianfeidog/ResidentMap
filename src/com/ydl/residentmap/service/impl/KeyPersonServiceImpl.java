@@ -47,26 +47,26 @@ public class KeyPersonServiceImpl implements KeyPersonService{
             throw new RuntimeException(ResultMessage.EMPTY_IDCARD);
         }
 
-        String address = keyPerson.getAddress().trim();
-        //地址不为空，获取经纬度
-        if(!"".equals(address))
-        {
-            Map<String,String> lngLat = LatitudeUtils.getGeocoderLatitude(address);
-            if(lngLat!=null){
-                String lng = lngLat.get("lng");
-                String lat = lngLat.get("lat");
-                keyPerson.setLng(lng);
-                keyPerson.setLat(lat);
-            }
-            else
-            {
-                throw new RuntimeException(ResultMessage.NO_LNG_LAT);
-            }
-        }
-        else
-        {
-            throw new RuntimeException(ResultMessage.EMPTY_ADDRESS);
-        }
+//        String address = keyPerson.getAddress().trim();
+//        //地址不为空，获取经纬度
+//        if(!"".equals(address))
+//        {
+//            Map<String,String> lngLat = LatitudeUtils.getGeocoderLatitude(address);
+//            if(lngLat!=null){
+//                String lng = lngLat.get("lng");
+//                String lat = lngLat.get("lat");
+//                keyPerson.setLng(lng);
+//                keyPerson.setLat(lat);
+//            }
+//            else
+//            {
+//                throw new RuntimeException(ResultMessage.NO_LNG_LAT);
+//            }
+//        }
+//        else
+//        {
+//            throw new RuntimeException(ResultMessage.EMPTY_ADDRESS);
+//        }
 
         if(keyPerson.getName() == null)
         {
@@ -111,25 +111,25 @@ public class KeyPersonServiceImpl implements KeyPersonService{
             throw new RuntimeException(ResultMessage.EMPTY_IDCARD);
         }
 
-        String address = keyPerson.getAddress().trim();
-        //地址不为空，获取经纬度
-        if(!"".equals(address))
-        {
-            Map<String,String> lngLat = LatitudeUtils.getGeocoderLatitude(address);
-            if(lngLat!=null){
-                String lng = lngLat.get("lng");
-                String lat = lngLat.get("lat");
-                keyPerson.setLng(lng);
-                keyPerson.setLat(lat);
-            }
-            else{
-                throw new RuntimeException(ResultMessage.NO_LNG_LAT);
-            }
-        }
-        else
-        {
-            throw new RuntimeException(ResultMessage.EMPTY_ADDRESS);
-        }
+//        String address = keyPerson.getAddress().trim();
+//        //地址不为空，获取经纬度
+//        if(!"".equals(address))
+//        {
+//            Map<String,String> lngLat = LatitudeUtils.getGeocoderLatitude(address);
+//            if(lngLat!=null){
+//                String lng = lngLat.get("lng");
+//                String lat = lngLat.get("lat");
+//                keyPerson.setLng(lng);
+//                keyPerson.setLat(lat);
+//            }
+//            else{
+//                throw new RuntimeException(ResultMessage.NO_LNG_LAT);
+//            }
+//        }
+//        else
+//        {
+//            throw new RuntimeException(ResultMessage.EMPTY_ADDRESS);
+//        }
 
         //创建时间
         Date now = new Date();

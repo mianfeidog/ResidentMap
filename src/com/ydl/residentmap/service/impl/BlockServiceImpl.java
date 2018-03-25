@@ -10,6 +10,7 @@ import com.ydl.residentmap.model.KeyPerson;
 import com.ydl.residentmap.model.Pager;
 import com.ydl.residentmap.model.vo.BlockVo;
 import com.ydl.residentmap.service.BlockService;
+import com.ydl.residentmap.util.CommonUtil;
 import com.ydl.residentmap.util.IdWorker;
 import com.ydl.residentmap.util.LatitudeUtils;
 import org.springframework.stereotype.Service;
@@ -162,6 +163,12 @@ public class BlockServiceImpl implements BlockService {
     @Override
     public List<BlockVo> getBlockVosByName(String name) {
         return blockDao.getBlockVosByName(name);
+    }
+
+    @Override
+    public List<BlockVo> getBlockVosByCondition(String condition) {
+        HashMap<String,String> map = CommonUtil.getCondtion(condition);
+        return blockDao.getBlockVosByCondition(map);
     }
 
     @Override

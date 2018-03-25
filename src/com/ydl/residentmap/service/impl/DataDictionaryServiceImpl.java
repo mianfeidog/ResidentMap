@@ -229,6 +229,6 @@ public class DataDictionaryServiceImpl implements DataDictionaryService {
 	@Override
 	public Integer getNextValue(Integer dataType) {
 		List<DataDictionary> dataDictionaryList= dataDictionaryDao.getByType(dataType);
-		return dataDictionaryList.size()+1;
+		return dataDictionaryList.get(0).getValue()+1;
 	}
 }
