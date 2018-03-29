@@ -11,10 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 @Service
 public class GridManagerServiceImpl implements GridManagerService {
@@ -128,6 +125,11 @@ public class GridManagerServiceImpl implements GridManagerService {
     @Override
     public List<GridManagerVo> getKeyGridManagerVosByName(String name) {
         return gridManagerDao.getKeyGridManagerVosByName(name);
+    }
+
+    @Override
+    public List<GridManagerVo> getKeyGridManagerVosByCondition(HashMap<String,String> map) {
+        return gridManagerDao.getKeyGridManagerVosByCondition(map);
     }
 
     @Override

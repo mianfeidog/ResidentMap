@@ -9,12 +9,15 @@ import com.ydl.residentmap.model.PartyMember;
 import com.ydl.residentmap.model.ResponseResult;
 import com.ydl.residentmap.model.vo.PartyMemberVo;
 import com.ydl.residentmap.service.PartyMemberService;
+import com.ydl.residentmap.util.CommonUtil;
 import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -137,6 +140,30 @@ public class PartyMemberController {
     }
 
     /**
+     * 根据查询条件获取党员
+     *
+     * @param map
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/getbycondition", method = { RequestMethod.POST })
+    public ResponseResult getByCondition(@RequestBody Map<String, String> map) {
+        logger.debug("根据查询条件获取党员");
+        String status = ResultCode.SUCCESS;
+        String desc = ResultMessage.SEARCH_SUCCESS;
+        String error = "";
+        String error_description = "";
+        List<PartyMemberVo> partyMembers = partyMemberService.getPartyMemberVosByCondition(map);
+        if(partyMembers.size()==0){
+            status=ResultCode.ERROR;
+        }
+        else{
+            status=ResultCode.SUCCESS;
+        }
+        return ResponseResult.create(status, partyMembers, desc, error, error_description);
+    }
+
+    /**
      * 根据姓名获取党员
      *
      * @param name
@@ -151,6 +178,31 @@ public class PartyMemberController {
         String error = "";
         String error_description = "";
         List<PartyMemberVo> partyMembers = partyMemberService.getPartyMemberVosByName(name);
+        if(partyMembers.size()==0){
+            status=ResultCode.ERROR;
+        }
+        else{
+            status=ResultCode.SUCCESS;
+        }
+        return ResponseResult.create(status, partyMembers, desc, error, error_description);
+    }
+
+    /**
+     * 根据条件获取党员
+     *
+     * @param condition
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/getbycondition/{condition}", method = { RequestMethod.GET })
+    public ResponseResult getByCondition(@PathVariable(value = "condition") String condition) {
+        logger.debug("根据条件获取党员");
+        String status = ResultCode.SUCCESS;
+        String desc = ResultMessage.SEARCH_SUCCESS;
+        String error = "";
+        String error_description = "";
+        HashMap<String,String> map = CommonUtil.getCondtionMap(condition);
+        List<PartyMemberVo> partyMembers = partyMemberService.getPartyMemberVosByCondition(map);
         if(partyMembers.size()==0){
             status=ResultCode.ERROR;
         }

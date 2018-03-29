@@ -10,6 +10,8 @@ import com.ydl.residentmap.util.IdWorker;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -137,6 +139,88 @@ public class DelegateCommitteeDaoImpl implements DelegateCommitteeDao {
         String hql=this.commonSql +" where t1.name like ? order by t1.create_at desc ";
         Object[] params = new Object[1];
         params[0] = "%"+name+"%";
+        List<DelegateCommitteeVo> delegateCommitteeVos = baseVoDAO.getResultBySQL(hql,params,DelegateCommitteeVo.class);
+        return delegateCommitteeVos;
+    }
+
+    @Override
+    public List<DelegateCommitteeVo> getDelegateCommitteeVosByCondition(HashMap<String,String> map) {
+        String addSql = "";
+        List<String> paramList = new ArrayList<String>();
+
+        //名称模糊
+        if(map.containsKey("nameLike"))
+        {
+            addSql+=" and t1.name like ? ";
+            String val = map.get("nameLike");
+            paramList.add("%"+val+"%");
+        }
+        //性别
+        if(map.containsKey("gender"))
+        {
+            String val = map.get("gender");
+            addSql+=" and t1.gender="+val;
+        }
+        //民族
+        if(map.containsKey("minority"))
+        {
+            String val = map.get("minority");
+            addSql+=" and t1.minority="+val;
+        }
+        //党派
+        if(map.containsKey("party"))
+        {
+            String val = map.get("party");
+            addSql+=" and t1.party="+val;
+        }
+        //出生年月起始
+        if(map.containsKey("birthdayBegin"))
+        {
+            String val = map.get("birthdayBegin");
+            addSql += " and t1.birthday>="+val;
+        }
+        //出生年月截止
+        if(map.containsKey("birthdayEnd"))
+        {
+            String val = map.get("birthdayEnd");
+            addSql += " and t1.birthday<="+val;
+        }
+        //家庭住址模糊
+        if(map.containsKey("addressLike"))
+        {
+            addSql+=" and t1.address like ? ";
+            String val = map.get("addressLike");
+            paramList.add("%"+val+"%");
+        }
+        //联系电话模糊
+        if(map.containsKey("linkLike"))
+        {
+            addSql+=" and t1.link like ? ";
+            String val = map.get("linkLike");
+            paramList.add("%"+val+"%");
+        }
+        //文化程度
+        if(map.containsKey("education"))
+        {
+            String val = map.get("education");
+            addSql += " and t1.education="+val ;
+        }
+        //何届省、市、区党代表或人大代表或政协委员
+        if(map.containsKey("appointPostLike"))
+        {
+            addSql+=" and t1.appoint_post like ? ";
+            String val = map.get("appointPostLike");
+            paramList.add("%"+val+"%");
+        }
+        //所属社区
+        if(map.containsKey("communityId"))
+        {
+            String val = map.get("communityId");
+            addSql+= " and t1.community_id="+val;
+        }
+
+        String hql=this.commonSql + " where 1=1 " + addSql + " order by t1.create_at desc";
+        Object[] params = paramList.toArray();
         List<DelegateCommitteeVo> delegateCommitteeVos = baseVoDAO.getResultBySQL(hql,params,DelegateCommitteeVo.class);
         return delegateCommitteeVos;
     }

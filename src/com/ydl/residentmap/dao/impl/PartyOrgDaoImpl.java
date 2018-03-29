@@ -10,6 +10,8 @@ import com.ydl.residentmap.util.IdWorker;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -22,7 +24,7 @@ public class PartyOrgDaoImpl implements PartyOrgDao {
     @Resource
     private BaseDao<PartyOrgVo> baseVoDAO;
 
-    private String commonSql="select t1.par_party_name parPartyName,IFNULL(t3.name,'') orgSystemName, " +
+    private String commonSql="select t1.lng,t1.lat, t1.par_party_name parPartyName,IFNULL(t3.name,'') orgSystemName, " +
         " IFNULL(t4.name,'') orgAttributeName,t5.name communityName, " +
         " t1.id,t1.name,t1.org_system orgSystem,t1.org_attribute orgAttribute, " +
         " t1.par_id parId,t1.secretary_name secretaryName,t1.member_cnt memberCnt,t1.address, " +
@@ -129,6 +131,84 @@ public class PartyOrgDaoImpl implements PartyOrgDao {
         String hql=this.commonSql +" where t1.name like ? order by t1.create_at desc ";
         Object[] params = new Object[1];
         params[0] = "%"+name+"%";
+        List<PartyOrgVo> partyOrgVos = baseVoDAO.getResultBySQL(hql,params,PartyOrgVo.class);
+        return partyOrgVos;
+    }
+
+    @Override
+    public List<PartyOrgVo> getPartyOrgVosByCondition(HashMap<String,String> map) {
+        String addSql = "";
+        List<String> paramList = new ArrayList<String>();
+
+        //名称模糊
+        if(map.containsKey("nameLike"))
+        {
+            addSql+=" and t1.name like ? ";
+            String val = map.get("nameLike");
+            paramList.add("%"+val+"%");
+        }
+        //组织建制
+        if(map.containsKey("orgSystem"))
+        {
+            String val = map.get("orgSystem");
+            addSql+=" and t1.org_system="+val;
+        }
+        //党组织属性
+        if(map.containsKey("orgAttribute"))
+        {
+            String val = map.get("orgAttribute");
+            addSql+=" and t1.org_attribute="+val;
+        }
+        //上级党组织模糊
+        if(map.containsKey("parPartyNameLike"))
+        {
+            addSql+=" and t1.par_party_name like ? ";
+            String val = map.get("parPartyNameLike");
+            paramList.add("%"+val+"%");
+        }
+        //书记名称模糊
+        if(map.containsKey("secretaryNameLike"))
+        {
+            addSql+=" and t1.secretary_name like ? ";
+            String val = map.get("secretaryNameLike");
+            paramList.add("%"+val+"%");
+        }
+        //党员人数起始
+        if(map.containsKey("memberCntBegin"))
+        {
+            String val = map.get("memberCntBegin");
+            addSql += " and t1.member_cnt>="+val;
+        }
+        //党员人数截止
+        if(map.containsKey("memberCntEnd"))
+        {
+            String val = map.get("memberCntEnd");
+            addSql += " and t1.member_cnt<="+val;
+        }
+        //联系电话模糊
+        if(map.containsKey("telephoneLike"))
+        {
+            addSql+=" and t1.telephone like ? ";
+            String val = map.get("telephoneLike");
+            paramList.add("%"+val+"%");
+        }
+        //地址模糊
+        if(map.containsKey("addressLike"))
+        {
+            addSql+=" and t1.address like ? ";
+            String val = map.get("addressLike");
+            paramList.add("%"+val+"%");
+        }
+        //所属社区
+        if(map.containsKey("communityId"))
+        {
+            String val = map.get("communityId");
+            addSql+= " and t1.community_id="+val;
+        }
+
+
+        String hql=this.commonSql + " where 1=1 " + addSql + " order by t1.create_at desc";
+        Object[] params = paramList.toArray();
         List<PartyOrgVo> partyOrgVos = baseVoDAO.getResultBySQL(hql,params,PartyOrgVo.class);
         return partyOrgVos;
     }

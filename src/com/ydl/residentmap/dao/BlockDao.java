@@ -3,7 +3,9 @@ package com.ydl.residentmap.dao;
 import com.ydl.residentmap.model.Block;
 import com.ydl.residentmap.model.Pager;
 import com.ydl.residentmap.model.vo.BlockVo;
+import org.infinispan.commons.hash.Hash;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface BlockDao {
@@ -24,6 +26,8 @@ public interface BlockDao {
     List<BlockVo> getAllBlockVos();
 
     List<BlockVo> getBlockVosByName(String name);
+
+    List<BlockVo> getBlockVosByCondition(HashMap<String,String> map);
 
     List<BlockVo> getBlockVosByCommunityId(Long communityId);
 

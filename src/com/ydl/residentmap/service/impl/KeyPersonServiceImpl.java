@@ -14,10 +14,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 @Service
 public class KeyPersonServiceImpl implements KeyPersonService{
@@ -163,6 +160,11 @@ public class KeyPersonServiceImpl implements KeyPersonService{
     @Override
     public List<KeyPersonVo> getKeyPersonVosByName(String name) {
         return keyPersonDao.getKeyPersonVosByName(name);
+    }
+
+    @Override
+    public List<KeyPersonVo> getKeyPersonVosByCondition(HashMap<String,String> map) {
+        return keyPersonDao.getKeyPersonVosByCondition(map);
     }
 
     @Override

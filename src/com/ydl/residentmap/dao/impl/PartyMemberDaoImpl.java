@@ -11,9 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @Repository
 public class PartyMemberDaoImpl implements PartyMemberDao {
@@ -145,6 +143,131 @@ public class PartyMemberDaoImpl implements PartyMemberDao {
         Object[] params = new Object[1];
         params[0] = "%"+name+"%";
         List<PartyMemberVo> partyMemberVoList = baseVoDAO.getResultBySQL(hql,params,PartyMemberVo.class);
+        return partyMemberVoList;
+    }
+
+    @Override
+    public List<PartyMemberVo> getPartyMemberVosByCondition(HashMap<String,String> map) {
+        String addSql = "";
+        List<String> paramList = new ArrayList<String>();
+
+        //名称模糊
+        if(map.containsKey("nameLike"))
+        {
+            addSql+=" and t1.name like ? ";
+            String val = map.get("nameLike");
+            paramList.add("%"+val+"%");
+        }
+        //性别
+        if(map.containsKey("gender"))
+        {
+            String val = map.get("gender");
+            addSql+=" and t1.gender="+val;
+        }
+        //民族
+        if(map.containsKey("minority"))
+        {
+            String val = map.get("minority");
+            addSql+=" and t1.minority="+val;
+        }
+        //是否困难党员
+        if(map.containsKey("difficult"))
+        {
+            String val = map.get("difficult");
+            addSql+=" and t1.difficult="+val;
+        }
+        //出生年月起始
+        if(map.containsKey("birthdayBegin"))
+        {
+            String val = map.get("birthdayBegin");
+            addSql += " and t1.birthday>="+val;
+        }
+        //出生年月截止
+        if(map.containsKey("birthdayEnd"))
+        {
+            String val = map.get("birthdayEnd");
+            addSql += " and t1.birthday<="+val;
+        }
+        //文化程度
+        if(map.containsKey("education"))
+        {
+            String val = map.get("education");
+            addSql += " and t1.education="+val ;
+        }
+        //联系电话模糊
+        if(map.containsKey("linkLike"))
+        {
+            addSql+=" and t1.link like ? ";
+            String val = map.get("linkLike");
+            paramList.add("%"+val+"%");
+        }
+        //入党时间起始
+        if(map.containsKey("joinDateBegin"))
+        {
+            String val = map.get("joinDateBegin");
+            addSql += " and t1.join_date>="+val;
+        }
+        //入党时间截止
+        if(map.containsKey("joinDateEnd"))
+        {
+            String val = map.get("joinDateEnd");
+            addSql += " and t1.join_date<="+val;
+        }
+        //所属社区
+        if(map.containsKey("communityId"))
+        {
+            String val = map.get("communityId");
+            addSql+= " and t1.community_id="+val;
+        }
+        //认领岗位
+        if(map.containsKey("claimPost"))
+        {
+            String val = map.get("claimPost");
+            addSql+= " and t1.claim_post="+val;
+        }
+        //家庭住址模糊
+        if(map.containsKey("addressLike"))
+        {
+            addSql+=" and t1.address like ? ";
+            String val = map.get("addressLike");
+            paramList.add("%"+val+"%");
+        }
+        //身份证号
+        if(map.containsKey("idCardLike"))
+        {
+            addSql+=" and t1.id_card like ? ";
+            String val = map.get("idCardLike");
+            paramList.add("%"+val+"%");
+        }
+
+
+        String hql=this.commonSql + " where 1=1 " + addSql + " order by t1.create_at desc";
+        Object[] params = paramList.toArray();
+        List<PartyMemberVo> partyMemberVoList = baseVoDAO.getResultBySQL(hql,params,PartyMemberVo.class);
+        return partyMemberVoList;
+    }
+
+    @Override
+    public List<PartyMemberVo> getPartyMemberVosByCondition(Map<String,String> map) {
+        PartyMemberVo partyMemberVo=new PartyMemberVo();
+        String addSql="";
+        List<String> params = new ArrayList<>();
+        if(map.containsKey("name"))
+        {
+            String name = map.get("name");
+            name="%"+name+"%";
+            addSql+=" and t1.name like ? ";
+            params.add(name);
+        }
+        if(map.containsKey("difficult"))
+        {
+            String difficult=map.get("difficult");
+            addSql+=" and t1.difficult = ? ";
+            params.add(difficult);
+        }
+
+        String hql=this.commonSql + " where 1=1 "+addSql+" order by t1.create_at desc";
+        List<PartyMemberVo> partyMemberVoList = baseVoDAO.getResultBySQL(hql,params.toArray(),PartyMemberVo.class);
         return partyMemberVoList;
     }
 

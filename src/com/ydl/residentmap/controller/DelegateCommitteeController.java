@@ -9,11 +9,13 @@ import com.ydl.residentmap.model.ResponseResult;
 import com.ydl.residentmap.model.vo.DelegateCommitteeVo;
 import com.ydl.residentmap.service.CadreService;
 import com.ydl.residentmap.service.DelegateCommitteeService;
+import com.ydl.residentmap.util.CommonUtil;
 import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -149,6 +151,31 @@ public class DelegateCommitteeController {
         String error = "";
         String error_description = "";
         List<DelegateCommitteeVo> delegateCommittees = delegateCommitteeService.getDelegateCommitteeVosByName(name);
+        if(delegateCommittees.size()==0){
+            status=ResultCode.ERROR;
+        }
+        else{
+            status=ResultCode.SUCCESS;
+        }
+        return ResponseResult.create(status, delegateCommittees, desc, error, error_description);
+    }
+
+    /**
+     * 根据条件查询两代表一委员
+     *
+     * @param condition
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/getbycondition/{condition}", method = { RequestMethod.GET })
+    public ResponseResult getByCondition(@PathVariable(value = "condition") String condition) {
+        logger.debug("根据条件查询两代表一委员");
+        String status = ResultCode.SUCCESS;
+        String desc = ResultMessage.SEARCH_SUCCESS;
+        String error = "";
+        String error_description = "";
+        HashMap<String,String> map = CommonUtil.getCondtionMap(condition);
+        List<DelegateCommitteeVo> delegateCommittees = delegateCommitteeService.getDelegateCommitteeVosByCondition(map);
         if(delegateCommittees.size()==0){
             status=ResultCode.ERROR;
         }

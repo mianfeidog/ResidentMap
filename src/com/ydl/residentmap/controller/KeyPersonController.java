@@ -9,12 +9,14 @@ import com.ydl.residentmap.model.Pager;
 import com.ydl.residentmap.model.ResponseResult;
 import com.ydl.residentmap.model.vo.KeyPersonVo;
 import com.ydl.residentmap.service.KeyPersonService;
+import com.ydl.residentmap.util.CommonUtil;
 import com.ydl.residentmap.util.LatitudeUtils;
 import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -190,6 +192,33 @@ public class KeyPersonController {
 		String error = "";
 		String error_description = "";
 		List<KeyPersonVo> keyPersons = keyPersonService.getKeyPersonVosByName(name);
+		//List<KeyPerson> keyPersons = keyPersonService.getKeyPersonsByName(name);
+		if(keyPersons.size()==0){
+			status=ResultCode.ERROR;
+			desc=ResultMessage.SEARCH_FAILURE;
+		}
+		else{
+			status=ResultCode.SUCCESS;
+		}
+		return ResponseResult.create(status, keyPersons, desc, error, error_description);
+	}
+
+	/**
+	 * 根据条件获取重点人员
+	 *
+	 * @param condition
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/getbycondition/{condition}", method = { RequestMethod.GET })
+	public ResponseResult getByCondition(@PathVariable(value = "condition") String condition) {
+		logger.debug("根据条件获取重点人员");
+		String status = ResultCode.SUCCESS;
+		String desc = ResultMessage.SEARCH_SUCCESS;
+		String error = "";
+		String error_description = "";
+		HashMap<String,String> map = CommonUtil.getCondtionMap(condition);
+		List<KeyPersonVo> keyPersons = keyPersonService.getKeyPersonVosByCondition(map);
 		//List<KeyPerson> keyPersons = keyPersonService.getKeyPersonsByName(name);
 		if(keyPersons.size()==0){
 			status=ResultCode.ERROR;

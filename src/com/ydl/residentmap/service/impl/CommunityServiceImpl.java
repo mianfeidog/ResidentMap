@@ -6,6 +6,7 @@ import com.ydl.residentmap.model.*;
 import com.ydl.residentmap.model.vo.BlockVo;
 import com.ydl.residentmap.model.vo.CommunityVo;
 import com.ydl.residentmap.service.CommunityService;
+import com.ydl.residentmap.util.CommonUtil;
 import com.ydl.residentmap.util.IdWorker;
 import org.springframework.stereotype.Service;
 
@@ -214,6 +215,11 @@ public class CommunityServiceImpl implements CommunityService {
     @Override
     public List<CommunityVo> getCommunityVosByName(String name) {
         return communityDao.getCommunityVosByName(name);
+    }
+
+    @Override
+    public List<CommunityVo> getCommunitiyVosByCondition(HashMap<String,String> map) {
+        return communityDao.getCommunitiyVosByCondition(map);
     }
 
     @Override

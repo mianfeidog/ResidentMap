@@ -6,16 +6,14 @@ import com.ydl.residentmap.dao.CadreDao;
 import com.ydl.residentmap.model.Cadre;
 import com.ydl.residentmap.model.vo.CadreVo;
 import com.ydl.residentmap.service.CadreService;
+import com.ydl.residentmap.util.CommonUtil;
 import com.ydl.residentmap.util.IdWorker;
 import com.ydl.residentmap.util.LatitudeUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 @Service
 public class CadreServiceImpl implements CadreService{
@@ -155,6 +153,12 @@ public class CadreServiceImpl implements CadreService{
     public List<CadreVo> getCadreVosByName(String name) {
         return cadreDao.getCadreVosByName(name);
     }
+
+    @Override
+    public List<CadreVo> getCadreVosByCondition(HashMap<String,String> map) {
+        return cadreDao.getCadreVosByCondition(map);
+    }
+
 
     @Override
     public CadreVo getCadreVoById(Long id) {

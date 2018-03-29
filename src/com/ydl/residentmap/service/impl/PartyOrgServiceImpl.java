@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -84,6 +85,11 @@ public class PartyOrgServiceImpl implements PartyOrgService {
     @Override
     public List<PartyOrgVo> getPartyOrgVosByName(String name) {
         return partyOrgDao.getPartyOrgVosByName(name);
+    }
+
+    @Override
+    public List<PartyOrgVo> getPartyOrgVosByCondition(HashMap<String,String> map) {
+        return partyOrgDao.getPartyOrgVosByCondition(map);
     }
 
     @Override

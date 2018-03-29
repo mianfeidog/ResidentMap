@@ -166,8 +166,7 @@ public class BlockServiceImpl implements BlockService {
     }
 
     @Override
-    public List<BlockVo> getBlockVosByCondition(String condition) {
-        HashMap<String,String> map = CommonUtil.getCondtion(condition);
+    public List<BlockVo> getBlockVosByCondition(HashMap<String,String> map) {
         return blockDao.getBlockVosByCondition(map);
     }
 

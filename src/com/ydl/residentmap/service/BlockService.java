@@ -4,6 +4,7 @@ import com.ydl.residentmap.model.Block;
 import com.ydl.residentmap.model.Pager;
 import com.ydl.residentmap.model.vo.BlockVo;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface BlockService {
@@ -25,5 +26,9 @@ public interface BlockService {
 
     List<BlockVo> getBlockVosByName(String name);
 
+    List<BlockVo> getBlockVosByCondition(HashMap<String,String> map);
+
     Pager<Block> getBlocksByPage(int offset, int size);
+
+
 }

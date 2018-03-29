@@ -12,10 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 @Service
 public class PartyMemberServiceImpl implements PartyMemberService {
@@ -157,6 +154,11 @@ public class PartyMemberServiceImpl implements PartyMemberService {
     @Override
     public List<PartyMemberVo> getPartyMemberVosByName(String name) {
         return partyMemberDao.getPartyMemberVosByName(name);
+    }
+
+    @Override
+    public List<PartyMemberVo> getPartyMemberVosByCondition(HashMap<String,String> map) {
+        return partyMemberDao.getPartyMemberVosByCondition(map);
     }
 
     @Override

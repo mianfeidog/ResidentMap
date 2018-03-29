@@ -46,6 +46,11 @@ public class StreetServiceImpl implements StreetService{
     }
 
     @Override
+    public List<Street> getStreetsByCondition(HashMap<String,String> map) {
+        return streetDao.getStreetsByCondition(map);
+    }
+
+    @Override
     public Street getStreetById(Long id) {
         return streetDao.getStreetById(id);
     }

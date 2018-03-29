@@ -5,6 +5,7 @@ import com.ydl.residentmap.model.Pager;
 import com.ydl.residentmap.model.vo.BlockVo;
 import com.ydl.residentmap.model.vo.CommunityVo;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface CommunityDao {
@@ -27,6 +28,8 @@ public interface CommunityDao {
     List<CommunityVo> getAllCommunityVos();
 
     List<CommunityVo> getCommunityVosByName(String name);
+
+    List<CommunityVo> getCommunitiyVosByCondition(HashMap<String,String> map);
 
     Pager<Community> getCommunitiesByPage(int offset, int size);
 

@@ -3,6 +3,7 @@ package com.ydl.residentmap.dao;
 import com.ydl.residentmap.model.GridManager;
 import com.ydl.residentmap.model.vo.GridManagerVo;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface GridManagerDao {
@@ -29,6 +30,8 @@ public interface GridManagerDao {
     List<GridManagerVo> getAllGridManagerVos();
 
     List<GridManagerVo> getKeyGridManagerVosByName(String name);
+
+    List<GridManagerVo> getKeyGridManagerVosByCondition(HashMap<String,String> map);
 
     GridManagerVo getGridManagerVoById(Long id);
 

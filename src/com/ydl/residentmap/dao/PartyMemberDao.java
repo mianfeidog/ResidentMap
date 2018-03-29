@@ -3,7 +3,9 @@ package com.ydl.residentmap.dao;
 import com.ydl.residentmap.model.PartyMember;
 import com.ydl.residentmap.model.vo.PartyMemberVo;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public interface PartyMemberDao {
     Boolean save(PartyMember partyMember);
@@ -29,6 +31,10 @@ public interface PartyMemberDao {
     List<PartyMemberVo> getAllPartyMemberVos();
 
     List<PartyMemberVo> getPartyMemberVosByName(String name);
+
+    List<PartyMemberVo> getPartyMemberVosByCondition(HashMap<String,String> map);
+
+    List<PartyMemberVo> getPartyMemberVosByCondition(Map<String,String> map);
 
     PartyMemberVo getPartyMemberVoById(Long id);
 

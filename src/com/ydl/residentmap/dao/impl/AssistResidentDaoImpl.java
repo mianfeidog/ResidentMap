@@ -10,9 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @Repository
 public class AssistResidentDaoImpl implements AssistResidentDao {
@@ -92,6 +90,99 @@ public class AssistResidentDaoImpl implements AssistResidentDao {
         String hql=this.commonSql +" where t1.name like ? order by t1.create_at desc ";
         Object[] params = new Object[1];
         params[0] = "%"+name+"%";
+        List<AssistResidentVo> assistResidentVos = baseVoDAO.getResultBySQL(hql,params,AssistResidentVo.class);
+        return assistResidentVos;
+    }
+
+    @Override
+    public List<AssistResidentVo> getAssistResidentVosByCondition(HashMap<String,String> map) {
+        String addSql = "";
+        List<String> paramList = new ArrayList<String>();
+        //名称模糊
+        if(map.containsKey("nameLike"))
+        {
+            addSql+=" and t1.name like ? ";
+            String val = map.get("nameLike");
+            paramList.add("%"+val+"%");
+        }
+        //性别
+        if(map.containsKey("gender"))
+        {
+            String val = map.get("gender");
+            addSql+=" and t1.gender="+val;
+        }
+        //残疾证等级
+        if(map.containsKey("deformityCardRankLike"))
+        {
+            addSql+=" and t1.deformity_card_rank like ? ";
+            String val = map.get("deformityCardRankLike");
+            paramList.add("%"+val+"%");
+        }
+        //残疾证号码
+        if(map.containsKey("deformityCertificateNumLike"))
+        {
+            addSql+=" and t1.deformity_certificate_num like ? ";
+            String val = map.get("deformityCertificateNumLike");
+            paramList.add("%"+val+"%");
+        }
+        //出生年月起始
+        if(map.containsKey("birthdayBegin"))
+        {
+            String val = map.get("birthdayBegin");
+            addSql += " and t1.birthday>="+val;
+        }
+        //出生年月截止
+        if(map.containsKey("birthdayEnd"))
+        {
+            String val = map.get("birthdayEnd");
+            addSql += " and t1.birthday<="+val;
+        }
+        //家庭年收入起始
+        if(map.containsKey("familyYearIncomeBegin"))
+        {
+            String val = map.get("familyYearIncomeBegin");
+            addSql += " and t1.family_year_income>="+val;
+        }
+        //家庭年收入截止
+        if(map.containsKey("familyYearIncomeEnd"))
+        {
+            String val = map.get("familyYearIncomeEnd");
+            addSql += " and t1.family_year_income<="+val;
+        }
+        //家庭人口起始
+        if(map.containsKey("familyMemberCountBegin"))
+        {
+            String val = map.get("familyMemberCountBegin");
+            addSql += " and t1.family_member_count>="+val;
+        }
+        //家庭人口截止
+        if(map.containsKey("familyMemberCountEnd"))
+        {
+            String val = map.get("familyMemberCountEnd");
+            addSql += " and t1.family_member_count<="+val;
+        }
+        //家庭住址模糊
+        if(map.containsKey("addressLike"))
+        {
+            addSql+=" and t1.address like ? ";
+            String val = map.get("addressLike");
+            paramList.add("%"+val+"%");
+        }
+        //所属小区
+        if(map.containsKey("blockId"))
+        {
+            String val = map.get("blockId");
+            addSql+= " and t1.block_id="+val;
+        }
+        //居民类型
+        if(map.containsKey("type"))
+        {
+            String val = map.get("type");
+            addSql+= " and t1.type="+val;
+        }
+
+        String hql=this.commonSql + " where 1=1 " + addSql + " order by t1.create_at desc";
+        Object[] params = paramList.toArray();
         List<AssistResidentVo> assistResidentVos = baseVoDAO.getResultBySQL(hql,params,AssistResidentVo.class);
         return assistResidentVos;
     }

@@ -12,10 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 @Service
 public class AssistResidentServiceImpl implements AssistResidentService {
@@ -121,6 +118,11 @@ public class AssistResidentServiceImpl implements AssistResidentService {
     @Override
     public List<AssistResidentVo> getAssistResidentVosByName(String name) {
         return assistResidentDao.getAssistResidentVosByName(name);
+    }
+
+    @Override
+    public List<AssistResidentVo> getAssistResidentVosByCondition(HashMap<String,String> map) {
+        return assistResidentDao.getAssistResidentVosByCondition(map);
     }
 
     @Override

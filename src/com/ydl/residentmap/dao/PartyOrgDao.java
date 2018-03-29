@@ -3,6 +3,7 @@ package com.ydl.residentmap.dao;
 import com.ydl.residentmap.model.PartyOrg;
 import com.ydl.residentmap.model.vo.PartyOrgVo;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface PartyOrgDao {
@@ -27,6 +28,8 @@ public interface PartyOrgDao {
     List<PartyOrgVo> getAllPartyOrgVos();
 
     List<PartyOrgVo> getPartyOrgVosByName(String name);
+
+    List<PartyOrgVo> getPartyOrgVosByCondition(HashMap<String,String> map);
 
     PartyOrgVo getPartyOrgVoById(Long id);
 }

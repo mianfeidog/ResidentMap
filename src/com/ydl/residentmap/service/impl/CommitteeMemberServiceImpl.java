@@ -6,16 +6,14 @@ import com.ydl.residentmap.dao.CommitteeMemberDao;
 import com.ydl.residentmap.model.CommitteeMember;
 import com.ydl.residentmap.model.vo.CommitteeMemberVo;
 import com.ydl.residentmap.service.CommitteeMemberService;
+import com.ydl.residentmap.util.CommonUtil;
 import com.ydl.residentmap.util.IdWorker;
 import com.ydl.residentmap.util.LatitudeUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 @Service
 public class CommitteeMemberServiceImpl implements CommitteeMemberService {
@@ -153,6 +151,12 @@ public class CommitteeMemberServiceImpl implements CommitteeMemberService {
     @Override
     public List<CommitteeMemberVo> getCommitteeMemberVosByName(String name) {
         return committeeMemberDao.getCommitteeMemberVosByName(name);
+    }
+
+    @Override
+    public List<CommitteeMemberVo> getCommitteeMemberVosByCondition(String condition) {
+        HashMap<String,String> map = CommonUtil.getCondtionMap(condition);
+        return committeeMemberDao.getCommitteeMemberVosByCondition(map);
     }
 
     @Override

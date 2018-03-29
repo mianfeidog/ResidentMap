@@ -9,11 +9,13 @@ import com.ydl.residentmap.model.ResponseResult;
 import com.ydl.residentmap.model.vo.PartyOrgVo;
 import com.ydl.residentmap.service.KeyPersonService;
 import com.ydl.residentmap.service.PartyOrgService;
+import com.ydl.residentmap.util.CommonUtil;
 import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -150,6 +152,31 @@ public class PartyOrgController {
         String error = "";
         String error_description = "";
         List<PartyOrgVo> partyOrgs = partyOrgService.getPartyOrgVosByName(name);
+        if(partyOrgs.size()==0){
+            status=ResultCode.ERROR;
+        }
+        else{
+            status=ResultCode.SUCCESS;
+        }
+        return ResponseResult.create(status, partyOrgs, desc, error, error_description);
+    }
+
+    /**
+     * 根据条件获取党组织
+     *
+     * @param condition
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/getbycondition/{condition}", method = { RequestMethod.GET })
+    public ResponseResult getByCondition(@PathVariable(value = "condition") String condition) {
+        logger.debug("根据条件获取党组织");
+        String status = ResultCode.SUCCESS;
+        String desc = ResultMessage.SEARCH_SUCCESS;
+        String error = "";
+        String error_description = "";
+        HashMap<String,String> map = CommonUtil.getCondtionMap(condition);
+        List<PartyOrgVo> partyOrgs = partyOrgService.getPartyOrgVosByCondition(map);
         if(partyOrgs.size()==0){
             status=ResultCode.ERROR;
         }

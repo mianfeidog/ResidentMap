@@ -3,6 +3,7 @@ package com.ydl.residentmap.dao;
 import com.ydl.residentmap.model.CommitteeMember;
 import com.ydl.residentmap.model.vo.CommitteeMemberVo;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface CommitteeMemberDao {
@@ -27,6 +28,8 @@ public interface CommitteeMemberDao {
     List<CommitteeMemberVo> getAllCommitteeMemberVos();
 
     List<CommitteeMemberVo> getCommitteeMemberVosByName(String name);
+
+    List<CommitteeMemberVo> getCommitteeMemberVosByCondition(HashMap<String,String> map);
 
     CommitteeMemberVo getCommitteeMemberVoById(Long id);
 

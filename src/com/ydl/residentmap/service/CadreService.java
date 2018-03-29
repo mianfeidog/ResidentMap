@@ -3,6 +3,7 @@ package com.ydl.residentmap.service;
 import com.ydl.residentmap.model.Cadre;
 import com.ydl.residentmap.model.vo.CadreVo;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface CadreService  {
@@ -21,6 +22,8 @@ public interface CadreService  {
     List<CadreVo> getAllCadreVos();
 
     List<CadreVo> getCadreVosByName(String name);
+
+    List<CadreVo> getCadreVosByCondition(HashMap<String,String> map);
 
     CadreVo getCadreVoById(Long id);
 

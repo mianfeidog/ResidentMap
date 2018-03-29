@@ -2,6 +2,7 @@ package com.ydl.residentmap.service;
 
 import com.ydl.residentmap.model.vo.DelegateCommitteeVo;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface DelegateCommitteeService  {
@@ -20,6 +21,8 @@ public interface DelegateCommitteeService  {
     List<DelegateCommitteeVo> getAllDelegateCommitteeVos();
 
     List<DelegateCommitteeVo> getDelegateCommitteeVosByName(String name);
+
+    List<DelegateCommitteeVo> getDelegateCommitteeVosByCondition(HashMap<String,String> map);
 
     DelegateCommitteeVo getDelegateCommitteeVoById(Long id);
 }

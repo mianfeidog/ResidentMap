@@ -159,6 +159,30 @@ public class CommitteeMemberController {
     }
 
     /**
+     * 根据条件获取社区大党委成员
+     *
+     * @param condition
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/getbycondition/{condition}", method = { RequestMethod.GET })
+    public ResponseResult getByCondition(@PathVariable(value = "condition") String condition) {
+        logger.debug("根据条件获取社区大党委成员");
+        String status = ResultCode.SUCCESS;
+        String desc = ResultMessage.SEARCH_SUCCESS;
+        String error = "";
+        String error_description = "";
+        List<CommitteeMemberVo> committeeMembers = committeeMemberService.getCommitteeMemberVosByCondition(condition);
+        if(committeeMembers.size()==0){
+            status=ResultCode.ERROR;
+        }
+        else{
+            status=ResultCode.SUCCESS;
+        }
+        return ResponseResult.create(status, committeeMembers, desc, error, error_description);
+    }
+
+    /**
      * 根据id获取社区大党委成员
      *
      * @param id

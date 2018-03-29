@@ -12,9 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @Repository
 public class CommunityDaoImpl implements CommunityDao {
@@ -134,6 +132,36 @@ public class CommunityDaoImpl implements CommunityDao {
         String hql=this.commonSql + " where t1.name like ? order by t1.create_at desc";
         Object[] params = new Object[1];
         params[0] = "%"+name+"%";
+        List<CommunityVo> communityVoList = baseVoDAO.getResultBySQL(hql,params,CommunityVo.class);
+        return communityVoList;
+    }
+
+    @Override
+    public List<CommunityVo> getCommunitiyVosByCondition(HashMap<String,String> map) {
+        String addSql = "";
+        List<String> paramList = new ArrayList<String>();
+        //名称模糊
+        if(map.containsKey("nameLike"))
+        {
+            addSql+=" and t1.name like ? ";
+            String val = map.get("nameLike");
+            paramList.add("%"+val+"%");
+        }
+        //社区类型
+        if(map.containsKey("type"))
+        {
+            String val = map.get("type");
+            addSql+=" and t1.type="+val+" and t3.data_type="+DataDictionaryCode.DATA_TYPE_COMMUNITY;
+        }
+        //所属街道
+        if(map.containsKey("streetId"))
+        {
+            String val = map.get("streetId");
+            addSql+= " and t1.street_id="+val;
+        }
+
+        String hql=this.commonSql + " where 1=1 " + addSql + " order by t1.create_at desc";
+        Object[] params = paramList.toArray();
         List<CommunityVo> communityVoList = baseVoDAO.getResultBySQL(hql,params,CommunityVo.class);
         return communityVoList;
     }

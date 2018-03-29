@@ -4,6 +4,7 @@ import com.ydl.residentmap.model.KeyPerson;
 import com.ydl.residentmap.model.Pager;
 import com.ydl.residentmap.model.vo.KeyPersonVo;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface KeyPersonService {
@@ -22,6 +23,8 @@ public interface KeyPersonService {
     List<KeyPerson> getKeyPersonsByType(int type);
 
     List<KeyPersonVo> getKeyPersonVosByName(String name);
+
+    List<KeyPersonVo> getKeyPersonVosByCondition(HashMap<String,String> map);
 
     KeyPersonVo getKeyPersonVoById(Long id);
 

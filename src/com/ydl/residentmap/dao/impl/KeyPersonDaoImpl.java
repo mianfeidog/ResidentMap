@@ -12,9 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @Repository
 public class KeyPersonDaoImpl implements KeyPersonDao{
@@ -149,6 +147,83 @@ public class KeyPersonDaoImpl implements KeyPersonDao{
         String hql=this.commonSql +" where t1.name like ? order by t1.create_at desc ";
         Object[] params = new Object[1];
         params[0] = "%"+name+"%";
+        List<KeyPersonVo> keyPersons = baseVoDAO.getResultBySQL(hql,params,KeyPersonVo.class);
+        return keyPersons;
+    }
+
+    @Override
+    public List<KeyPersonVo> getKeyPersonVosByCondition(HashMap<String,String> map) {
+        String addSql = "";
+        List<String> paramList = new ArrayList<String>();
+
+        //名称模糊
+        if(map.containsKey("nameLike"))
+        {
+            addSql+=" and t1.name like ? ";
+            String val = map.get("nameLike");
+            paramList.add("%"+val+"%");
+        }
+        //性别
+        if(map.containsKey("gender"))
+        {
+            String val = map.get("gender");
+            addSql+=" and t1.gender="+val;
+        }
+        //年龄起始
+        if(map.containsKey("ageBegin"))
+        {
+            String val = map.get("ageBegin");
+            addSql += " and t1.age>="+val;
+        }
+        //年龄截止
+        if(map.containsKey("ageEnd"))
+        {
+            String val = map.get("ageEnd");
+            addSql += " and t1.age<="+val;
+        }
+        //类别
+        if(map.containsKey("type"))
+        {
+            String val = map.get("type");
+            addSql+=" and t1.type="+val;
+        }
+        //基本情况模糊
+        if(map.containsKey("baseConditionLike"))
+        {
+            addSql+=" and t1.base_condition like ? ";
+            String val = map.get("baseConditionLike");
+            paramList.add("%"+val+"%");
+        }
+        //身份证号
+        if(map.containsKey("idCardLike"))
+        {
+            addSql+=" and t1.id_card like ? ";
+            String val = map.get("idCardLike");
+            paramList.add("%"+val+"%");
+        }
+        //家庭住址模糊
+        if(map.containsKey("addressLike"))
+        {
+            addSql+=" and t1.address like ? ";
+            String val = map.get("addressLike");
+            paramList.add("%"+val+"%");
+        }
+        //联系电话模糊
+        if(map.containsKey("linkLike"))
+        {
+            addSql+=" and t1.link like ? ";
+            String val = map.get("linkLike");
+            paramList.add("%"+val+"%");
+        }
+        //所属小区
+        if(map.containsKey("blockId"))
+        {
+            String val = map.get("blockId");
+            addSql+= " and t1.block_id="+val;
+        }
+
+        String hql=this.commonSql + " where 1=1 " + addSql + " order by t1.create_at desc";
+        Object[] params = paramList.toArray();
         List<KeyPersonVo> keyPersons = baseVoDAO.getResultBySQL(hql,params,KeyPersonVo.class);
         return keyPersons;
     }

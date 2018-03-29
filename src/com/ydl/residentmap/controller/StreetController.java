@@ -7,11 +7,13 @@ import com.ydl.residentmap.model.Pager;
 import com.ydl.residentmap.model.ResponseResult;
 import com.ydl.residentmap.model.Street;
 import com.ydl.residentmap.service.StreetService;
+import com.ydl.residentmap.util.CommonUtil;
 import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -202,6 +204,31 @@ public class StreetController {
         String error = "";
         String error_description = "";
         List<Street> streets = streetService.getStreetsByName(name);
+        if(streets.size()==0){
+            status=ResultCode.ERROR;
+        }
+        else{
+            status=ResultCode.SUCCESS;
+        }
+        return ResponseResult.create(status, streets, desc, error, error_description);
+    }
+
+    /**
+     * 根据条件获取街道
+     *
+     * @param condition
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/getbycondition/{condition}", method = { RequestMethod.GET })
+    public ResponseResult getByCondition(@PathVariable(value = "condition") String condition) {
+        logger.debug("根据条件获取街道");
+        String status = ResultCode.SUCCESS;
+        String desc = ResultMessage.SEARCH_SUCCESS;
+        String error = "";
+        String error_description = "";
+        HashMap<String,String> map = CommonUtil.getCondtionMap(condition);
+        List<Street> streets = streetService.getStreetsByCondition(map);
         if(streets.size()==0){
             status=ResultCode.ERROR;
         }

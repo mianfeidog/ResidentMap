@@ -11,10 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 @Service
 public class DelegateCommitteeServiceImpl implements DelegateCommitteeService {
@@ -126,6 +123,11 @@ public class DelegateCommitteeServiceImpl implements DelegateCommitteeService {
     @Override
     public List<DelegateCommitteeVo> getDelegateCommitteeVosByName(String name) {
         return delegateCommitteeDao.getDelegateCommitteeVosByName(name);
+    }
+
+    @Override
+    public List<DelegateCommitteeVo> getDelegateCommitteeVosByCondition(HashMap<String,String> map) {
+        return delegateCommitteeDao.getDelegateCommitteeVosByCondition(map);
     }
 
     @Override
