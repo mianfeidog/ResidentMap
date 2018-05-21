@@ -9,9 +9,12 @@ import com.ydl.residentmap.service.CadreService;
 import com.ydl.residentmap.util.CommonUtil;
 import com.ydl.residentmap.util.IdWorker;
 import com.ydl.residentmap.util.LatitudeUtils;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.DateUtil;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -159,6 +162,29 @@ public class CadreServiceImpl implements CadreService{
         return cadreDao.getCadreVosByCondition(map);
     }
 
+    @Override
+    public HSSFWorkbook exportExcel(List<CadreVo> cadreVos){
+        //设置表格标题行
+        String[] headers = new String[] {"姓名","职务", "性别","出生年月","文化程度", "入党时间", "身份证号","家庭住址","联系方式","所属社区"};
+        List<List<String>> dataList = new ArrayList<List<String>>();
+        for(int i=0;i<cadreVos.size();i++) {
+            CadreVo cadreVo = cadreVos.get(i);
+            List<String> list = new ArrayList<String>();
+            list.add(cadreVo.getName());          //姓名
+            list.add(cadreVo.getPositionName());  //职务
+            list.add(cadreVo.getGender()==1?"男":"女");
+            list.add(cadreVo.getBirthday().toString());      //出生年月
+            list.add(cadreVo.getEducationName()); //文化程度
+            list.add(cadreVo.getJoinDate().toString());      //入党时间
+            list.add(cadreVo.getIdCard());          //身份证号
+            list.add(cadreVo.getAddress());         //家庭住址
+            list.add(cadreVo.getLink());            //联系方式
+            list.add(cadreVo.getCommunityName());   //所属社区
+            dataList.add(list);
+        }
+        HSSFWorkbook workbook = CommonUtil.setExcel(headers,dataList);
+        return workbook;
+    }
 
     @Override
     public CadreVo getCadreVoById(Long id) {

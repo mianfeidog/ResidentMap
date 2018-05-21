@@ -3,6 +3,7 @@ package com.ydl.residentmap.service;
 import com.ydl.residentmap.model.KeyPerson;
 import com.ydl.residentmap.model.Pager;
 import com.ydl.residentmap.model.vo.KeyPersonVo;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 import java.util.HashMap;
 import java.util.List;
@@ -25,6 +26,8 @@ public interface KeyPersonService {
     List<KeyPersonVo> getKeyPersonVosByName(String name);
 
     List<KeyPersonVo> getKeyPersonVosByCondition(HashMap<String,String> map);
+
+    HSSFWorkbook exportExcel(List<KeyPersonVo> keyPersonVos);
 
     KeyPersonVo getKeyPersonVoById(Long id);
 

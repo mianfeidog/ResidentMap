@@ -2,7 +2,9 @@ package com.ydl.residentmap.service;
 
 import com.ydl.residentmap.model.CommitteeMember;
 import com.ydl.residentmap.model.vo.CommitteeMemberVo;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface CommitteeMemberService {
@@ -22,7 +24,9 @@ public interface CommitteeMemberService {
 
     List<CommitteeMemberVo> getCommitteeMemberVosByName(String name);
 
-    List<CommitteeMemberVo> getCommitteeMemberVosByCondition(String condition);
+    List<CommitteeMemberVo> getCommitteeMemberVosByCondition(HashMap<String,String> map);
+
+    HSSFWorkbook exportExcel(List<CommitteeMemberVo> committeeMemberVos);
 
     CommitteeMemberVo getCommitteeMemberVoById(Long id);
 

@@ -2,6 +2,7 @@ package com.ydl.residentmap.service;
 
 import com.ydl.residentmap.model.GridManager;
 import com.ydl.residentmap.model.vo.GridManagerVo;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +25,8 @@ public interface GridManagerService {
     List<GridManagerVo> getKeyGridManagerVosByName(String name);
 
     List<GridManagerVo> getKeyGridManagerVosByCondition(HashMap<String,String> map);
+
+    HSSFWorkbook exportExcel(List<GridManagerVo> gridManagerVos);
 
     GridManagerVo getGridManagerVoById(Long id);
 }

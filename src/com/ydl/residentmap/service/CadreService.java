@@ -2,6 +2,7 @@ package com.ydl.residentmap.service;
 
 import com.ydl.residentmap.model.Cadre;
 import com.ydl.residentmap.model.vo.CadreVo;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +25,8 @@ public interface CadreService  {
     List<CadreVo> getCadreVosByName(String name);
 
     List<CadreVo> getCadreVosByCondition(HashMap<String,String> map);
+
+    HSSFWorkbook exportExcel(List<CadreVo> cadreVos);
 
     CadreVo getCadreVoById(Long id);
 

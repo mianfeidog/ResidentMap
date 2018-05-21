@@ -6,8 +6,10 @@ import com.ydl.residentmap.dao.PartyMemberDao;
 import com.ydl.residentmap.model.PartyMember;
 import com.ydl.residentmap.model.vo.PartyMemberVo;
 import com.ydl.residentmap.service.PartyMemberService;
+import com.ydl.residentmap.util.CommonUtil;
 import com.ydl.residentmap.util.IdWorker;
 import com.ydl.residentmap.util.LatitudeUtils;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -164,6 +166,37 @@ public class PartyMemberServiceImpl implements PartyMemberService {
     @Override
     public List<PartyMemberVo> getPartyMemberVosByCondition(Map<String,String> map) {
         return partyMemberDao.getPartyMemberVosByCondition(map);
+    }
+
+    @Override
+    public HSSFWorkbook exportExcel(List<PartyMemberVo> partyMemberVos) {
+        //设置表格标题行
+        String[] headers = new String[] {"姓名", "性别","民族","出生年月","文化程度", "入党时间", "认领岗位","身份证号","家庭住址","联系方式","是否困难党员","所属社区"};
+        List<List<String>> dataList = new ArrayList<List<String>>();
+        for(int i=0;i<partyMemberVos.size();i++) {
+            PartyMemberVo partyMemberVo = partyMemberVos.get(i);
+            List<String> list = new ArrayList<String>();
+
+            list.add(partyMemberVo.getName());
+            list.add(partyMemberVo.getGender()==1?"男":"女");
+            list.add(partyMemberVo.getMinorityName());
+            list.add(partyMemberVo.getBirthday().toString());
+            list.add(partyMemberVo.getEducationName());
+
+            list.add(partyMemberVo.getJoinDate().toString());
+            list.add(partyMemberVo.getClaimPostName());
+            list.add(partyMemberVo.getIdCard());
+            list.add(partyMemberVo.getAddress());
+            list.add(partyMemberVo.getLink());
+
+            list.add(partyMemberVo.getDifficult()==true?"是":"否");
+            list.add(partyMemberVo.getCommunityName());
+
+            dataList.add(list);
+        }
+
+        HSSFWorkbook workbook = CommonUtil.setExcel(headers,dataList);
+        return workbook;
     }
 
     @Override

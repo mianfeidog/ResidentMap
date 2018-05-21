@@ -5,8 +5,10 @@ import com.ydl.residentmap.dao.DelegateCommitteeDao;
 import com.ydl.residentmap.model.DelegateCommittee;
 import com.ydl.residentmap.model.vo.DelegateCommitteeVo;
 import com.ydl.residentmap.service.DelegateCommitteeService;
+import com.ydl.residentmap.util.CommonUtil;
 import com.ydl.residentmap.util.IdWorker;
 import com.ydl.residentmap.util.LatitudeUtils;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -128,6 +130,34 @@ public class DelegateCommitteeServiceImpl implements DelegateCommitteeService {
     @Override
     public List<DelegateCommitteeVo> getDelegateCommitteeVosByCondition(HashMap<String,String> map) {
         return delegateCommitteeDao.getDelegateCommitteeVosByCondition(map);
+    }
+
+    @Override
+    public HSSFWorkbook exportExcel(List<DelegateCommitteeVo> delegateCommitteeVos) {
+        //设置表格标题行
+        String[] headers = new String[] {"姓名","性别", "民族","出生年月","文化程度", "党派", "何届省、市、区党代表或人大代表或政协委员","家庭住址","联系方式","所属社区"};
+        List<List<String>> dataList = new ArrayList<List<String>>();
+        for(int i=0;i<delegateCommitteeVos.size();i++) {
+            DelegateCommitteeVo delegateCommitteeVo = delegateCommitteeVos.get(i);
+            List<String> list = new ArrayList<String>();
+
+            list.add(delegateCommitteeVo.getName());
+            list.add(delegateCommitteeVo.getGender()==1?"男":"女");
+            list.add(delegateCommitteeVo.getMinorityName());
+            list.add(delegateCommitteeVo.getBirthday().toString());
+            list.add(delegateCommitteeVo.getEducationName());
+
+            list.add(delegateCommitteeVo.getPartyName());
+            list.add(delegateCommitteeVo.getAppointPost());
+            list.add(delegateCommitteeVo.getAddress());
+            list.add(delegateCommitteeVo.getLink());
+            list.add(delegateCommitteeVo.getCommunityName());
+
+            dataList.add(list);
+        }
+
+        HSSFWorkbook workbook = CommonUtil.setExcel(headers,dataList);
+        return workbook;
     }
 
     @Override

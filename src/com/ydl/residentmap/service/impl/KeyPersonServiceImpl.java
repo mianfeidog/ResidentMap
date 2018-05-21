@@ -7,8 +7,10 @@ import com.ydl.residentmap.model.KeyPerson;
 import com.ydl.residentmap.model.Pager;
 import com.ydl.residentmap.model.vo.KeyPersonVo;
 import com.ydl.residentmap.service.KeyPersonService;
+import com.ydl.residentmap.util.CommonUtil;
 import com.ydl.residentmap.util.IdWorker;
 import com.ydl.residentmap.util.LatitudeUtils;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -165,6 +167,33 @@ public class KeyPersonServiceImpl implements KeyPersonService{
     @Override
     public List<KeyPersonVo> getKeyPersonVosByCondition(HashMap<String,String> map) {
         return keyPersonDao.getKeyPersonVosByCondition(map);
+    }
+
+    @Override
+    public HSSFWorkbook exportExcel(List<KeyPersonVo> keyPersonVos) {
+        //设置表格标题行
+        String[] headers = new String[] {"姓名","性别", "年龄","类别","基本情况", "身份证号", "家庭住址","联系方式","所属社区"};
+        List<List<String>> dataList = new ArrayList<List<String>>();
+        for(int i=0;i<keyPersonVos.size();i++) {
+            KeyPersonVo keyPersonVo = keyPersonVos.get(i);
+            List<String> list = new ArrayList<String>();
+
+            list.add(keyPersonVo.getName());
+            list.add(keyPersonVo.getGender()==1?"男":"女");
+            list.add(String.valueOf(keyPersonVo.getAge()));
+            list.add(keyPersonVo.getTypeName());
+            list.add(keyPersonVo.getBaseCondition());
+
+            list.add(keyPersonVo.getIdCard());
+            list.add(keyPersonVo.getAddress());
+            list.add(keyPersonVo.getLink());
+            list.add(keyPersonVo.getCommunityName());
+
+            dataList.add(list);
+        }
+        HSSFWorkbook workbook = CommonUtil.setExcel(headers,dataList);
+        return workbook;
+
     }
 
     @Override

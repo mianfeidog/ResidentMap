@@ -9,6 +9,7 @@ import com.ydl.residentmap.service.CommitteeMemberService;
 import com.ydl.residentmap.util.CommonUtil;
 import com.ydl.residentmap.util.IdWorker;
 import com.ydl.residentmap.util.LatitudeUtils;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -154,9 +155,38 @@ public class CommitteeMemberServiceImpl implements CommitteeMemberService {
     }
 
     @Override
-    public List<CommitteeMemberVo> getCommitteeMemberVosByCondition(String condition) {
-        HashMap<String,String> map = CommonUtil.getCondtionMap(condition);
+    public List<CommitteeMemberVo> getCommitteeMemberVosByCondition(HashMap<String,String> map) {
         return committeeMemberDao.getCommitteeMemberVosByCondition(map);
+    }
+
+    @Override
+    public HSSFWorkbook exportExcel(List<CommitteeMemberVo> committeeMemberVos) {
+        //设置表格标题行
+        String[] headers = new String[] {"职务","姓名", "性别","民族","出生年月", "文化程度", "入党时间","身份证号","家庭住址","联系方式","所属社区"};
+        List<List<String>> dataList = new ArrayList<List<String>>();
+        for(int i=0;i<committeeMemberVos.size();i++) {
+            CommitteeMemberVo committeeMemberVo = committeeMemberVos.get(i);
+            List<String> list = new ArrayList<String>();
+
+            list.add(committeeMemberVo.getPositionName());
+            list.add(committeeMemberVo.getName());
+            list.add(committeeMemberVo.getGender()==1?"男":"女");
+            list.add(committeeMemberVo.getMinorityName());
+            list.add(committeeMemberVo.getBirthday().toString());
+
+            list.add(committeeMemberVo.getEducationName());
+            list.add(committeeMemberVo.getJoinDate().toString());
+            list.add(committeeMemberVo.getIdCard());
+            list.add(committeeMemberVo.getAddress());
+            list.add(committeeMemberVo.getLink());
+
+            list.add(committeeMemberVo.getCommunityName());
+
+            dataList.add(list);
+        }
+
+        HSSFWorkbook workbook = CommonUtil.setExcel(headers,dataList);
+        return workbook;
     }
 
     @Override

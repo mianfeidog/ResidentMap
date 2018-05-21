@@ -13,6 +13,7 @@ import com.ydl.residentmap.service.BlockService;
 import com.ydl.residentmap.util.CommonUtil;
 import com.ydl.residentmap.util.IdWorker;
 import com.ydl.residentmap.util.LatitudeUtils;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -168,6 +169,38 @@ public class BlockServiceImpl implements BlockService {
     @Override
     public List<BlockVo> getBlockVosByCondition(HashMap<String,String> map) {
         return blockDao.getBlockVosByCondition(map);
+    }
+
+    @Override
+    public HSSFWorkbook exportExcel(List<BlockVo> blockVos) {
+        //设置表格标题行
+        String[] headers = new String[] {"小区名称","小区地址", "社区名称","书记名称","主任名称", "街道包抓领导名称", "小区工作日领导名称","书记电话","主任电话","街道包抓领导电话","小区工作日领导联系电话","负责人","负责人电话"};
+        List<List<String>> dataList = new ArrayList<List<String>>();
+        for(int i=0;i<blockVos.size();i++) {
+            BlockVo blockVo = blockVos.get(i);
+            List<String> list = new ArrayList<String>();
+
+            list.add(blockVo.getName());
+            list.add(blockVo.getAddress());
+            list.add(blockVo.getCommunityName());
+            list.add(blockVo.getSecretaryName());
+            list.add(blockVo.getDirectorName());
+
+            list.add(blockVo.getInChargeLeaderName());
+            list.add(blockVo.getWorkDayLeaderName());
+            list.add(blockVo.getSecretaryTel());
+            list.add(blockVo.getDirectorTel());
+            list.add(blockVo.getInChargeLeaderTel());
+
+            list.add(blockVo.getWorkDayLeaderTel());
+            list.add(blockVo.getPersonInCharge());
+            list.add(blockVo.getPersonInChargeTel());
+
+            dataList.add(list);
+        }
+
+        HSSFWorkbook workbook = CommonUtil.setExcel(headers,dataList);
+        return workbook;
     }
 
     @Override

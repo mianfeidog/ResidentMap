@@ -1,5 +1,6 @@
 package com.ydl.residentmap.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -8,6 +9,8 @@ import com.ydl.residentmap.constants.CommonConst;
 import com.ydl.residentmap.constants.DataDictionaryCode;
 import com.ydl.residentmap.dao.*;
 import com.ydl.residentmap.model.*;
+import com.ydl.residentmap.util.CommonUtil;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.stereotype.Service;
 
 import com.ydl.residentmap.service.DataDictionaryService;
@@ -48,6 +51,24 @@ public class DataDictionaryServiceImpl implements DataDictionaryService {
 	@Override
 	public List<DataDictionary> getByType(int dataType) {
 		return dataDictionaryDao.getByType(dataType);
+	}
+
+	@Override
+	public HSSFWorkbook exportExcel(List<DataDictionary> dataDictionaries) {
+		//设置表格标题行
+		String[] headers = new String[] {"类型分组","类型"};
+		List<List<String>> dataList = new ArrayList<List<String>>();
+		for(int i=0;i<dataDictionaries.size();i++) {
+			DataDictionary dataDictionary = dataDictionaries.get(i);
+			List<String> list = new ArrayList<String>();
+			Integer dataType=dataDictionary.getDataType();
+			String dataTypeName = CommonConst.CONST_DATADICTIONAY_TYPE_NAME.get(dataType);
+			list.add(dataTypeName);
+			list.add(dataDictionary.getName());
+			dataList.add(list);
+		}
+		HSSFWorkbook workbook = CommonUtil.setExcel(headers,dataList);
+		return workbook;
 	}
 
 

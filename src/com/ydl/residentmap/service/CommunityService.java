@@ -4,6 +4,7 @@ import com.ydl.residentmap.model.Community;
 import com.ydl.residentmap.model.Pager;
 import com.ydl.residentmap.model.vo.BlockVo;
 import com.ydl.residentmap.model.vo.CommunityVo;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +29,8 @@ public interface CommunityService {
     List<CommunityVo> getCommunityVosByName(String name);
 
     List<CommunityVo> getCommunitiyVosByCondition(HashMap<String,String> map);
+
+    HSSFWorkbook exportExcel(List<CommunityVo> communityVos);
 
     List<BlockVo> getBlockVosByCommunityId(Long communityId);
 

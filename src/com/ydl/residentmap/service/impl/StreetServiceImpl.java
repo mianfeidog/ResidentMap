@@ -6,7 +6,9 @@ import com.ydl.residentmap.model.Community;
 import com.ydl.residentmap.model.Pager;
 import com.ydl.residentmap.model.Street;
 import com.ydl.residentmap.service.StreetService;
+import com.ydl.residentmap.util.CommonUtil;
 import com.ydl.residentmap.util.IdWorker;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -48,6 +50,30 @@ public class StreetServiceImpl implements StreetService{
     @Override
     public List<Street> getStreetsByCondition(HashMap<String,String> map) {
         return streetDao.getStreetsByCondition(map);
+    }
+
+    @Override
+    public HSSFWorkbook exportExcel(List<Street> streets) {
+        //设置表格标题行
+        String[] headers = new String[] {"所属街道","后勤", "社保","治安","社区建设", "街道建设"};
+        List<List<String>> dataList = new ArrayList<List<String>>();
+        for(int i=0;i<streets.size();i++) {
+            Street street = streets.get(i);
+            List<String> list = new ArrayList<String>();
+
+            list.add(street.getName());
+            list.add(street.getService());
+            list.add(street.getSocialSecurity());
+            list.add(street.getSecurity());
+            list.add(street.getCommunityBuild());
+
+            list.add(street.getStreetBuild());
+
+            dataList.add(list);
+        }
+
+        HSSFWorkbook workbook = CommonUtil.setExcel(headers,dataList);
+        return workbook;
     }
 
     @Override

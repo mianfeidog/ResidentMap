@@ -3,9 +3,13 @@ package com.ydl.residentmap.service;
 import java.util.List;
 
 import com.ydl.residentmap.model.DataDictionary;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 public interface DataDictionaryService{
 	List<DataDictionary> getByType(int dataType);
+
+	HSSFWorkbook exportExcel(List<DataDictionary> dataDictionaries);
+
 	//保存
 	Boolean save(DataDictionary dataDictionary);
 	Boolean update(DataDictionary dataDictionary);

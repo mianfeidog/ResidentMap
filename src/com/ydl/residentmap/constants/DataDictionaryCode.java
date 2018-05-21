@@ -12,6 +12,6 @@ public class DataDictionaryCode {
     public static final int DATA_TYPE_ORG_ATTRIBUTE=9;  //党组织属性
     public static final int DATA_TYPE_POSITION=10;       //职务
     public static final int DATA_TYPE_PARTY=11;           //党派
-    public static final int DATA_TYPE_ASSIST_RESIDENT=12;        //帮扶人员
+    public static final int DATA_TYPE_ASSIST_RESIDENT=12;        //帮扶人员类型
 
 }

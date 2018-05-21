@@ -12,9 +12,12 @@ import com.ydl.residentmap.service.KeyPersonService;
 import com.ydl.residentmap.util.CommonUtil;
 import com.ydl.residentmap.util.LatitudeUtils;
 import org.apache.log4j.Logger;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -228,6 +231,48 @@ public class KeyPersonController {
 			status=ResultCode.SUCCESS;
 		}
 		return ResponseResult.create(status, keyPersons, desc, error, error_description);
+	}
+
+	/**
+	 * 根据条件导出重点人员
+	 *
+	 * @param condition
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/exportexcelbycondition/{condition}", method = { RequestMethod.GET })
+	public ResponseResult exportExcelByCondition(@PathVariable(value = "condition") String condition,HttpServletResponse response) throws Exception {
+		logger.debug("根据条件导出重点人员");
+		String status = ResultCode.SUCCESS;
+		Object data = new JSONObject();
+		String desc = ResultMessage.SEARCH_SUCCESS;
+		String error = "";
+		String error_description = "";
+		HashMap<String,String> map = CommonUtil.getCondtionMap(condition);
+		List<KeyPersonVo> cadreVos=keyPersonService.getKeyPersonVosByCondition(map);
+		//有记录
+		if(cadreVos.size()>0) {
+			HSSFWorkbook workbook= keyPersonService.exportExcel(cadreVos);
+			try{
+				response = CommonUtil.setExcelResponse(response,"重点人员信息管理");
+				// 将文件输出到客户端浏览器
+				ServletOutputStream out=response.getOutputStream();
+				workbook.write(out);
+				out.flush();
+				out.close();
+
+
+			}catch(Exception e){
+				e.printStackTrace();
+				status=ResultCode.ERROR;
+			}
+		}
+		//无记录
+		else {
+			status=ResultCode.ERROR;
+			desc=ResultMessage.SEARCH_FAILURE;
+		}
+		return ResponseResult.create(status, data, desc, error, error_description);
 	}
 
 	/**

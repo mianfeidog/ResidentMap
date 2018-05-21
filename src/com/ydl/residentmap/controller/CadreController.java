@@ -10,12 +10,16 @@ import com.ydl.residentmap.model.vo.CadreVo;
 import com.ydl.residentmap.service.CadreService;
 import com.ydl.residentmap.util.CommonUtil;
 import org.apache.log4j.Logger;
+import org.apache.poi.hssf.usermodel.*;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -162,7 +166,7 @@ public class CadreController {
     /**
      * 根据条件查询社区干部
      *
-     * @param name
+     * @param condition
      * @return
      */
     @ResponseBody
@@ -185,6 +189,52 @@ public class CadreController {
     }
 
     /**
+     * 根据条件导出社区干部
+     *
+     * @param condition
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/exportexcelbycondition/{condition}", method = { RequestMethod.GET })
+    public ResponseResult exportExcelByCondition(@PathVariable(value = "condition") String condition,HttpServletResponse response) throws Exception {
+        logger.debug("根据条件导出社区干部");
+        String status = ResultCode.SUCCESS;
+        Object data = new JSONObject();
+        String desc = ResultMessage.SEARCH_SUCCESS;
+        String error = "";
+        String error_description = "";
+        HashMap<String,String> map = CommonUtil.getCondtionMap(condition);
+        List<CadreVo> cadreVos=cadreService.getCadreVosByCondition(map);
+        //有记录
+        if(cadreVos.size()>0) {
+            HSSFWorkbook workbook= cadreService.exportExcel(cadreVos);
+            try{
+                response = CommonUtil.setExcelResponse(response,"社区干部管理");
+                // 将文件输出到客户端浏览器
+                ServletOutputStream out=response.getOutputStream();
+                workbook.write(out);
+                out.flush();
+                out.close();
+                // 第七步，将文件存到指定位置
+//                FileOutputStream fileOutputStream = new FileOutputStream("E:/user.xls");//指定路径与名字和格式
+//                workbook.write(fileOutputStream);   //将数据写出去
+//                fileOutputStream.close();           //关闭输出流
+
+            }catch(Exception e){
+                e.printStackTrace();
+                status=ResultCode.ERROR;
+            }
+        }
+        //无记录
+        else {
+            status=ResultCode.ERROR;
+            desc=ResultMessage.SEARCH_FAILURE;
+        }
+        return ResponseResult.create(status, data, desc, error, error_description);
+    }
+
+
+    /**
      * 根据id获取社区干部
      *
      * @param id
@@ -205,7 +255,7 @@ public class CadreController {
             e.printStackTrace();
             status = ResultCode.ERROR;
             desc = ResultMessage.SEARCH_FAILURE;
-            error_description = ResultMessage.UPDATE_FAILURE;
+            error_description = ResultMessage.SEARCH_FAILURE;
             logger.debug("获取社区干部信息异常，异常信息为：【"+error_description+"】");
         }
         return ResponseResult.create(status, data, desc, error, error_description);

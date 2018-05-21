@@ -2,6 +2,7 @@ package com.ydl.residentmap.service;
 
 import com.ydl.residentmap.model.PartyMember;
 import com.ydl.residentmap.model.vo.PartyMemberVo;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +28,8 @@ public interface PartyMemberService {
     List<PartyMemberVo> getPartyMemberVosByCondition(HashMap<String,String> map);
 
     List<PartyMemberVo> getPartyMemberVosByCondition(Map<String,String> map);
+
+    HSSFWorkbook exportExcel(List<PartyMemberVo> partyMemberVos);
 
     PartyMemberVo getPartyMemberVoById(Long id);
 

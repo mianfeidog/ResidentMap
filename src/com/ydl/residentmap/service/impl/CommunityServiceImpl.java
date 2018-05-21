@@ -8,6 +8,7 @@ import com.ydl.residentmap.model.vo.CommunityVo;
 import com.ydl.residentmap.service.CommunityService;
 import com.ydl.residentmap.util.CommonUtil;
 import com.ydl.residentmap.util.IdWorker;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -220,6 +221,79 @@ public class CommunityServiceImpl implements CommunityService {
     @Override
     public List<CommunityVo> getCommunitiyVosByCondition(HashMap<String,String> map) {
         return communityDao.getCommunitiyVosByCondition(map);
+    }
+
+    @Override
+    public HSSFWorkbook exportExcel(List<CommunityVo> communityVos) {
+        //设置表格标题行
+        String[] headers = new String[] {"社区名称","总占地面积", "小区(院落)数量","总户数",
+                "总人口数", "社区类型", "书记姓名","主任姓名",
+                "所属街道","社区党支部书记电话","社区居委会主任电话","街道包抓领导电话",
+                "常住户数","暂住户数","流入人口数","党员总人数",
+                "流出党员人数","残疾人数","居民医保参保人数","重点人员人数",
+                "已参加水改户数","集中供暖户数","常住人口","暂住人口",
+                "流出人口数","流入党员人数","育龄妇女","低保户数",
+                "老龄人口","居民养老参保人数","路长/院长/所长人数","已参加电改户数",
+                "天然气安装户数","摄像头数","安防设备数量","低收入家庭数量",
+                "街道包抓领导名称","工作日领导名称","社区工作日领导电话"};
+        List<List<String>> dataList = new ArrayList<List<String>>();
+        for(int i=0;i<communityVos.size();i++) {
+            CommunityVo communityVo = communityVos.get(i);
+            List<String> list = new ArrayList<String>();
+
+            list.add(communityVo.getName());
+            list.add(communityVo.getArea().toString());
+            list.add(communityVo.getBlockCount().toString());
+            list.add(communityVo.getFamilyCount().toString());  //总户数
+
+            list.add(communityVo.getPeopleCount().toString());  //总人口数
+            list.add(communityVo.getTypeName());
+            list.add(communityVo.getSecretaryName());   //书记姓名
+            list.add(communityVo.getDirectorName());    //主任姓名
+
+            list.add(communityVo.getStreetName());      //所属街道
+            list.add(communityVo.getSecretaryName());   //书记电话
+            list.add(communityVo.getDirectorTel());     //主任电话
+            list.add(communityVo.getInChargeLeaderTel()); //街道包抓领导电话
+
+            list.add(communityVo.getResidentFamilyCount().toString());      //常住户数
+            list.add(communityVo.getTemporaryFamilyCount().toString());     //暂住户数
+            list.add(communityVo.getIncomePeopleCount().toString());        //流入人口数
+            list.add(communityVo.getPartyMemberCount().toString());         //党员总人数
+
+            list.add(communityVo.getOutPartyMemberCount().toString());      //流出党员人数
+            list.add(communityVo.getDeformityCount().toString());           //残疾人数
+            list.add(communityVo.getMedicalInsuranceCount().toString());    //居民医保参保人数
+            list.add(communityVo.getKeyPersonCount().toString());           //重点人员人数
+
+            list.add(communityVo.getWaterReformFamilyCount().toString());   //已参加水改户数
+            list.add(communityVo.getHeatingSupplyFamilyCount().toString()); //集中供暖户数
+            list.add(communityVo.getResidentPeopleCount().toString());      //常住人口
+            list.add(communityVo.getTemporaryPeopleCount().toString());     //暂住人口
+
+            list.add(communityVo.getOutPeopleCount().toString());           //流出人口数
+            list.add(communityVo.getIncomePartyMemberCount().toString());   //流入党员人数
+            list.add(communityVo.getChildbearingCount().toString());        //育龄妇女
+            list.add(communityVo.getAllowancesFamilyCount().toString());    //低保户数
+
+            list.add(communityVo.getOutPeopleCount().toString());           //老龄人口
+            list.add(communityVo.getOutPeopleCount().toString());           //居民养老参保人数
+            list.add(communityVo.getGridManagerCount().toString());         //路长/院长/所长人数
+            list.add(communityVo.getElectricityReformFamilyCount().toString());        //已参加电改户数
+
+            list.add(communityVo.getGasFamilyCount().toString());           //天然气安装户数
+            list.add(communityVo.getCameraCount().toString());              //摄像头数
+            list.add(communityVo.getSecuritySystemCount().toString());      //安防设备数量
+            list.add(communityVo.getLowIncomeFamilyCount().toString());     //低收入家庭数量
+
+            list.add(communityVo.getInChargeLeaderName());                  //街道包抓领导名称
+            list.add(communityVo.getWorkDayLeaderName());                   //工作日领导名称
+            list.add(communityVo.getWorkDayLeaderTel());                    //社区工作日领导电话
+
+            dataList.add(list);
+        }
+        HSSFWorkbook workbook = CommonUtil.setExcel(headers,dataList);
+        return workbook;
     }
 
     @Override

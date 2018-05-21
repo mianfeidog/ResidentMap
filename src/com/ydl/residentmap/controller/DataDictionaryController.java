@@ -1,13 +1,18 @@
 package com.ydl.residentmap.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import javax.xml.crypto.Data;
 
 import com.alibaba.fastjson.JSONObject;
+import com.ydl.residentmap.util.CommonUtil;
 import org.apache.log4j.Logger;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.web.bind.annotation.*;
 
 import com.ydl.residentmap.constants.ResultCode;
@@ -46,6 +51,46 @@ public class DataDictionaryController {
 
 		List<DataDictionary> dicData = dataDictionaryService.getByType(t);
 		return ResponseResult.create(status, dicData, desc, error, error_description);
+	}
+
+	/**
+	 * 根据条件导出数据字典
+	 *
+	 * @param type
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/exportexcelbytype/{type}", method = { RequestMethod.GET })
+	public ResponseResult exportExcelByCondition(@PathVariable(value = "type") String type,HttpServletResponse response) throws Exception {
+		logger.debug("根据条件导出社区干部");
+		String status = ResultCode.SUCCESS;
+		Object data = new JSONObject();
+		String desc = ResultMessage.SEARCH_SUCCESS;
+		String error = "";
+		String error_description = "";
+		Integer t = Integer.valueOf(type);
+		List<DataDictionary> dataDictionaries=dataDictionaryService.getByType(t);
+		//有记录
+		if(dataDictionaries.size()>0) {
+			HSSFWorkbook workbook= dataDictionaryService.exportExcel(dataDictionaries);
+			try{
+				response = CommonUtil.setExcelResponse(response,"数据字典管理");
+				// 将文件输出到客户端浏览器
+				ServletOutputStream out=response.getOutputStream();
+				workbook.write(out);
+				out.flush();
+				out.close();
+			}catch(Exception e){
+				e.printStackTrace();
+				status=ResultCode.ERROR;
+			}
+		}
+		//无记录
+		else {
+			status=ResultCode.ERROR;
+			desc=ResultMessage.SEARCH_FAILURE;
+		}
+		return ResponseResult.create(status, data, desc, error, error_description);
 	}
 
 
